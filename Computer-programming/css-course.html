@@ -1,0 +1,2469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Course — Farasteel Institute of Tech (FIT)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg: #10111a;
+  --panel: #181a26;
+  --panel-2: #1f2233;
+  --line: #2c2f45;
+  --text: #e9e9f2;
+  --muted: #8c8fa8;
+  --cursor: #7ef9c0;
+  --html: #e44d26;
+  --css: #3a7bf2;
+  --js: #f0db4f;
+  --py: #34b871;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter', sans-serif;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 100% 32px;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-top:var(--header-h, 84px);
+}
+code, .mono{font-family:'Space Mono', monospace;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+main{flex:1;}
+
+/* ---------- Header (floating, fixed in place while scrolling) ---------- */
+header{
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:50;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  row-gap:10px;
+  column-gap:16px;
+  padding:16px 5vw;
+  background:rgba(16,17,26,0.7);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 12px 30px rgba(0,0,0,0.35);
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Space Mono', monospace;
+  font-weight:700;
+  font-size:0.9rem;
+  letter-spacing:-0.01em;
+  min-width:0;
+}
+.logo .logo-mark{
+  height:38px;
+  width:auto;
+  flex-shrink:0;
+  display:block;
+  border-radius:8px;
+  background:#f4f5f8;
+  padding:3px;
+}
+.logo .brand{
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+  white-space:nowrap;
+}
+.logo .brand b{color:var(--text);}
+
+nav ul{
+  display:flex;
+  gap:8px;
+  font-size:0.92rem;
+  color:var(--muted);
+}
+
+/* Green glassmorphism pills — Home and Table of Contents */
+nav ul li a{
+  display:inline-block;
+  padding:7px 16px;
+  font-size:0.82rem;
+  white-space:nowrap;
+  border-radius:999px;
+  background:rgba(126,249,192,0.08);
+  border:1px solid rgba(126,249,192,0.25);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 4px 14px rgba(16,17,26,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
+  transition:background .25s ease, border-color .25s ease, color .25s ease, transform .2s ease, box-shadow .25s ease;
+}
+nav ul li a:hover, nav ul li a:focus-visible{
+  color:var(--text);
+  background:rgba(126,249,192,0.2);
+  border-color:rgba(126,249,192,0.55);
+  box-shadow:0 6px 20px rgba(126,249,192,0.2), inset 0 1px 0 rgba(255,255,255,0.08);
+  transform:translateY(-1px);
+}
+nav ul li a.current{
+  color:var(--text);
+  background:rgba(126,249,192,0.16);
+  border-color:rgba(126,249,192,0.45);
+}
+
+@media (max-width:600px){
+  header{
+    padding:12px 4vw;
+    justify-content:center;
+    text-align:center;
+  }
+  .logo{
+    width:100%;
+    justify-content:center;
+  }
+  .logo .brand{
+    font-size:0.75rem;
+    white-space:normal;
+  }
+  .logo .logo-mark{height:30px;}
+  nav{width:100%;}
+  nav ul{justify-content:center;gap:6px;}
+  nav ul li a{padding:6px 14px;font-size:0.75rem;}
+}
+
+/* ---------- Hero banner (poster artwork backdrop) ---------- */
+.hero-banner{
+  position:relative;
+  background-image:url('../assets/hero-poster.jpg');
+  background-size:cover;
+  background-position:top center;
+  background-repeat:no-repeat;
+  isolation:isolate;
+}
+.hero-banner::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(16,17,26,0.35) 0%, rgba(16,17,26,0.86) 68%, var(--bg) 100%);
+  z-index:0;
+}
+.hero-banner .hero-inner{
+  position:relative;
+  z-index:1;
+}
+.hero-banner--sub{
+  min-height:190px;
+  display:flex;
+  align-items:flex-end;
+}
+.hero-banner--sub::before{
+  background:linear-gradient(180deg, rgba(16,17,26,0.25) 0%, rgba(16,17,26,0.9) 80%, var(--bg) 100%);
+}
+.hero-banner--sub .hero-inner{
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 5vw 18px;
+}
+.hero-banner--sub .breadcrumb{
+  padding:0;
+  margin:0;
+}
+
+/* ---------- Breadcrumb ---------- */
+.breadcrumb{
+  max-width:1100px;
+  margin:0 auto;
+  padding:26px 5vw 0;
+  font-family:'Space Mono', monospace;
+  font-size:0.82rem;
+  color:var(--muted);
+}
+.breadcrumb a:hover{color:var(--cursor);}
+
+/* ---------- Course intro ---------- */
+.course-intro{
+  max-width:1100px;
+  margin:0 auto;
+  padding:8vh 5vw 4vh;
+}
+.course-intro .tag{
+  font-family:'Space Mono', monospace;
+  font-size:0.78rem;
+  color:var(--css);
+  background:color-mix(in srgb, var(--css) 16%, transparent);
+  display:inline-block;
+  padding:5px 12px;
+  border-radius:4px;
+  margin-bottom:20px;
+}
+.course-intro h1{
+  font-size:clamp(2rem, 4.5vw, 3rem);
+  line-height:1.15;
+  margin-bottom:16px;
+  letter-spacing:-0.02em;
+}
+.course-intro p.lede{
+  color:var(--muted);
+  font-size:1.05rem;
+  max-width:640px;
+}
+
+/* ---------- Table of Contents ---------- */
+.toc{
+  max-width:1100px;
+  margin:0 auto;
+  padding:2vh 5vw 8vh;
+  scroll-margin-top:110px;
+}
+.toc-part{
+  margin-bottom:34px;
+}
+.toc-part h2{
+  font-size:1.1rem;
+  color:var(--css);
+  font-family:'Space Mono', monospace;
+  letter-spacing:-0.01em;
+  border-bottom:1px solid var(--line);
+  padding-bottom:12px;
+  margin-bottom:16px;
+}
+.toc-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:12px;
+}
+.toc-grid a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 16px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;
+  font-size:0.9rem;
+  transition:border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.toc-grid a:hover{
+  border-color:var(--css);
+  background:rgba(58,123,242,0.1);
+  transform:translateY(-2px);
+}
+.toc-grid a .num{
+  font-family:'Space Mono', monospace;
+  color:var(--css);
+  font-size:0.8rem;
+  flex-shrink:0;
+}
+
+/* ---------- Chapter content ---------- */
+.chapters{
+  max-width:900px;
+  margin:0 auto;
+  padding:0 5vw 10vh;
+}
+.part-head{
+  padding:6vh 0 3vh;
+  border-top:1px solid var(--line);
+  margin-top:6vh;
+  scroll-margin-top:110px;
+}
+.chapters .part-head:first-child{border-top:none;margin-top:0;}
+.part-head .part-tag{
+  font-family:'Space Mono', monospace;
+  color:var(--cursor);
+  font-size:0.85rem;
+  letter-spacing:0.04em;
+  display:block;
+  margin-bottom:10px;
+}
+.part-head h2{
+  font-size:1.8rem;
+  letter-spacing:-0.01em;
+}
+.chapter{
+  padding:5vh 0;
+  border-top:1px solid var(--line);
+  scroll-margin-top:110px;
+}
+.chapter-head{
+  display:flex;
+  align-items:baseline;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+}
+.chapter-num{
+  font-family:'Space Mono', monospace;
+  color:var(--css);
+  background:color-mix(in srgb, var(--css) 16%, transparent);
+  padding:4px 12px;
+  border-radius:4px;
+  font-size:0.85rem;
+}
+.chapter-head h3.chapter-title{
+  font-size:1.5rem;
+  letter-spacing:-0.01em;
+}
+.chapter-body h4{
+  font-size:1.05rem;
+  color:var(--text);
+  margin:28px 0 10px;
+}
+.chapter-body h4:first-child{margin-top:0;}
+.chapter-body p{
+  color:var(--muted);
+  margin-bottom:12px;
+}
+.chapter-body ul, .chapter-body ol{
+  margin:0 0 12px 22px;
+  color:var(--muted);
+  list-style:disc;
+}
+.chapter-body ol{list-style:decimal;}
+.chapter-body ul ul{margin-top:6px;}
+.chapter-body strong{color:var(--text);}
+.chapter-body pre.code{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:16px 18px;
+  overflow-x:auto;
+  margin-bottom:14px;
+  font-size:0.85rem;
+  line-height:1.6;
+}
+.chapter-body pre.code code{color:var(--css);}
+.chapter-body pre.ascii{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:16px 18px;
+  overflow-x:auto;
+  margin-bottom:14px;
+  font-family:'Space Mono', monospace;
+  font-size:0.8rem;
+  color:var(--muted);
+  line-height:1.5;
+}
+.result-box{
+  display:inline-block;
+  background:rgba(126,249,192,0.08);
+  border:1px solid rgba(126,249,192,0.25);
+  border-radius:6px;
+  padding:8px 14px;
+  font-family:'Space Mono', monospace;
+  font-size:0.85rem;
+  color:var(--cursor);
+  margin-bottom:14px;
+}
+.chapter-body table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:16px;
+  font-size:0.9rem;
+}
+.chapter-body th, .chapter-body td{
+  border:1px solid var(--line);
+  padding:10px 14px;
+  text-align:left;
+  color:var(--muted);
+}
+.chapter-body th{
+  color:var(--text);
+  background:var(--panel);
+  font-family:'Space Mono', monospace;
+  font-size:0.82rem;
+}
+.callout{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-left:3px solid var(--css);
+  border-radius:0 8px 8px 0;
+  padding:16px 20px;
+  margin-bottom:16px;
+}
+.callout h5{
+  font-family:'Space Mono', monospace;
+  font-size:0.82rem;
+  color:var(--css);
+  margin-bottom:8px;
+  letter-spacing:0.02em;
+}
+.callout ul{margin-bottom:0;}
+.mini-project{
+  background:rgba(58,123,242,0.06);
+  border:1px solid rgba(58,123,242,0.25);
+  border-radius:10px;
+  padding:20px 22px;
+  margin-bottom:16px;
+}
+.mini-project h5{
+  font-family:'Space Mono', monospace;
+  color:var(--css);
+  font-size:0.85rem;
+  margin-bottom:10px;
+}
+.mini-project ul{margin-bottom:0;}
+.back-to-toc{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:8px;
+  padding:9px 16px;
+  border:1px solid var(--line);
+  border-radius:6px;
+  font-family:'Space Mono', monospace;
+  font-size:0.82rem;
+  color:var(--muted);
+  transition:border-color .2s ease, color .2s ease;
+}
+.back-to-toc:hover{border-color:var(--cursor);color:var(--cursor);}
+
+footer{
+  padding:26px 5vw;
+  text-align:center;
+  color:var(--muted);
+  font-family:'Space Mono', monospace;
+  font-size:0.8rem;
+  border-top:1px solid var(--line);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .toc-grid a, .back-to-toc{transition:none;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="../assets/logo-mark.png" alt="Farasteel Institute of Tech (FIT) logo" class="logo-mark">
+    <span class="brand"><b>Farasteel</b> Institute of Tech (FIT)</span>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="level1.html">Level 1</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <div class="hero-banner hero-banner--sub">
+    <div class="hero-inner">
+      <p class="breadcrumb"><a href="../index.html">~/curriculum</a> / <a href="level1.html">level-1</a> / css</p>
+    </div>
+  </div>
+
+  <div class="course-intro">
+    <span class="tag">.css</span>
+    <h1>CSS Course</h1>
+    <p class="lede">Style layouts, colors, and typography, and make pages responsive on any screen. Twenty chapters across four parts — from your first stylesheet to flexbox, grid, animation, and a full professional workflow.</p>
+  </div>
+
+  <section class="toc" id="toc">
+    <div class="toc-part">
+      <h2>Part 1 — Chapters 1–5</h2>
+      <div class="toc-grid">
+        <a href="#ch1"><span class="num">01</span> Introduction to CSS</a>
+        <a href="#ch2"><span class="num">02</span> How CSS Works</a>
+        <a href="#ch3"><span class="num">03</span> CSS Syntax and Comments</a>
+        <a href="#ch4"><span class="num">04</span> CSS Selectors (Basic to Advanced)</a>
+        <a href="#ch5"><span class="num">05</span> CSS Colors and Backgrounds</a>
+      </div>
+    </div>
+    <div class="toc-part">
+      <h2>Part 2 — Chapters 6–10</h2>
+      <div class="toc-grid">
+        <a href="#ch6"><span class="num">06</span> CSS Units and Measurements</a>
+        <a href="#ch7"><span class="num">07</span> CSS Text and Typography</a>
+        <a href="#ch8"><span class="num">08</span> CSS Fonts</a>
+        <a href="#ch9"><span class="num">09</span> Borders, Margins, Padding &amp; Box Model</a>
+        <a href="#ch10"><span class="num">10</span> Width, Height, Display &amp; Positioning</a>
+      </div>
+    </div>
+    <div class="toc-part">
+      <h2>Part 3 — Chapters 11–15</h2>
+      <div class="toc-grid">
+        <a href="#ch11"><span class="num">11</span> CSS Flexbox (Complete Guide)</a>
+        <a href="#ch12"><span class="num">12</span> CSS Grid Layout (Complete Guide)</a>
+        <a href="#ch13"><span class="num">13</span> Lists, Tables, and Forms</a>
+        <a href="#ch14"><span class="num">14</span> Responsive Web Design</a>
+        <a href="#ch15"><span class="num">15</span> Animations and Transitions</a>
+      </div>
+    </div>
+    <div class="toc-part">
+      <h2>Part 4 — Chapters 16–20</h2>
+      <div class="toc-grid">
+        <a href="#ch16"><span class="num">16</span> CSS Transformations and Effects</a>
+        <a href="#ch17"><span class="num">17</span> CSS Variables and Custom Properties</a>
+        <a href="#ch18"><span class="num">18</span> Best Practices &amp; Professional Techniques</a>
+        <a href="#ch19"><span class="num">19</span> Building Real-World Responsive Projects</a>
+        <a href="#ch20"><span class="num">20</span> Interview Questions, Exercises &amp; Career Guide</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="chapters">
+    <div class="part-head" id="part-1">
+      <span class="part-tag">$ part 1</span>
+      <h2>Chapters 1–5 — Foundations</h2>
+    </div>
+
+    <section class="chapter" id="ch1">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 1</span>
+        <h3 class="chapter-title">Introduction to CSS</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <p>By the end of this chapter, you will be able to:</p>
+        <ul>
+          <li>Understand what CSS is.</li>
+          <li>Explain why CSS is important.</li>
+          <li>Describe the history of CSS.</li>
+          <li>Identify the different versions of CSS.</li>
+          <li>Understand the relationship between HTML and CSS.</li>
+          <li>Write your first CSS code.</li>
+        </ul>
+
+        <h4>What is CSS?</h4>
+        <p><strong>CSS</strong> stands for <strong>Cascading Style Sheets</strong>. It is a stylesheet language used to describe the appearance and formatting of documents written in HTML.</p>
+        <p>Think of HTML as the structure of a house. CSS is the paint, furniture, decorations, lighting, flooring, and overall beauty of that house.</p>
+        <p>Without CSS: websites look plain, everything appears black and white, there are no colors, no animations, no layouts, and no professional appearance.</p>
+
+        <h4>Why CSS Was Created</h4>
+        <p>Before CSS existed, every webpage looked almost identical. Developers had to style each HTML element manually. This became difficult as websites became larger. CSS solved this problem by allowing one stylesheet to control the appearance of many pages.</p>
+        <p>Benefits include:</p>
+        <ul>
+          <li>Cleaner HTML</li>
+          <li>Easier maintenance</li>
+          <li>Faster development</li>
+          <li>Responsive design</li>
+          <li>Better user experience</li>
+        </ul>
+
+        <h4>Advantages of CSS</h4>
+        <ol>
+          <li><strong>Separation of Content and Design</strong> — HTML contains the content, CSS controls the design.
+            <pre class="code"><code>h1{
+    color:blue;
+    font-size:40px;
+}</code></pre>
+          </li>
+          <li><strong>Reusable Styles</strong> — One CSS file can style an entire website.</li>
+          <li><strong>Faster Loading</strong> — Since CSS files are cached by browsers, websites load faster.</li>
+          <li><strong>Responsive Websites</strong> — CSS allows websites to adjust automatically for desktop, laptop, tablet, and mobile.</li>
+          <li><strong>Professional Appearance</strong> — Modern websites depend heavily on CSS for shadows, animations, layouts, glassmorphism, dark mode, and gradients.</li>
+        </ol>
+
+        <h4>Real-World Applications of CSS</h4>
+        <p>CSS is used in banking websites, hospital systems, school portals, government websites, social media, e-commerce stores, portfolio websites, blogs, news websites, and mobile web apps — including Google, Facebook, Amazon, Netflix, and YouTube.</p>
+
+        <h4>CSS Versions</h4>
+        <ul>
+          <li><strong>CSS1 (1996)</strong> — Basic styling features.</li>
+          <li><strong>CSS2 (1998)</strong> — Added positioning and media types.</li>
+          <li><strong>CSS3</strong> — Introduced modules including Flexbox, Grid, Animations, Transitions, Variables, Media Queries, Gradients, and Shadows. CSS3 is the standard used today.</li>
+        </ul>
+
+        <h4>How Browsers Read CSS</h4>
+        <p>When a browser loads a webpage, it reads the HTML, builds the page structure, reads the CSS, applies the styles, and displays the styled webpage.</p>
+
+        <h4>First CSS Example</h4>
+        <pre class="code"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;style&gt;
+body{
+    background:lightblue;
+}
+
+h1{
+    color:navy;
+}
+
+p{
+    font-size:20px;
+}
+&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;h1&gt;Hello CSS&lt;/h1&gt;
+
+&lt;p&gt;Welcome to CSS.&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+        <div class="callout">
+          <h5>Chapter Summary</h5>
+          <ul>
+            <li>Definition of CSS</li>
+            <li>History</li>
+            <li>Importance</li>
+            <li>Applications</li>
+            <li>Browser rendering</li>
+            <li>CSS versions</li>
+            <li>First example</li>
+          </ul>
+        </div>
+
+        <div class="mini-project">
+          <h5>Exercise</h5>
+          <ol>
+            <li>What does CSS stand for?</li>
+            <li>Explain two advantages of CSS.</li>
+            <li>Differentiate HTML and CSS.</li>
+            <li>Mention five websites using CSS.</li>
+            <li>Create your first CSS program.</li>
+          </ol>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch2">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 2</span>
+        <h3 class="chapter-title">How CSS Works</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <p>After this chapter you should understand: CSS processing, the cascade, inheritance, specificity, and browser rendering.</p>
+
+        <h4>CSS Rendering Process</h4>
+        <pre class="ascii">Step 1 — Browser downloads HTML.
+        ↓
+Step 2 — Browser builds the DOM Tree.
+        ↓
+Step 3 — Browser downloads CSS.
+        ↓
+Step 4 — Browser combines HTML and CSS.
+        ↓
+Step 5 — Final webpage appears.</pre>
+
+        <h4>The Cascade</h4>
+        <p>"Cascading" means CSS follows priority rules.</p>
+        <pre class="code"><code>h1{
+color:red;
+}
+
+h1{
+color:blue;
+}</code></pre>
+        <span class="result-box">Result: Blue</span>
+        <p>The last rule overrides the previous one.</p>
+
+        <h4>CSS Specificity</h4>
+        <pre class="code"><code>h1{
+color:red;
+}
+
+.title{
+color:green;
+}
+
+#main{
+color:blue;
+}</code></pre>
+        <pre class="code"><code>&lt;h1 id="main" class="title"&gt;
+Welcome
+&lt;/h1&gt;</code></pre>
+        <span class="result-box">Result: Blue</span>
+        <p>ID selectors have higher priority than class selectors.</p>
+
+        <h4>Inheritance</h4>
+        <p>Children inherit some properties from parents.</p>
+        <pre class="code"><code>body{
+font-family:Arial;
+color:black;
+}</code></pre>
+        <p>All paragraphs inherit these values.</p>
+
+        <h4>Inline vs Internal vs External</h4>
+        <p><strong>Inline</strong></p>
+        <pre class="code"><code>&lt;p style="color:red;"&gt;
+Hello
+&lt;/p&gt;</code></pre>
+        <p><strong>Internal</strong></p>
+        <pre class="code"><code>&lt;style&gt;
+
+p{
+color:red;
+}
+
+&lt;/style&gt;</code></pre>
+        <p><strong>External</strong></p>
+        <pre class="code"><code>&lt;link rel="stylesheet"
+href="style.css"&gt;</code></pre>
+        <p>Best practice: always use external CSS for large websites.</p>
+
+        <h4>CSS Priority Order</h4>
+        <pre class="ascii">1 Inline
+   ↓
+2 Internal
+   ↓
+3 External
+   ↓
+4 Browser default</pre>
+
+        <div class="mini-project">
+          <h5>Exercise</h5>
+          <p>Create one example for: inline CSS, internal CSS, and external CSS.</p>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch3">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 3</span>
+        <h3 class="chapter-title">CSS Syntax and Comments</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>CSS Rule Structure</h4>
+        <pre class="code"><code>selector{
+
+property:value;
+
+}</code></pre>
+        <pre class="code"><code>h1{
+
+color:blue;
+
+font-size:40px;
+
+}</code></pre>
+
+        <h4>Multiple Properties</h4>
+        <pre class="code"><code>h1{
+
+color:red;
+
+font-size:40px;
+
+text-align:center;
+
+}</code></pre>
+
+        <h4>CSS Comments</h4>
+        <pre class="code"><code>/* This is a comment */</code></pre>
+        <pre class="code"><code>/* Heading */
+
+h1{
+
+color:blue;
+
+}</code></pre>
+
+        <h4>Formatting Best Practices</h4>
+        <p><strong>Good</strong></p>
+        <pre class="code"><code>body{
+
+background:white;
+
+color:black;
+
+}</code></pre>
+        <p><strong>Poor</strong></p>
+        <pre class="code"><code>body{background:white;color:black;}</code></pre>
+        <p>Readable code is easier to maintain.</p>
+
+        <h4>Common Mistakes</h4>
+        <p><strong>Missing semicolon</strong></p>
+        <p>Wrong:</p>
+        <pre class="code"><code>color:red
+font-size:20px;</code></pre>
+        <p>Correct:</p>
+        <pre class="code"><code>color:red;
+
+font-size:20px;</code></pre>
+
+        <div class="mini-project">
+          <h5>Exercise</h5>
+          <p>Write CSS for a heading, a paragraph, and a button. Include comments.</p>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch4">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 4</span>
+        <h3 class="chapter-title">CSS Selectors (Basic to Advanced)</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>What is a Selector?</h4>
+        <p>A selector tells CSS which HTML element to style.</p>
+
+        <h4>Universal Selector</h4>
+        <pre class="code"><code>*{
+
+margin:0;
+
+padding:0;
+
+}</code></pre>
+
+        <h4>Element Selector</h4>
+        <pre class="code"><code>p{
+
+color:green;
+
+}</code></pre>
+
+        <h4>Class Selector</h4>
+        <pre class="code"><code>.card{
+
+background:white;
+
+}</code></pre>
+        <pre class="code"><code>&lt;div class="card"&gt;
+
+Hello
+
+&lt;/div&gt;</code></pre>
+
+        <h4>ID Selector</h4>
+        <pre class="code"><code>#header{
+
+background:blue;
+
+}</code></pre>
+
+        <h4>Group Selector</h4>
+        <pre class="code"><code>h1,h2,h3{
+
+color:blue;
+
+}</code></pre>
+
+        <h4>Descendant Selector</h4>
+        <pre class="code"><code>nav a{
+
+color:white;
+
+}</code></pre>
+
+        <h4>Child Selector</h4>
+        <pre class="code"><code>div&gt;p{
+
+color:red;
+
+}</code></pre>
+
+        <h4>Adjacent Selector</h4>
+        <pre class="code"><code>h1+p{
+
+color:gray;
+
+}</code></pre>
+
+        <h4>Attribute Selector</h4>
+        <pre class="code"><code>input[type="text"]{
+
+border:1px solid black;
+
+}</code></pre>
+
+        <h4>Pseudo-Class</h4>
+        <pre class="code"><code>button:hover{
+
+background:red;
+
+}</code></pre>
+
+        <h4>Pseudo-Element</h4>
+        <pre class="code"><code>p::first-letter{
+
+font-size:40px;
+
+}</code></pre>
+
+        <div class="mini-project">
+          <h5>Exercise</h5>
+          <p>Style a menu, buttons, links, and cards using five different selectors.</p>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch5">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 5</span>
+        <h3 class="chapter-title">CSS Colors and Backgrounds</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Color Systems</h4>
+        <p>CSS supports Named Colors, HEX, RGB, RGBA, HSL, and HSLA.</p>
+        <pre class="code"><code>/* Named Color */
+color:red;
+
+/* HEX */
+color:#3498db;
+
+/* RGB */
+color:rgb(255,0,0);
+
+/* RGBA */
+color:rgba(255,0,0,.5);
+
+/* HSL */
+color:hsl(210,100%,50%);</code></pre>
+
+        <h4>Background Color</h4>
+        <pre class="code"><code>body{
+
+background:lightblue;
+
+}</code></pre>
+
+        <h4>Background Image</h4>
+        <pre class="code"><code>body{
+
+background-image:url(image.jpg);
+
+}</code></pre>
+
+        <h4>Background Repeat, Position, and Size</h4>
+        <pre class="code"><code>background-repeat:no-repeat;
+background-position:center;
+background-size:cover;</code></pre>
+
+        <h4>Linear Gradient</h4>
+        <pre class="code"><code>background:linear-gradient(
+blue,
+purple
+);</code></pre>
+
+        <h4>Radial Gradient</h4>
+        <pre class="code"><code>background:radial-gradient(
+red,
+yellow
+);</code></pre>
+
+        <h4>Multiple Backgrounds</h4>
+        <pre class="code"><code>background:
+url(image.png),
+linear-gradient(
+blue,
+black
+);</code></pre>
+
+        <div class="mini-project">
+          <h5>Project</h5>
+          <p>Create a modern landing page using a gradient background, a background image, a centered heading, a button, and a navigation bar.</p>
+        </div>
+
+        <div class="callout">
+          <h5>Chapters 1–5 Summary</h5>
+          <ul>
+            <li>Introduction to CSS</li>
+            <li>How CSS works</li>
+            <li>CSS syntax</li>
+            <li>CSS comments</li>
+            <li>Selectors</li>
+            <li>Colors</li>
+            <li>Backgrounds</li>
+            <li>CSS priority</li>
+            <li>CSS inheritance</li>
+            <li>Browser rendering</li>
+            <li>Best practices</li>
+            <li>Hands-on exercises</li>
+            <li>Mini project</li>
+          </ul>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+    <div class="part-head" id="part-2">
+      <span class="part-tag">$ part 2</span>
+      <h2>Chapters 6–10 — Typography, Boxes &amp; Layout</h2>
+    </div>
+
+    <section class="chapter" id="ch6">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 6</span>
+        <h3 class="chapter-title">CSS Units and Measurements</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <ul>
+          <li>Understand CSS measurement units.</li>
+          <li>Choose the appropriate unit for different situations.</li>
+          <li>Build responsive layouts using relative units.</li>
+        </ul>
+
+        <h4>What Are CSS Units?</h4>
+        <p>CSS units define the size of elements such as text, margins, widths, heights, and spacing.</p>
+        <pre class="code"><code>h1{
+    font-size:40px;
+}</code></pre>
+        <p>Here, <code>40px</code> is the measurement.</p>
+
+        <h4>Types of CSS Units</h4>
+        <p>CSS units are divided into two categories:</p>
+        <p><strong>Absolute Units</strong> — these have fixed sizes: <code>px</code> (pixels), <code>cm</code> (centimeters), <code>mm</code> (millimeters), <code>in</code> (inches), <code>pt</code> (points), <code>pc</code> (picas).</p>
+        <pre class="code"><code>.box{
+    width:300px;
+}</code></pre>
+        <p><strong>Relative Units</strong> — these change depending on the screen or parent element: <code>%</code>, <code>em</code>, <code>rem</code>, <code>vw</code>, <code>vh</code>, <code>vmin</code>, <code>vmax</code>. Relative units are preferred for responsive design.</p>
+
+        <h4>Pixels (px)</h4>
+        <p>Pixels are the most commonly used unit.</p>
+        <pre class="code"><code>h1{
+    font-size:32px;
+}</code></pre>
+        <p><strong>Advantages:</strong> easy to understand, precise sizing. <strong>Disadvantages:</strong> less flexible for responsive designs.</p>
+
+        <h4>Percent (%)</h4>
+        <p>Percentage is based on the parent element.</p>
+        <pre class="code"><code>.container{
+    width:80%;
+}</code></pre>
+        <p>If the parent is 1000px wide: 80% = 800px.</p>
+
+        <h4>em</h4>
+        <p>Relative to the parent font size.</p>
+        <pre class="code"><code>body{
+    font-size:20px;
+}
+
+p{
+    font-size:2em;
+}</code></pre>
+        <span class="result-box">Result: 40px</span>
+
+        <h4>rem</h4>
+        <p>Relative to the root (html) font size.</p>
+        <pre class="code"><code>html{
+    font-size:16px;
+}
+
+h1{
+    font-size:2rem;
+}</code></pre>
+        <span class="result-box">Result: 32px</span>
+
+        <h4>Viewport Width (vw)</h4>
+        <p>1vw = 1% of the browser width.</p>
+        <pre class="code"><code>.hero{
+    width:100vw;
+}</code></pre>
+
+        <h4>Viewport Height (vh)</h4>
+        <p>1vh = 1% of the browser height. Useful for hero sections.</p>
+        <pre class="code"><code>.hero{
+    height:100vh;
+}</code></pre>
+
+        <h4>Choosing the Right Unit</h4>
+        <table>
+          <tr><th>Property</th><th>Recommended Unit</th></tr>
+          <tr><td>Font Size</td><td>rem</td></tr>
+          <tr><td>Width</td><td>%, vw</td></tr>
+          <tr><td>Height</td><td>vh</td></tr>
+          <tr><td>Padding</td><td>rem</td></tr>
+          <tr><td>Margin</td><td>rem</td></tr>
+          <tr><td>Icons</td><td>em</td></tr>
+        </table>
+
+        <h4>Practical Example</h4>
+        <pre class="code"><code>.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+}
+
+h1{
+    font-size:2.5rem;
+}
+
+.hero{
+    height:100vh;
+}</code></pre>
+
+        <div class="callout">
+          <h5>Common Mistakes</h5>
+          <p>❌ Using fixed pixels everywhere. ✔ Use relative units for responsive websites.</p>
+        </div>
+
+        <div class="callout">
+          <h5>Chapter Summary</h5>
+          <ul>
+            <li>Absolute units</li>
+            <li>Relative units</li>
+            <li>Pixels</li>
+            <li>Percentages</li>
+            <li>em</li>
+            <li>rem</li>
+            <li>vw</li>
+            <li>vh</li>
+          </ul>
+        </div>
+
+        <div class="mini-project">
+          <h5>Exercises</h5>
+          <ol>
+            <li>Create a responsive container using %.</li>
+            <li>Build a hero section with 100vh.</li>
+            <li>Create headings using rem.</li>
+            <li>Compare px and rem.</li>
+            <li>Explain why responsive units are important.</li>
+          </ol>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch7">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 7</span>
+        <h3 class="chapter-title">CSS Text and Typography</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <ul>
+          <li>Style text professionally.</li>
+          <li>Improve readability.</li>
+          <li>Control spacing and alignment.</li>
+        </ul>
+
+        <h4>Text Color</h4>
+        <pre class="code"><code>p{
+    color:#333;
+}</code></pre>
+
+        <h4>Text Alignment</h4>
+        <pre class="code"><code>h1{
+    text-align:center;
+}</code></pre>
+        <p>Options: left, right, center, justify.</p>
+
+        <h4>Text Decoration</h4>
+        <pre class="code"><code>a{
+    text-decoration:none;
+}</code></pre>
+        <p>Other values: underline, overline, line-through.</p>
+
+        <h4>Text Transform</h4>
+        <pre class="code"><code>h1{
+    text-transform:uppercase;
+}</code></pre>
+        <p>Values: uppercase, lowercase, capitalize.</p>
+
+        <h4>Letter Spacing</h4>
+        <pre class="code"><code>h1{
+    letter-spacing:3px;
+}</code></pre>
+
+        <h4>Word Spacing</h4>
+        <pre class="code"><code>p{
+    word-spacing:5px;
+}</code></pre>
+
+        <h4>Line Height</h4>
+        <pre class="code"><code>p{
+    line-height:1.8;
+}</code></pre>
+        <p>Improves readability.</p>
+
+        <h4>Text Shadow</h4>
+        <pre class="code"><code>h1{
+    text-shadow:2px 2px 5px gray;
+}</code></pre>
+
+        <h4>White Space &amp; Overflow</h4>
+        <pre class="code"><code>pre{
+    white-space:pre;
+}
+
+p{
+    overflow:hidden;
+}</code></pre>
+
+        <h4>Text Overflow</h4>
+        <pre class="code"><code>p{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}</code></pre>
+        <span class="result-box">Result: This is a very long text...</span>
+
+        <div class="callout">
+          <h5>Best Practices</h5>
+          <ul>
+            <li>✔ Use readable font sizes.</li>
+            <li>✔ Use enough line spacing.</li>
+            <li>✔ Avoid bright text on bright backgrounds.</li>
+            <li>✔ Keep paragraphs between 50–75 characters wide for comfortable reading.</li>
+          </ul>
+        </div>
+
+        <div class="mini-project">
+          <h5>Mini Project</h5>
+          <p>Design a blog article with a large heading, subheading, paragraphs, quotes, links, and highlighted keywords.</p>
+        </div>
+
+        <div class="mini-project">
+          <h5>Exercises</h5>
+          <ol>
+            <li>Center a heading.</li>
+            <li>Create uppercase text.</li>
+            <li>Add a text shadow.</li>
+            <li>Increase line spacing.</li>
+            <li>Remove underlines from links.</li>
+          </ol>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch8">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 8</span>
+        <h3 class="chapter-title">CSS Fonts</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <ul>
+          <li>Work with web fonts.</li>
+          <li>Improve typography.</li>
+          <li>Create professional-looking websites.</li>
+        </ul>
+
+        <h4>Font Family</h4>
+        <pre class="code"><code>body{
+    font-family:Arial, sans-serif;
+}</code></pre>
+        <p>Generic font families: Serif, Sans-serif, Monospace, Cursive, Fantasy.</p>
+
+        <h4>Font Size</h4>
+        <pre class="code"><code>p{
+    font-size:18px;
+}</code></pre>
+
+        <h4>Font Weight</h4>
+        <pre class="code"><code>h1{
+    font-weight:bold;
+}
+/* or */
+font-weight:700;</code></pre>
+
+        <h4>Font Style</h4>
+        <pre class="code"><code>p{
+    font-style:italic;
+}</code></pre>
+
+        <h4>Google Fonts</h4>
+        <pre class="code"><code>&lt;link href="https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap" rel="stylesheet"&gt;</code></pre>
+        <pre class="code"><code>body{
+    font-family:'Poppins', sans-serif;
+}</code></pre>
+
+        <h4>Font Shorthand</h4>
+        <pre class="code"><code>font:italic bold 18px Arial;</code></pre>
+
+        <h4>Best Font Pairings</h4>
+        <p><strong>Heading:</strong> Poppins, Montserrat, Playfair Display</p>
+        <p><strong>Body:</strong> Open Sans, Roboto, Inter, Lato</p>
+
+        <h4>Typography Guidelines</h4>
+        <table>
+          <tr><th>Text Role</th><th>Size Range</th></tr>
+          <tr><td>Headings</td><td>32–48px</td></tr>
+          <tr><td>Body</td><td>16–18px</td></tr>
+          <tr><td>Small text</td><td>12–14px</td></tr>
+        </table>
+
+        <div class="mini-project">
+          <h5>Mini Project</h5>
+          <p>Create a landing page using Google Fonts, professional headings, and stylish paragraphs.</p>
+        </div>
+
+        <div class="mini-project">
+          <h5>Exercises</h5>
+          <ol>
+            <li>Import a Google Font.</li>
+            <li>Style a heading.</li>
+            <li>Create italic text.</li>
+            <li>Use different font weights.</li>
+            <li>Build a typography showcase.</li>
+          </ol>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch9">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 9</span>
+        <h3 class="chapter-title">CSS Borders, Margins, Padding, and Box Model</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <ul>
+          <li>Understand spacing.</li>
+          <li>Learn the CSS Box Model.</li>
+          <li>Create clean layouts.</li>
+        </ul>
+
+        <h4>The CSS Box Model</h4>
+        <p>Every HTML element is a box made up of margin, border, padding, and content, nested from the outside in.</p>
+        <pre class="ascii">+----------------------+
+|        Margin        |
+| +------------------+ |
+| |      Border      | |
+| | +--------------+ | |
+| | |   Padding    | | |
+| | | +----------+ | | |
+| | | | Content  | | | |
+| | | +----------+ | | |
+| | +--------------+ | |
+| +------------------+ |
++----------------------+</pre>
+
+        <h4>Border</h4>
+        <pre class="code"><code>div{
+    border:2px solid blue;
+}</code></pre>
+
+        <h4>Border Radius</h4>
+        <pre class="code"><code>button{
+    border-radius:10px;
+}
+
+/* Circle */
+img{
+    border-radius:50%;
+}</code></pre>
+
+        <h4>Margin</h4>
+        <p>Outside spacing.</p>
+        <pre class="code"><code>.card{
+    margin:20px;
+}</code></pre>
+
+        <h4>Padding</h4>
+        <p>Inside spacing.</p>
+        <pre class="code"><code>.card{
+    padding:20px;
+}</code></pre>
+
+        <h4>Box Shadow</h4>
+        <pre class="code"><code>.card{
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+}</code></pre>
+
+        <h4>Outline</h4>
+        <pre class="code"><code>input{
+    outline:2px solid blue;
+}</code></pre>
+
+        <h4>box-sizing</h4>
+        <pre class="code"><code>*{
+    box-sizing:border-box;
+}</code></pre>
+        <p>This is considered a best practice because padding and borders are included in the element's total width and height.</p>
+
+        <div class="mini-project">
+          <h5>Mini Project</h5>
+          <p>Design a professional card with rounded corners, shadow, padding, border, an image, and a button.</p>
+        </div>
+
+        <div class="mini-project">
+          <h5>Exercises</h5>
+          <ol>
+            <li>Create a bordered box.</li>
+            <li>Add padding.</li>
+            <li>Add margin.</li>
+            <li>Create a circular image.</li>
+            <li>Add a shadow.</li>
+          </ol>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch10">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 10</span>
+        <h3 class="chapter-title">CSS Width, Height, Display, and Positioning</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <ul>
+          <li>Control element size.</li>
+          <li>Understand layout behavior.</li>
+          <li>Position elements correctly.</li>
+        </ul>
+
+        <h4>Width, Max Width, Height, Min Height</h4>
+        <pre class="code"><code>.container{
+    width:80%;
+}
+
+.container{
+    max-width:1200px;
+}
+
+.hero{
+    height:500px;
+}
+
+section{
+    min-height:100vh;
+}</code></pre>
+
+        <h4>Display Property</h4>
+        <p><strong>Block</strong> — <code>display:block;</code> — e.g. <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code></p>
+        <p><strong>Inline</strong> — <code>display:inline;</code> — e.g. <code>&lt;span&gt;</code>, <code>&lt;a&gt;</code></p>
+        <p><strong>Inline-Block</strong> — <code>display:inline-block;</code> — allows elements to sit side by side while still accepting width and height.</p>
+        <p><strong>None</strong> — <code>display:none;</code> — removes an element from the page layout.</p>
+
+        <h4>Position</h4>
+        <p><strong>Static</strong> (default): <code>position:static;</code></p>
+        <p><strong>Relative:</strong></p>
+        <pre class="code"><code>position:relative;
+left:20px;</code></pre>
+        <p><strong>Absolute:</strong></p>
+        <pre class="code"><code>position:absolute;
+top:20px;
+right:20px;</code></pre>
+        <p><strong>Fixed</strong> — useful for floating chat buttons or "Back to Top" buttons:</p>
+        <pre class="code"><code>position:fixed;
+bottom:20px;
+right:20px;</code></pre>
+        <p><strong>Sticky</strong> — often used for navigation bars that remain visible while scrolling:</p>
+        <pre class="code"><code>position:sticky;
+top:0;</code></pre>
+
+        <h4>Z-Index</h4>
+        <p>Controls which element appears on top when elements overlap.</p>
+        <pre class="code"><code>.modal{
+    z-index:999;
+}</code></pre>
+
+        <h4>Overflow</h4>
+        <pre class="code"><code>.container{
+    overflow:auto;
+}</code></pre>
+
+        <div class="mini-project">
+          <h5>Mini Project</h5>
+          <p>Create a webpage with a sticky navigation bar, hero section, sidebar, main content area, footer, and floating action button.</p>
+        </div>
+
+        <div class="callout">
+          <h5>Chapter 10 Summary</h5>
+          <ul>
+            <li>Width and height</li>
+            <li>Maximum and minimum dimensions</li>
+            <li>Display types</li>
+            <li>Positioning</li>
+            <li>Z-index</li>
+            <li>Overflow</li>
+            <li>Professional layout techniques</li>
+          </ul>
+        </div>
+
+        <div class="callout">
+          <h5>Part 2 Summary (Chapters 6–10)</h5>
+          <p>You can now choose the right CSS units, style text and typography professionally, work with fonts and web typography, master the CSS Box Model, and control element sizing, display, and positioning.</p>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+    <div class="part-head" id="part-3">
+      <span class="part-tag">$ part 3</span>
+      <h2>Chapters 11–15 — Modern Layout &amp; Motion</h2>
+    </div>
+
+    <section class="chapter" id="ch11">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 11</span>
+        <h3 class="chapter-title">CSS Flexbox (Complete Guide)</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <ul>
+          <li>Understand the Flexbox layout model.</li>
+          <li>Create responsive layouts with ease.</li>
+          <li>Align and distribute elements efficiently.</li>
+          <li>Build professional navigation bars, cards, and dashboards.</li>
+        </ul>
+
+        <h4>What is Flexbox?</h4>
+        <p>Flexbox (Flexible Box Layout) is a one-dimensional layout system used to arrange elements in rows or columns. It helps developers align items, distribute space evenly, build responsive layouts, and reduce complex CSS code.</p>
+
+        <h4>Basic Flex Container</h4>
+        <pre class="code"><code>&lt;div class="container"&gt;
+    &lt;div&gt;One&lt;/div&gt;
+    &lt;div&gt;Two&lt;/div&gt;
+    &lt;div&gt;Three&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        <pre class="code"><code>.container{
+    display:flex;
+}</code></pre>
+        <span class="result-box">Result: One   Two   Three</span>
+
+        <h4>Main Axis and Cross Axis</h4>
+        <pre class="ascii">------------------------------&gt;
+        Main Axis
+
+|
+|
+|
+v
+
+Cross Axis</pre>
+        <p>The main axis follows <code>flex-direction</code>. The cross axis is perpendicular to it.</p>
+
+        <h4>flex-direction</h4>
+        <pre class="code"><code>/* Row (default) */
+.container{
+    display:flex;
+    flex-direction:row;
+}</code></pre>
+        <span class="result-box">A   B   C</span>
+        <pre class="code"><code>/* Column */
+.container{
+    display:flex;
+    flex-direction:column;
+}</code></pre>
+
+        <h4>justify-content</h4>
+        <p>Controls alignment along the main axis: <code>center</code>, <code>space-between</code>, <code>space-around</code>, <code>space-evenly</code>.</p>
+        <pre class="code"><code>justify-content:space-between;</code></pre>
+        <span class="result-box">A          B          C</span>
+
+        <h4>align-items</h4>
+        <p>Controls alignment on the cross axis.</p>
+        <pre class="code"><code>align-items:center;</code></pre>
+        <p>Other values: flex-start, flex-end, stretch, baseline.</p>
+
+        <h4>flex-wrap &amp; gap</h4>
+        <pre class="code"><code>.container{
+    flex-wrap:wrap;
+}
+
+.container{
+    gap:20px;
+}</code></pre>
+
+        <h4>flex-grow, flex-shrink, flex-basis</h4>
+        <pre class="code"><code>.item{
+    flex-grow:1;
+}
+
+.item{
+    flex-shrink:0;
+}
+
+.item{
+    flex-basis:250px;
+}
+
+/* Shorthand */
+flex:1;</code></pre>
+        <p>Equivalent to <code>flex-grow</code>, <code>flex-shrink</code>, and <code>flex-basis</code> together.</p>
+
+        <h4>Building a Responsive Navigation</h4>
+        <pre class="code"><code>nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}</code></pre>
+
+        <h4>Building Cards</h4>
+        <pre class="code"><code>.cards{
+    display:flex;
+    gap:30px;
+    flex-wrap:wrap;
+}</code></pre>
+
+        <div class="callout">
+          <h5>Best Practices</h5>
+          <ul>
+            <li>✔ Use Flexbox for one-dimensional layouts.</li>
+            <li>✔ Combine with media queries.</li>
+            <li>✔ Avoid excessive nesting.</li>
+          </ul>
+        </div>
+
+        <div class="mini-project">
+          <h5>Mini Project</h5>
+          <p>Build a navigation bar, hero section, services section, and footer using Flexbox only.</p>
+        </div>
+
+        <div class="mini-project">
+          <h5>Exercises</h5>
+          <ol>
+            <li>Center a div.</li>
+            <li>Create three equal columns.</li>
+            <li>Build a responsive navbar.</li>
+            <li>Create product cards.</li>
+            <li>Build a pricing section.</li>
+          </ol>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch12">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 12</span>
+        <h3 class="chapter-title">CSS Grid Layout (Complete Guide)</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <ul>
+          <li>Understand CSS Grid.</li>
+          <li>Build two-dimensional layouts.</li>
+          <li>Create responsive web pages.</li>
+        </ul>
+
+        <h4>What is CSS Grid?</h4>
+        <p>Grid is a two-dimensional layout system. Unlike Flexbox (one direction), Grid controls rows and columns simultaneously.</p>
+
+        <h4>Grid Container</h4>
+        <pre class="code"><code>.container{
+    display:grid;
+}</code></pre>
+
+        <h4>grid-template-columns &amp; grid-template-rows</h4>
+        <pre class="code"><code>.container{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+}</code></pre>
+        <pre class="ascii">+-----+-----+-----+
+| A   | B   | C   |
++-----+-----+-----+</pre>
+        <pre class="code"><code>grid-template-rows:100px 200px;</code></pre>
+
+        <h4>gap</h4>
+        <pre class="code"><code>gap:20px;</code></pre>
+
+        <h4>Fraction (fr)</h4>
+        <pre class="code"><code>grid-template-columns:
+1fr 2fr;</code></pre>
+        <p>Column 2 is twice as wide.</p>
+
+        <h4>Repeat()</h4>
+        <pre class="code"><code>grid-template-columns:
+repeat(4,1fr);</code></pre>
+
+        <h4>Grid Areas</h4>
+        <pre class="code"><code>grid-template-areas:
+"header header"
+"sidebar main"
+"footer footer";</code></pre>
+
+        <h4>Grid Item</h4>
+        <pre class="code"><code>.item{
+    grid-column:1/3;
+}</code></pre>
+
+        <h4>Responsive Grid</h4>
+        <pre class="code"><code>grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));</code></pre>
+        <p>This automatically adjusts the number of columns based on available space.</p>
+
+        <h4>Grid vs Flexbox</h4>
+        <table>
+          <tr><th>Flexbox</th><th>Grid</th></tr>
+          <tr><td>One-dimensional</td><td>Two-dimensional</td></tr>
+          <tr><td>Row or Column</td><td>Rows and Columns</td></tr>
+          <tr><td>Components</td><td>Page Layout</td></tr>
+        </table>
+
+        <div class="mini-project">
+          <h5>Mini Project</h5>
+          <p>Build a dashboard with a sidebar, header, footer, and cards using Grid.</p>
+        </div>
+
+        <div class="mini-project">
+          <h5>Exercises</h5>
+          <ol>
+            <li>Create a three-column layout.</li>
+            <li>Build a dashboard.</li>
+            <li>Create image galleries.</li>
+            <li>Build magazine layouts.</li>
+            <li>Combine Grid and Flexbox.</li>
+          </ol>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch13">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 13</span>
+        <h3 class="chapter-title">CSS Lists, Tables, and Forms</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Styling Lists</h4>
+        <pre class="code"><code>/* Remove Bullets */
+ul{
+    list-style:none;
+}
+
+/* Custom Bullet */
+ul{
+    list-style:square;
+}
+
+/* List Image */
+list-style-image:url(icon.png);</code></pre>
+
+        <h4>Styling Tables</h4>
+        <pre class="code"><code>table{
+    border-collapse:collapse;
+}
+
+/* Borders */
+td,th{
+    border:1px solid #ccc;
+}
+
+/* Zebra Stripes */
+tr:nth-child(even){
+    background:#f2f2f2;
+}
+
+/* Hover Effect */
+tr:hover{
+    background:#ddd;
+}</code></pre>
+
+        <h4>Styling Forms</h4>
+        <pre class="code"><code>/* Input */
+input{
+    padding:12px;
+    border-radius:8px;
+}
+
+/* Focus */
+input:focus{
+    border-color:blue;
+}
+
+/* Buttons */
+button{
+    background:#0066ff;
+    color:white;
+}
+
+/* Placeholder */
+input::placeholder{
+    color:gray;
+}</code></pre>
+
+        <div class="mini-project">
+          <h5>Mini Project</h5>
+          <p>Design a registration form, a contact form, and a login form.</p>
+        </div>
+
+        <div class="mini-project">
+          <h5>Exercises</h5>
+          <ol>
+            <li>Build a student registration form.</li>
+            <li>Create a timetable.</li>
+            <li>Style a pricing table.</li>
+            <li>Design a contact form.</li>
+            <li>Create a responsive survey form.</li>
+          </ol>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch14">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 14</span>
+        <h3 class="chapter-title">CSS Responsive Web Design</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <ul>
+          <li>Build websites that adapt to different screen sizes.</li>
+          <li>Use media queries effectively.</li>
+        </ul>
+
+        <h4>What is Responsive Design?</h4>
+        <p>Responsive design ensures that a website looks good on desktop, laptop, tablet, and mobile.</p>
+
+        <h4>Viewport</h4>
+        <pre class="code"><code>&lt;meta name="viewport"
+content="width=device-width, initial-scale=1.0"&gt;</code></pre>
+
+        <h4>Media Query</h4>
+        <pre class="code"><code>@media(max-width:768px){
+
+body{
+
+background:lightblue;
+
+}
+
+}</code></pre>
+
+        <h4>Responsive Images</h4>
+        <pre class="code"><code>img{
+    max-width:100%;
+    height:auto;
+}</code></pre>
+
+        <h4>Responsive Typography</h4>
+        <pre class="code"><code>h1{
+    font-size:clamp(2rem,5vw,4rem);
+}</code></pre>
+
+        <h4>Responsive Flexbox &amp; Grid</h4>
+        <pre class="code"><code>@media(max-width:768px){
+
+.container{
+
+flex-direction:column;
+
+}
+
+}</code></pre>
+        <pre class="code"><code>grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));</code></pre>
+
+        <h4>Mobile First Design</h4>
+        <p>Start with mobile styles, then add styles for larger screens.</p>
+        <pre class="code"><code>.card{
+    width:100%;
+}
+
+@media(min-width:768px){
+.card{
+width:50%;
+}
+}</code></pre>
+
+        <div class="callout">
+          <h5>Best Practices</h5>
+          <ul>
+            <li>✔ Test on multiple devices.</li>
+            <li>✔ Use relative units.</li>
+            <li>✔ Avoid fixed widths.</li>
+            <li>✔ Optimize images.</li>
+            <li>✔ Keep navigation simple on mobile.</li>
+          </ul>
+        </div>
+
+        <div class="mini-project">
+          <h5>Mini Project</h5>
+          <p>Create a fully responsive business landing page.</p>
+        </div>
+
+        <div class="mini-project">
+          <h5>Exercises</h5>
+          <ol>
+            <li>Build a responsive gallery.</li>
+            <li>Create a mobile navigation menu.</li>
+            <li>Design a responsive pricing page.</li>
+            <li>Build a responsive portfolio.</li>
+            <li>Test on multiple screen sizes.</li>
+          </ol>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch15">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 15</span>
+        <h3 class="chapter-title">CSS Animations and Transitions</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <ul>
+          <li>Add smooth animations to websites.</li>
+          <li>Improve user experience with visual effects.</li>
+        </ul>
+
+        <h4>CSS Transition</h4>
+        <pre class="code"><code>button{
+    transition:0.3s;
+}
+
+button:hover{
+    background:red;
+}</code></pre>
+        <p>Multiple properties:</p>
+        <pre class="code"><code>transition:
+background .3s,
+transform .3s;</code></pre>
+
+        <h4>Transform with Transition</h4>
+        <pre class="code"><code>button:hover{
+    transform:scale(1.1);
+}</code></pre>
+
+        <h4>Keyframes</h4>
+        <pre class="code"><code>@keyframes fade{
+
+from{
+opacity:0;
+}
+
+to{
+opacity:1;
+}
+
+}</code></pre>
+
+        <h4>Using Animation</h4>
+        <pre class="code"><code>.box{
+animation:fade 2s;
+}</code></pre>
+        <p>Infinite animation:</p>
+        <pre class="code"><code>.loader{
+animation:spin 2s linear infinite;
+}</code></pre>
+
+        <h4>Rotate</h4>
+        <pre class="code"><code>@keyframes spin{
+
+from{
+transform:rotate(0deg);
+}
+
+to{
+transform:rotate(360deg);
+}
+
+}</code></pre>
+
+        <h4>Bounce</h4>
+        <pre class="code"><code>@keyframes bounce{
+
+0%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-20px);
+}
+
+100%{
+transform:translateY(0);
+}
+
+}</code></pre>
+
+        <h4>Fade In</h4>
+        <pre class="code"><code>animation:fade 1s ease-in;</code></pre>
+
+        <h4>Slide Up</h4>
+        <pre class="code"><code>@keyframes slideUp{
+
+from{
+transform:translateY(100px);
+opacity:0;
+}
+
+to{
+transform:translateY(0);
+opacity:1;
+}
+
+}</code></pre>
+
+        <h4>Pulse</h4>
+        <pre class="code"><code>@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.05);
+}
+
+100%{
+transform:scale(1);
+}
+
+}</code></pre>
+
+        <div class="callout">
+          <h5>Performance Tips</h5>
+          <ul>
+            <li>Animate <code>transform</code> and <code>opacity</code> whenever possible.</li>
+            <li>Avoid animating layout properties like width or height unnecessarily.</li>
+            <li>Keep animations subtle and purposeful.</li>
+            <li>Respect user preferences by considering the <code>prefers-reduced-motion</code> media feature.</li>
+          </ul>
+        </div>
+
+        <div class="mini-project">
+          <h5>Mini Project</h5>
+          <p>Create an animated landing page featuring an animated navigation bar, hero section with fade-in effect, hover animations on buttons, floating cards, loading spinner, and smooth scrolling.</p>
+        </div>
+
+        <div class="mini-project">
+          <h5>Exercises</h5>
+          <ol>
+            <li>Create a button hover animation.</li>
+            <li>Build a loading spinner.</li>
+            <li>Animate a bouncing ball.</li>
+            <li>Create a fade-in text effect.</li>
+            <li>Design an animated card component.</li>
+          </ol>
+        </div>
+
+        <div class="callout">
+          <h5>Part 3 Summary (Chapters 11–15)</h5>
+          <p>You have now learned CSS Flexbox, CSS Grid Layout, styling lists/tables/forms, responsive web design, and CSS transitions and animations — the modern layout and interaction techniques used in professional web development.</p>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <div class="part-head" id="part-4">
+      <span class="part-tag">$ part 4</span>
+      <h2>Chapters 16–20 — Professional CSS</h2>
+    </div>
+
+    <section class="chapter" id="ch16">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 16</span>
+        <h3 class="chapter-title">CSS Transformations and Effects</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <p>By the end of this chapter, you will be able to:</p>
+        <ul>
+          <li>Transform HTML elements.</li>
+          <li>Create professional visual effects.</li>
+          <li>Combine transforms with animations.</li>
+          <li>Improve user interaction.</li>
+        </ul>
+
+        <h4>What is CSS Transform?</h4>
+        <p>The <code>transform</code> property allows you to change an element's position, size, rotation, and shape without affecting the normal page layout.</p>
+
+        <h4>Translate</h4>
+        <p>Move an element.</p>
+        <pre class="code"><code>.box {
+ transform: translate(100px, 50px);
+}</code></pre>
+        <pre class="code"><code>/* Translate X */
+transform: translateX(100px);
+
+/* Translate Y */
+transform: translateY(-30px);</code></pre>
+
+        <h4>Rotate</h4>
+        <pre class="code"><code>.box {
+ transform: rotate(45deg);
+}</code></pre>
+
+        <h4>Scale</h4>
+        <p>Increase or decrease size.</p>
+        <pre class="code"><code>.card:hover {
+ transform: scale(1.1);
+}</code></pre>
+        <pre class="code"><code>/* Scale X */
+transform: scaleX(2);
+
+/* Scale Y */
+transform: scaleY(.5);</code></pre>
+
+        <h4>Skew</h4>
+        <pre class="code"><code>transform: skew(20deg);
+
+/* Skew X */
+transform: skewX(15deg);
+
+/* Skew Y */
+transform: skewY(20deg);</code></pre>
+
+        <h4>Multiple Transforms</h4>
+        <pre class="code"><code>transform:
+ translateY(-10px)
+ rotate(5deg)
+ scale(1.05);</code></pre>
+
+        <h4>Transform Origin</h4>
+        <pre class="code"><code>transform-origin: center;</code></pre>
+        <p>Other values: top, bottom, left, right.</p>
+
+        <h4>3D Transform &amp; Perspective</h4>
+        <pre class="code"><code>transform: rotateY(180deg);</code></pre>
+        <pre class="code"><code>perspective: 1000px;</code></pre>
+
+        <h4>Glassmorphism Effect</h4>
+        <pre class="code"><code>.card {
+ backdrop-filter: blur(20px);
+ background: rgba(255, 255, 255, .2);
+ border-radius: 20px;
+}</code></pre>
+
+        <h4>Neumorphism Example</h4>
+        <pre class="code"><code>box-shadow:
+ 10px 10px 20px #d1d1d1,
+ -10px -10px 20px white;</code></pre>
+
+        <div class="mini-project">
+          <h5>Mini Project</h5>
+          <p>Create a modern dashboard with hover effects, glassmorphism cards, floating icons, and animated buttons.</p>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch17">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 17</span>
+        <h3 class="chapter-title">CSS Variables and Custom Properties</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Learning Objectives</h4>
+        <ul>
+          <li>Use CSS variables.</li>
+          <li>Create reusable styles.</li>
+          <li>Build maintainable projects.</li>
+          <li>Implement light and dark themes.</li>
+        </ul>
+
+        <h4>What Are CSS Variables?</h4>
+        <p>CSS variables store reusable values.</p>
+        <pre class="code"><code>:root {
+ --primary: #0066ff;
+}</code></pre>
+
+        <h4>Using Variables</h4>
+        <pre class="code"><code>button {
+ background: var(--primary);
+}</code></pre>
+
+        <h4>Multiple Variables</h4>
+        <pre class="code"><code>:root {
+ --primary: #005eff;
+ --secondary: #f5f5f5;
+ --radius: 12px;
+ --shadow: 0 10px 30px rgba(0, 0, 0, .2);
+}</code></pre>
+
+        <h4>Updating Variables</h4>
+        <pre class="code"><code>.card {
+ border-radius: var(--radius);
+}</code></pre>
+
+        <h4>Dark Theme Example</h4>
+        <pre class="code"><code>.dark {
+ --background: #111;
+ --text: white;
+}</code></pre>
+
+        <h4>Fallback Values</h4>
+        <pre class="code"><code>color: var(--primary, blue);</code></pre>
+
+        <div class="callout">
+          <h5>Advantages</h5>
+          <ul>
+            <li>Cleaner code</li>
+            <li>Easier maintenance</li>
+            <li>Consistent colors</li>
+            <li>Theme switching</li>
+            <li>Faster updates</li>
+          </ul>
+        </div>
+
+        <div class="mini-project">
+          <h5>Mini Project</h5>
+          <p>Create a website with dark mode, a theme switcher, and a reusable color palette.</p>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch18">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 18</span>
+        <h3 class="chapter-title">CSS Best Practices and Professional Techniques</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Writing Clean CSS</h4>
+        <p>✓ Use meaningful class names.</p>
+        <pre class="code"><code>.hero-title {}</code></pre>
+        <p>Avoid:</p>
+        <pre class="code"><code>.a1 {}</code></pre>
+
+        <h4>Organize Your Code</h4>
+        <p>Recommended order:</p>
+        <ol>
+          <li>Reset</li>
+          <li>Variables</li>
+          <li>Base styles</li>
+          <li>Layout</li>
+          <li>Components</li>
+          <li>Utilities</li>
+          <li>Responsive styles</li>
+        </ol>
+
+        <h4>Use External Stylesheets</h4>
+        <pre class="code"><code>&lt;link rel="stylesheet" href="style.css"&gt;</code></pre>
+
+        <h4>Mobile-First Development</h4>
+        <p>Write mobile styles first, then add styles for larger screens using media queries.</p>
+
+        <h4>Reuse Components</h4>
+        <pre class="code"><code>.btn {
+ padding: 12px 24px;
+ border-radius: 8px;
+}</code></pre>
+
+        <h4>Avoid Inline CSS</h4>
+        <p>✗</p>
+        <pre class="code"><code>&lt;p style="color: red;"&gt;</code></pre>
+        <p>✓</p>
+        <pre class="code"><code>.text-danger {
+ color: red;
+}</code></pre>
+
+        <h4>Optimize Images</h4>
+        <p>Use WebP, SVG, and compressed JPEG/PNG.</p>
+
+        <h4>Keep Selectors Simple</h4>
+        <pre class="code"><code>.card h2 {}</code></pre>
+        <p>Avoid very long selector chains that are difficult to maintain.</p>
+
+        <div class="callout">
+          <h5>Accessibility Tips</h5>
+          <ul>
+            <li>Maintain sufficient color contrast.</li>
+            <li>Use readable font sizes.</li>
+            <li>Provide visible keyboard focus styles.</li>
+            <li>Avoid relying only on color to convey meaning.</li>
+            <li>Respect <code>prefers-reduced-motion</code> for users who reduce animations.</li>
+          </ul>
+        </div>
+
+        <h4>CSS Architecture</h4>
+        <p>Popular methodologies: BEM (Block Element Modifier), SMACSS, OOCSS, and ITCSS.</p>
+
+        <h4>Professional Folder Structure</h4>
+        <pre class="ascii">project/
+ css/
+  style.css
+  variables.css
+  responsive.css
+ images/
+ fonts/
+ js/
+ index.html</pre>
+
+        <div class="mini-project">
+          <h5>Mini Project</h5>
+          <p>Refactor a website into a clean, maintainable project structure using reusable CSS components.</p>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch19">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 19</span>
+        <h3 class="chapter-title">Building Real-World Responsive Projects</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>Project 1 — Personal Portfolio</h4>
+        <p>Features: Hero, About, Skills, Projects, Contact.</p>
+
+        <h4>Project 2 — Business Website</h4>
+        <p>Sections: Hero, Services, Team, Testimonials, Contact.</p>
+
+        <h4>Project 3 — Restaurant Website</h4>
+        <p>Typical sections: Menu, Reservations, Gallery, Contact, Location.</p>
+
+        <h4>Project 4 — Bank Website</h4>
+        <p>Sections: Hero, Online Banking, Cards, Loans, Contact.</p>
+
+        <h4>Project 5 — E-commerce Website</h4>
+        <p>Features: Product Cards, Shopping Cart UI, Categories, Checkout Layout.</p>
+
+        <h4>Project 6 — School Website</h4>
+        <p>Pages: About, Courses, Admissions, Contact.</p>
+
+        <h4>Project 7 — Hospital Website</h4>
+        <p>Pages: Doctors, Departments, Appointment, Emergency.</p>
+
+        <h4>Project 8 — Logistics Website</h4>
+        <p>Sections: Tracking, Fleet, Services.</p>
+
+        <div class="callout">
+          <h5>Common Project Requirements</h5>
+          <ul>
+            <li>Animations</li>
+            <li>Footer</li>
+            <li>Responsive Layout</li>
+            <li>Modern Color Scheme</li>
+            <li>Accessible Design</li>
+            <li>Optimized Images</li>
+          </ul>
+        </div>
+
+        <div class="mini-project">
+          <h5>Capstone Project</h5>
+          <p>Build a complete responsive company website that combines Flexbox, Grid, Variables, Animations, Responsive Design, Forms, Cards, and Professional Navigation.</p>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+
+    <section class="chapter" id="ch20">
+      <div class="chapter-head">
+        <span class="chapter-num">Chapter 20</span>
+        <h3 class="chapter-title">Interview Questions, Exercises, Practical Projects &amp; Career Guide</h3>
+      </div>
+      <div class="chapter-body">
+        <h4>CSS Cheat Sheet</h4>
+        <pre class="code"><code>/* Display */
+display: block;
+display: inline;
+display: inline-block;
+display: flex;
+display: grid;
+display: none;
+
+/* Position */
+position: static;
+position: relative;
+position: absolute;
+position: fixed;
+position: sticky;
+
+/* Flexbox */
+display: flex;
+flex-wrap: wrap;
+
+/* Grid */
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 20px;
+
+/* Transform */
+transform:
+ translate()
+ rotate()
+ scale()
+ skew();
+
+/* Transition */
+transition: .3s;
+
+/* Animation */
+animation: fade 1s;</code></pre>
+
+        <h4>Common Properties</h4>
+        <ul>
+          <li>width / height</li>
+          <li>display</li>
+          <li>position</li>
+          <li>flex</li>
+          <li>grid</li>
+          <li>opacity</li>
+          <li>transform</li>
+          <li>transition</li>
+          <li>animation</li>
+          <li>box-shadow</li>
+          <li>border-radius</li>
+          <li>overflow</li>
+          <li>z-index</li>
+          <li>cursor</li>
+          <li>object-fit</li>
+        </ul>
+
+        <h4>Top CSS Interview Questions</h4>
+        <ol>
+          <li>What is the CSS Box Model?</li>
+          <li>Explain specificity.</li>
+          <li>What is the difference between relative, absolute, fixed, and sticky positioning?</li>
+          <li>How does Flexbox work?</li>
+          <li>How does CSS Grid work?</li>
+          <li>What is the difference between em, rem, %, and vh/vw?</li>
+          <li>What is z-index?</li>
+          <li>How do media queries work?</li>
+          <li>What is the difference between transitions and animations?</li>
+          <li>What is box-sizing: border-box?</li>
+          <li>How does the cascade work?</li>
+          <li>What is specificity and how is it calculated?</li>
+          <li>Explain the difference between visibility: hidden and display: none.</li>
+          <li>What are pseudo-classes and pseudo-elements?</li>
+          <li>How do you center an element horizontally and vertically?</li>
+        </ol>
+
+        <h4>Practical Exercises — Beginner</h4>
+        <ul>
+          <li>Create a simple webpage.</li>
+          <li>Style headings and paragraphs.</li>
+          <li>Add colors and backgrounds.</li>
+          <li>Create buttons.</li>
+          <li>Style images.</li>
+        </ul>
+
+        <h4>Practical Exercises — Intermediate</h4>
+        <ul>
+          <li>Build a landing page.</li>
+          <li>Design a registration form.</li>
+          <li>Create a navigation bar.</li>
+          <li>Make a responsive gallery.</li>
+          <li>Build a pricing table.</li>
+        </ul>
+
+        <h4>CSS Career Roadmap</h4>
+        <table>
+          <tr><th>Level</th><th>Focus</th></tr>
+          <tr><td>Level 1 – Beginner</td><td>HTML, CSS Basics, Selectors, Colors, Typography</td></tr>
+          <tr><td>Level 2 – Intermediate</td><td>Flexbox, Grid, Responsive Design, Animations, Forms</td></tr>
+          <tr><td>Level 3 – Advanced</td><td>CSS Architecture, Variables, Advanced animations, Performance</td></tr>
+          <tr><td>Level 4 – Professional</td><td>JavaScript, Git &amp; GitHub, Responsive Frameworks, React, Node.js, UI/UX Principles, Web Performance, SEO Basics, Progressive Web Apps (PWAs)</td></tr>
+        </table>
+
+        <div class="callout">
+          <h5>Final Assessment</h5>
+          <p>To complete this handbook, learners should:</p>
+          <ul>
+            <li>Complete all chapter exercises.</li>
+            <li>Build at least five responsive websites.</li>
+            <li>Create a personal portfolio.</li>
+            <li>Review the interview questions and cheat sheets.</li>
+          </ul>
+        </div>
+
+        <div class="callout">
+          <h5>Final Handbook Summary</h5>
+          <p>You have completed a comprehensive journey from CSS beginner to professional. Across all 20 chapters, you have learned CSS fundamentals and syntax; selectors and specificity; colors, backgrounds, typography, and fonts; units, measurements, and the box model; layout techniques with Flexbox and Grid; responsive web design; transitions, animations, transforms, and visual effects; CSS variables and reusable styling; professional coding standards and project organization; real-world project development; and interview preparation, reference materials, and career guidance.</p>
+        </div>
+        <a href="#toc" class="back-to-toc">↑ Back to table of contents</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  Farasteel Institute of Tech (FIT) — an educational project.
+</footer>
+
+</body>
+</html>

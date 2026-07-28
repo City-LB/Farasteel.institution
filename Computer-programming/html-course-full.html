@@ -1,0 +1,2310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Understanding HTML — Farasteel Institute of Tech (FIT)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg: #10111a;
+  --panel: #181a26;
+  --panel-2: #1f2233;
+  --line: #2c2f45;
+  --text: #e9e9f2;
+  --muted: #8c8fa8;
+  --cursor: #7ef9c0;
+  --html: #e44d26;
+  --css: #3a7bf2;
+  --js: #f0db4f;
+  --py: #34b871;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter', sans-serif;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 100% 32px;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-top:var(--header-h, 84px);
+}
+code, .mono{font-family:'Space Mono', monospace;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+main{flex:1;}
+
+/* ---------- Header (floating, fixed in place while scrolling) ---------- */
+header{
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:50;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  row-gap:10px;
+  column-gap:16px;
+  padding:16px 5vw;
+  background:rgba(16,17,26,0.7);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 12px 30px rgba(0,0,0,0.35);
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:'Space Mono', monospace;
+  font-weight:700;
+  font-size:0.9rem;
+  letter-spacing:-0.01em;
+  min-width:0;
+}
+.logo .logo-mark{
+  height:38px;
+  width:auto;
+  flex-shrink:0;
+  display:block;
+  border-radius:8px;
+  background:#f4f5f8;
+  padding:3px;
+}
+.logo .brand{
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+  white-space:nowrap;
+}
+.logo .brand b{color:var(--text);}
+
+nav ul{
+  display:flex;
+  gap:8px;
+  font-size:0.92rem;
+  color:var(--muted);
+}
+
+nav ul li a{
+  display:inline-block;
+  padding:7px 16px;
+  font-size:0.82rem;
+  white-space:nowrap;
+  border-radius:999px;
+  background:rgba(126,249,192,0.08);
+  border:1px solid rgba(126,249,192,0.25);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 4px 14px rgba(16,17,26,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
+  transition:background .25s ease, border-color .25s ease, color .25s ease, transform .2s ease, box-shadow .25s ease;
+}
+nav ul li a:hover, nav ul li a:focus-visible{
+  color:var(--text);
+  background:rgba(126,249,192,0.2);
+  border-color:rgba(126,249,192,0.55);
+  box-shadow:0 6px 20px rgba(126,249,192,0.2), inset 0 1px 0 rgba(255,255,255,0.08);
+  transform:translateY(-1px);
+}
+nav ul li a.current{
+  color:var(--text);
+  background:rgba(126,249,192,0.16);
+  border-color:rgba(126,249,192,0.45);
+}
+
+@media (max-width:600px){
+  header{
+    padding:12px 4vw;
+    justify-content:center;
+    text-align:center;
+  }
+  .logo{
+    width:100%;
+    justify-content:center;
+  }
+  .logo .brand{
+    font-size:0.75rem;
+    white-space:normal;
+  }
+  .logo .logo-mark{height:30px;}
+  nav{width:100%;}
+  nav ul{justify-content:center;gap:6px;}
+  nav ul li a{padding:6px 14px;font-size:0.75rem;}
+}
+
+/* ---------- TOC nav button ---------- */
+.toc-btn{
+  cursor:pointer;
+  font-family:inherit;
+  color:var(--muted);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 16px;
+  font-size:0.82rem;
+  white-space:nowrap;
+  border-radius:999px;
+  background:rgba(126,249,192,0.08);
+  border:1px solid rgba(126,249,192,0.25);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 4px 14px rgba(16,17,26,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
+  transition:background .25s ease, border-color .25s ease, color .25s ease, transform .2s ease, box-shadow .25s ease;
+}
+.toc-btn:hover, .toc-btn:focus-visible{
+  color:var(--text);
+  background:rgba(126,249,192,0.2);
+  border-color:rgba(126,249,192,0.55);
+  box-shadow:0 6px 20px rgba(126,249,192,0.2), inset 0 1px 0 rgba(255,255,255,0.08);
+  transform:translateY(-1px);
+}
+.toc-btn .chev{
+  font-size:0.7rem;
+  transition:transform .2s ease;
+  display:inline-block;
+}
+.toc-btn[aria-expanded="true"]{
+  color:var(--text);
+  background:rgba(126,249,192,0.16);
+  border-color:rgba(126,249,192,0.45);
+}
+.toc-btn[aria-expanded="true"] .chev{transform:rotate(180deg);}
+
+@media (max-width:600px){
+  .toc-btn{padding:6px 14px;font-size:0.75rem;}
+}
+
+/* ---------- TOC panel ---------- */
+#toc-panel{
+  position:fixed;
+  top:var(--header-h, 84px);
+  left:0; right:0;
+  z-index:45;
+  max-height:0;
+  overflow:hidden;
+  background:rgba(16,17,26,0.97);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 20px 40px rgba(0,0,0,0.45);
+  transition:max-height .35s ease;
+}
+#toc-panel.open{
+  max-height:80vh;
+  overflow-y:auto;
+}
+.toc-inner{
+  max-width:900px;
+  margin:0 auto;
+  padding:28px 5vw 40px;
+}
+.toc-inner > .toc-title{
+  font-family:'Space Mono', monospace;
+  font-size:0.85rem;
+  color:var(--cursor);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  margin-bottom:18px;
+}
+.toc-list{display:flex;flex-direction:column;gap:8px;}
+.chapter{
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--panel);
+  overflow:hidden;
+}
+.chapter-toggle{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 16px;
+  background:transparent;
+  border:none;
+  color:var(--text);
+  font-family:'Inter', sans-serif;
+  font-size:0.92rem;
+  font-weight:600;
+  text-align:left;
+  cursor:pointer;
+}
+.chapter-toggle .num{
+  color:var(--html);
+  font-family:'Space Mono', monospace;
+  margin-right:8px;
+}
+.chapter-toggle .chev{
+  flex-shrink:0;
+  color:var(--muted);
+  font-size:0.75rem;
+  transition:transform .2s ease;
+}
+.chapter-toggle[aria-expanded="true"] .chev{transform:rotate(180deg);}
+.chapter-toggle:hover{background:rgba(126,249,192,0.06);}
+.chapter-body{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .3s ease;
+  background:var(--panel-2);
+}
+.chapter-body ul{
+  list-style:disc;
+  padding:4px 20px 16px 36px;
+  color:var(--muted);
+  font-size:0.88rem;
+}
+.chapter-body ul li{
+  padding:4px 0;
+}
+.chapter-body ul.sub-group-title{
+  list-style:none;
+  padding-left:16px;
+  margin-top:6px;
+}
+.chapter-body .sub-heading{
+  padding:10px 20px 0 16px;
+  font-size:0.82rem;
+  color:var(--cursor);
+  font-family:'Space Mono', monospace;
+}
+
+/* ---------- Breadcrumb ---------- */
+.breadcrumb{
+  max-width:1100px;
+  margin:0 auto;
+  padding:26px 5vw 0;
+  font-family:'Space Mono', monospace;
+  font-size:0.82rem;
+  color:var(--muted);
+}
+.breadcrumb a:hover{color:var(--cursor);}
+
+/* ---------- Page hero / title ---------- */
+.page-hero{
+  max-width:900px;
+  margin:0 auto;
+  padding:6vh 5vw 4vh;
+  text-align:center;
+}
+.page-hero .tag{
+  font-family:'Space Mono', monospace;
+  font-size:0.78rem;
+  color:var(--html);
+  background:color-mix(in srgb, var(--html) 16%, transparent);
+  display:inline-block;
+  padding:5px 12px;
+  border-radius:4px;
+  margin-bottom:20px;
+}
+.page-hero h1{
+  font-size:clamp(2rem, 4.5vw, 3rem);
+  letter-spacing:-0.02em;
+  margin-bottom:16px;
+}
+.page-hero p{
+  color:var(--muted);
+  font-size:1.05rem;
+  max-width:620px;
+  margin:0 auto;
+}
+
+/* ---------- Lesson content ---------- */
+.lesson{
+  max-width:820px;
+  margin:0 auto;
+  padding:2vh 5vw 14vh;
+}
+.lesson section{
+  margin-bottom:44px;
+}
+.lesson h2{
+  font-size:1.4rem;
+  color:var(--text);
+  margin-bottom:14px;
+  padding-bottom:10px;
+  border-bottom:1px solid var(--line);
+}
+.lesson p{
+  color:var(--muted);
+  margin-bottom:14px;
+}
+.lesson pre{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:18px 20px;
+  overflow-x:auto;
+  margin-bottom:14px;
+}
+.lesson code{
+  font-family:'Space Mono', monospace;
+  font-size:0.88rem;
+  color:var(--cursor);
+}
+.lesson ul.bullets{
+  list-style:disc;
+  padding-left:22px;
+  color:var(--muted);
+  margin-bottom:14px;
+}
+.lesson ul.bullets li{margin-bottom:8px;}
+
+.lesson .chapter-label{
+  display:inline-block;
+  font-family:'Space Mono', monospace;
+  font-size:0.78rem;
+  color:var(--html);
+  background:color-mix(in srgb, var(--html) 16%, transparent);
+  padding:5px 12px;
+  border-radius:4px;
+  margin-bottom:14px;
+}
+.lesson h2{margin-top:6px;}
+.lesson h3{
+  font-size:1.05rem;
+  color:var(--cursor);
+  margin:28px 0 12px;
+  font-family:'Space Mono', monospace;
+  font-weight:700;
+}
+.lesson h3:first-of-type{margin-top:8px;}
+.lesson ol.steps{
+  color:var(--muted);
+  padding-left:22px;
+  margin-bottom:14px;
+}
+.lesson ol.steps li{margin-bottom:8px;}
+.lesson table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:16px;
+  font-size:0.9rem;
+}
+.lesson table caption{
+  text-align:left;
+  color:var(--muted);
+  font-size:0.8rem;
+  margin-bottom:8px;
+  font-family:'Space Mono', monospace;
+}
+.lesson th, .lesson td{
+  text-align:left;
+  padding:10px 14px;
+  border:1px solid var(--line);
+  color:var(--muted);
+  vertical-align:top;
+}
+.lesson th{
+  color:var(--text);
+  background:var(--panel-2);
+  font-family:'Space Mono', monospace;
+  font-size:0.82rem;
+}
+.lesson .key-terms{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:14px;
+}
+.lesson .key-terms span{
+  font-family:'Space Mono', monospace;
+  font-size:0.78rem;
+  color:var(--muted);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:5px 12px;
+}
+.lesson .next-up{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-left:3px solid var(--cursor);
+  border-radius:8px;
+  padding:16px 20px;
+  color:var(--muted);
+  margin-top:8px;
+}
+.lesson .next-up strong{color:var(--text);}
+.lesson hr.chapter-end{
+  border:none;
+  border-top:1px dashed var(--line);
+  margin:48px 0;
+}
+
+footer{
+  padding:26px 5vw;
+  text-align:center;
+  color:var(--muted);
+  font-family:'Space Mono', monospace;
+  font-size:0.8rem;
+  border-top:1px solid var(--line);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="../assets/logo-mark.png" alt="Farasteel Institute of Tech (FIT) logo" class="logo-mark">
+    <span class="brand"><b>Farasteel</b> Institute of Tech (FIT)</span>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="level1.html">Level 1</a></li>
+      <li>
+        <button type="button" id="toc-toggle" class="toc-btn" aria-expanded="false" aria-controls="toc-panel">
+          Table of Contents <span class="chev">▾</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<div id="toc-panel">
+  <div class="toc-inner">
+    <p class="toc-title">// Course Table of Contents</p>
+    <div class="toc-list" id="toc-list"></div>
+  </div>
+</div>
+
+<main>
+  <p class="breadcrumb"><a href="../index.html">~/curriculum</a> / <a href="level1.html">level-1</a> / html</p>
+
+  <div class="page-hero">
+    <span class="tag">.html</span>
+    <h1>UNDERSTANDING HTML</h1>
+    <p>The skeleton of every website. Learn how tags, elements, and semantic structure come together to build a page.</p>
+  </div>
+
+  <div class="lesson">
+    <section id="chapter-1">
+      <span class="chapter-label">Chapter 1</span>
+      <h2>Introduction to HTML</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Explain what HTML is</li>
+        <li>Describe the history of HTML</li>
+        <li>Explain how websites work</li>
+        <li>Identify different versions of HTML</li>
+        <li>Differentiate between HTML, CSS, and JavaScript</li>
+        <li>Explain the role of web browsers</li>
+        <li>Identify different types of websites</li>
+        <li>Understand the career opportunities in HTML development</li>
+      </ul>
+
+      <h3>1.1 What is HTML?</h3>
+      <p>HTML stands for HyperText Markup Language. It is the standard language used to create web pages — HTML tells the web browser what should appear on the screen.</p>
+      <p>Think of HTML as the skeleton of a human body. Without the skeleton, the body cannot stand — without HTML, there is no webpage.</p>
+      <p>HTML does not create colors, animations, or advanced functionality. Its main responsibility is to organize and structure webpage content.</p>
+      <p><strong>Example:</strong> Every website you have ever visited — Google, Facebook, YouTube, Amazon, Netflix — was first built with HTML.</p>
+      <p><strong>Definition:</strong> HTML is the standard markup language used to structure and display content on web pages.</p>
+
+      <h3>1.2 Meaning of HyperText</h3>
+      <p>HyperText simply means text that links to another document. When you click "Home," "About," or "Contact" on a website, those clickable pieces of text are called hyperlinks — each one can open another webpage.</p>
+
+      <h3>1.3 Meaning of Markup Language</h3>
+      <p>Markup means adding special tags that tell the browser how information should appear. Instead of writing plain "Welcome," HTML uses:</p>
+      <pre><code>&lt;h1&gt;Welcome&lt;/h1&gt;</code></pre>
+      <p>The browser understands that <code>&lt;h1&gt;</code> means "display this as a large heading."</p>
+
+      <h3>1.4 Why Was HTML Created?</h3>
+      <p>Before HTML, sharing documents over the Internet was difficult, and scientists needed a way to connect research documents together. In 1989, Sir Tim Berners-Lee invented HTML so researchers around the world could share documents using hyperlinks. Today, billions of people use HTML every day without even realizing it.</p>
+
+      <h3>1.5 History of HTML</h3>
+      <ul class="bullets">
+        <li><strong>HTML 1.0 (1991)</strong> — very basic: only headings, paragraphs, and links</li>
+        <li><strong>HTML 2.0 (1995)</strong> — introduced forms and better structure</li>
+        <li><strong>HTML 3.2 (1997)</strong> — added tables, scripts, and improved formatting</li>
+        <li><strong>HTML 4.01 (1999)</strong> — introduced CSS support, better accessibility, and more attributes</li>
+        <li><strong>XHTML (2000)</strong> — a stricter version of HTML where every tag had to be properly closed</li>
+        <li><strong>HTML5 (2014)</strong> — the latest major version, introducing audio, video, canvas, SVG, semantic tags, local storage, better forms, and mobile support</li>
+      </ul>
+      <p>HTML5 is the version developers use today.</p>
+
+      <h3>1.6 Who Invented HTML?</h3>
+      <p>Tim Berners-Lee invented HTML in 1989 while working at CERN in Switzerland. He is also known as the inventor of the World Wide Web (WWW).</p>
+
+      <h3>1.7 What is a Web Browser?</h3>
+      <p>A browser is software that reads HTML code and displays it as a webpage. Examples include Google Chrome, Microsoft Edge, Mozilla Firefox, Apple Safari, Opera, and Brave. Without a browser, HTML files cannot be viewed properly.</p>
+
+      <h3>1.8 How Does a Website Work?</h3>
+      <pre><code>User → Browser → Internet → Web Server → HTML File → Browser Displays the Website</code></pre>
+      <p>A user types a website address (for example, <code>www.example.com</code>). The browser sends a request to the server, the server returns an HTML file, and the browser reads that HTML and displays the webpage.</p>
+
+      <h3>1.9 HTML vs CSS vs JavaScript</h3>
+      <table>
+        <thead>
+          <tr><th>Language</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>HTML</td><td>Creates the structure of a webpage</td></tr>
+          <tr><td>CSS</td><td>Styles the webpage — colors, fonts, spacing, layout</td></tr>
+          <tr><td>JavaScript</td><td>Adds interactivity and functionality</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Simple analogy:</strong> imagine building a house — HTML is the bricks, walls, and roof (the structure); CSS is the paint, decorations, and furniture (the appearance); JavaScript is the electricity, doors, and alarms (the behavior). Together, these three technologies form the foundation of modern websites.</p>
+
+      <h3>1.10 Features of HTML</h3>
+      <ul class="bullets">
+        <li>Easy to learn and free to use</li>
+        <li>Platform-independent and lightweight</li>
+        <li>Supported by all modern browsers</li>
+        <li>Search-engine friendly</li>
+        <li>Works with CSS and JavaScript</li>
+        <li>Continuously updated</li>
+      </ul>
+
+      <h3>1.11 Advantages of HTML</h3>
+      <ul class="bullets">
+        <li>Easy syntax and fast loading</li>
+        <li>Free and open standard</li>
+        <li>Cross-platform compatibility</li>
+        <li>Excellent browser support</li>
+        <li>Foundation of every website</li>
+        <li>Works well with other web technologies</li>
+      </ul>
+
+      <h3>1.12 Limitations of HTML</h3>
+      <p>HTML alone cannot create animations, store data permanently, connect to databases, perform calculations, handle user authentication, or build complete web applications. These tasks require CSS, JavaScript, and backend technologies.</p>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>The meaning and purpose of HTML</li>
+        <li>The history and evolution of HTML</li>
+        <li>How browsers use HTML</li>
+        <li>The relationship between HTML, CSS, and JavaScript</li>
+        <li>The advantages and limitations of HTML</li>
+      </ul>
+
+      <h3>Practical Exercise</h3>
+      <ol class="steps">
+        <li>What does HTML stand for?</li>
+        <li>Who invented HTML, and in what year?</li>
+        <li>What is HyperText? What is a markup language?</li>
+        <li>List five web browsers.</li>
+        <li>Explain the difference between HTML, CSS, and JavaScript.</li>
+        <li>Mention four advantages and four limitations of HTML.</li>
+        <li>Explain how a browser displays a webpage.</li>
+      </ol>
+
+      <h3>Assignment</h3>
+      <p>Write a two-page report on "The Evolution of HTML from HTML 1.0 to HTML5." Include the year each major version was introduced, the key features added in each version, and why HTML5 is considered the modern standard for web development.</p>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>HTML</span><span>HyperText</span><span>Markup Language</span><span>Web Browser</span>
+        <span>Website</span><span>Web Server</span><span>Hyperlink</span><span>HTML5</span>
+        <span>CSS</span><span>JavaScript</span><span>World Wide Web (WWW)</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 2:</strong> Setting Up Your Development Environment. You'll learn how to install the necessary tools, create your first HTML file, understand file naming conventions, and write and run your very first webpage.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-2">
+      <span class="chapter-label">Chapter 2</span>
+      <h2>Setting Up Your Development Environment</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>At the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Explain what a development environment is</li>
+        <li>Identify the tools required for HTML development</li>
+        <li>Install a modern code editor</li>
+        <li>Install and use a web browser for testing</li>
+        <li>Create project folders correctly</li>
+        <li>Create, save, and open HTML files</li>
+        <li>Understand file extensions</li>
+        <li>Run HTML files in a web browser</li>
+        <li>Organize web development projects professionally</li>
+      </ul>
+
+      <h3>2.1 What is a Development Environment?</h3>
+      <p>A development environment is the collection of tools you use to write, edit, test, and manage your code. Think of it as a carpenter's workshop — just as a carpenter needs a hammer, saw, and measuring tape, a web developer needs software tools to build websites.</p>
+      <p>A typical HTML development environment includes a computer, a code editor, a web browser, a file manager, and (optionally, for basic HTML) an internet connection.</p>
+
+      <h3>2.2 Computer Requirements</h3>
+      <p>HTML development does not require an expensive computer.</p>
+      <table>
+        <thead><tr><th>Spec</th><th>Minimum</th><th>Recommended</th></tr></thead>
+        <tbody>
+          <tr><td>Processor</td><td>Dual-Core</td><td>Intel Core i5 / AMD Ryzen 5 or better</td></tr>
+          <tr><td>RAM</td><td>4 GB</td><td>8 GB or more</td></tr>
+          <tr><td>Storage</td><td>20 GB free space</td><td>SSD storage</td></tr>
+          <tr><td>Display</td><td>—</td><td>Full HD (1920 × 1080)</td></tr>
+          <tr><td>OS</td><td>Windows 10+, macOS, or Linux</td><td>Same</td></tr>
+        </tbody>
+      </table>
+
+      <h3>2.3 Choosing a Web Browser</h3>
+      <p>A web browser reads HTML code and displays it as a webpage. Popular browsers include Chrome, Edge, Firefox, Safari, Opera, and Brave. For development, Chrome and Edge are commonly used because they include powerful Developer Tools.</p>
+
+      <h3>2.4 Choosing a Code Editor</h3>
+      <p>A code editor helps you write HTML faster and with fewer errors. Popular editors include Visual Studio Code, Sublime Text, Notepad++, Brackets, Vim, and Nano. This course recommends <strong>Visual Studio Code (VS Code)</strong> — it's free, lightweight, and widely used by professional developers.</p>
+
+      <h3>2.5 Installing Visual Studio Code</h3>
+      <p><strong>Windows:</strong> download the installer, run it, accept the license agreement, click Next until installation begins, then finish and open VS Code.</p>
+      <p><strong>macOS:</strong> download the macOS version, open the file, drag Visual Studio Code into Applications, and launch it.</p>
+      <p><strong>Linux:</strong> install using your package manager or download the appropriate package for your distribution.</p>
+
+      <h3>2.6 Understanding the VS Code Interface</h3>
+      <p>When VS Code opens, you'll see the Activity Bar (Explorer, Search, Source Control, Run and Debug, Extensions), the Editor Window, the Terminal, and the Status Bar. Each part has a specific purpose to help you write and manage code efficiently.</p>
+
+      <h3>2.7 Installing Useful Extensions</h3>
+      <p>Extensions add extra features to VS Code. Recommended ones include Live Server, Prettier, Auto Rename Tag, Auto Close Tag, HTML CSS Support, Path Intellisense, and Color Highlight — these improve productivity and reduce coding errors.</p>
+
+      <h3>2.8 Creating Your First Project Folder</h3>
+      <p>A professional developer keeps projects organized. Example folder structure:</p>
+      <pre><code>My First Website/
+│
+├── index.html
+├── about.html
+├── contact.html
+│
+├── css/
+│   └── style.css
+│
+├── js/
+│   └── script.js
+│
+└── images/
+    ├── logo.png
+    └── banner.jpg</code></pre>
+      <p>Even if you are only learning HTML, it is good practice to organize files this way.</p>
+
+      <h3>2.9 Understanding File Extensions</h3>
+      <p>A file extension tells the operating system what type of file it is:</p>
+      <table>
+        <thead><tr><th>File</th><th>Extension</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>index.html</td><td>.html</td><td>HTML webpage</td></tr>
+          <tr><td>style.css</td><td>.css</td><td>Stylesheet</td></tr>
+          <tr><td>script.js</td><td>.js</td><td>JavaScript</td></tr>
+          <tr><td>logo.png</td><td>.png</td><td>Image</td></tr>
+          <tr><td>music.mp3</td><td>.mp3</td><td>Audio</td></tr>
+          <tr><td>video.mp4</td><td>.mp4</td><td>Video</td></tr>
+        </tbody>
+      </table>
+
+      <h3>2.10 Creating Your First HTML File</h3>
+      <p>Open VS Code, create a new file, and save it as <code>index.html</code>. The <code>.html</code> extension is required — without it, the browser will not recognize the file as an HTML document.</p>
+
+      <h3>2.11 Why "index.html"?</h3>
+      <p>When a web server receives a request for a folder, it typically looks for a file named <code>index.html</code> first. For example, requesting <code>https://example.com/</code> automatically loads <code>index.html</code> — which is why the homepage of most websites is named that way.</p>
+
+      <h3>2.12 Writing Your First HTML Page</h3>
+      <p>Type the following code into <code>index.html</code>:</p>
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;My First Webpage&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;h1&gt;Welcome to HTML&lt;/h1&gt;
+
+    &lt;p&gt;This is my first webpage.&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      <p>Save the file.</p>
+
+      <h3>2.13 Running Your HTML File</h3>
+      <ul class="bullets">
+        <li><strong>Method 1:</strong> double-click the HTML file — it opens in your default browser</li>
+        <li><strong>Method 2:</strong> right-click the file, choose "Open With," and select your preferred browser</li>
+        <li><strong>Method 3 (recommended):</strong> use the Live Server extension in VS Code — right-click inside the editor and choose "Open with Live Server." Your browser opens automatically and refreshes whenever you save changes</li>
+      </ul>
+
+      <h3>2.14 Saving Your Work</h3>
+      <p>Always save your work before testing. Use <code>Ctrl + S</code> on Windows or <code>Command + S</code> on macOS — saving frequently helps prevent data loss.</p>
+
+      <h3>2.15 Naming Files Correctly</h3>
+      <p>Use lowercase letters, hyphens instead of spaces, and meaningful names — for example <code>about.html</code>, <code>contact.html</code>, or <code>student-profile.html</code>. Avoid names like <code>About Page.html</code> or <code>My First Website.html</code>; spaces and inconsistent capitalization can cause problems when websites are hosted online.</p>
+
+      <h3>2.16 Common Beginner Mistakes</h3>
+      <ul class="bullets">
+        <li>Saving as <code>index.html.txt</code> instead of <code>index.html</code></li>
+        <li>Forgetting to save the file before testing</li>
+        <li>Misspelling HTML tags or deleting angle brackets (<code>&lt;</code> or <code>&gt;</code>)</li>
+        <li>Placing files in the wrong folders</li>
+        <li>Using spaces in file names</li>
+        <li>Editing the wrong file by mistake</li>
+      </ul>
+
+      <h3>2.17 Professional Project Organization</h3>
+      <p>As projects grow, organize them like this:</p>
+      <pre><code>School Website/
+│
+├── index.html
+├── about.html
+├── admissions.html
+├── gallery.html
+├── contact.html
+│
+├── css/
+├── js/
+├── images/
+├── videos/
+├── fonts/
+└── documents/</code></pre>
+      <p>A clean folder structure makes collaboration and maintenance much easier.</p>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>What a development environment is, and the basic hardware requirements for HTML development</li>
+        <li>How to choose a browser and code editor</li>
+        <li>How to install and use Visual Studio Code</li>
+        <li>How to organize project folders, and why <code>index.html</code> is important</li>
+        <li>How to create, save, and run your first HTML page</li>
+        <li>Professional file naming and organization practices</li>
+      </ul>
+
+      <h3>Practical Exercise</h3>
+      <ol class="steps">
+        <li>Define a development environment.</li>
+        <li>List five popular web browsers and three code editors.</li>
+        <li>What is the purpose of Visual Studio Code?</li>
+        <li>Why is <code>index.html</code> commonly used as the homepage?</li>
+        <li>Create a folder named "My First Website" and add an <code>index.html</code> file with a title, one heading, and one paragraph. Save it and open it in a browser.</li>
+        <li>Explain the purpose of the images folder in a web project.</li>
+        <li>List five common beginner mistakes when working with HTML files.</li>
+      </ol>
+
+      <h3>Assignment</h3>
+      <p>Create a project folder named "College Website" with the structure below, then in <code>index.html</code> add a page title, a main heading with the college name, and a welcome paragraph. Save and open it in a browser to verify it displays correctly.</p>
+      <pre><code>College Website/
+│
+├── index.html
+├── about.html
+├── courses.html
+├── contact.html
+│
+├── css/
+├── js/
+├── images/
+└── documents/</code></pre>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>Development Environment</span><span>Code Editor</span><span>Web Browser</span>
+        <span>Visual Studio Code</span><span>Live Server</span><span>HTML File</span>
+        <span>File Extension</span><span>Project Folder</span><span>index.html</span><span>File Manager</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 3:</strong> HTML Document Structure. You'll learn the purpose of <code>&lt;!DOCTYPE html&gt;</code>, the <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code> elements, how browsers interpret an HTML document, creating a valid HTML5 page structure, and understanding document metadata and page titles.
+      </div>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-3">
+      <span class="chapter-label">Chapter 3</span>
+      <h2>HTML Document Structure</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Explain the structure of an HTML document.</li>
+        <li>Identify the purpose of each major HTML tag.</li>
+        <li>Create a valid HTML5 document.</li>
+        <li>Distinguish between the <code>&lt;head&gt;</code> and <code>&lt;body&gt;</code> sections.</li>
+        <li>Understand metadata and page titles.</li>
+        <li>Use proper indentation and formatting.</li>
+        <li>Write clean and professional HTML code.</li>
+      </ul>
+
+      <h3>3.1 What is an HTML Document?</h3>
+      <p>An HTML document is a text file with the <code>.html</code> extension that contains HTML code. When opened in a web browser, the browser reads the code and displays it as a webpage.</p>
+      <p>Every HTML document follows a standard structure. This structure helps browsers understand and render the content correctly. The browser reads the document from top to bottom.</p>
+
+      <h3>3.2 Basic Document Hierarchy</h3>
+      <pre><code>&lt;html&gt;
+  ├── &lt;head&gt;   → Metadata (not visible on the page)
+  └── &lt;body&gt;   → Visible Content</code></pre>
+
+      <h3>3.4 The &lt;!DOCTYPE html&gt; Declaration</h3>
+      <p>This must be the first line of every HTML5 document.</p>
+      <pre><code>&lt;!DOCTYPE html&gt;</code></pre>
+      <p><strong>Purpose:</strong> It tells the browser: "This document uses HTML5."</p>
+
+      <h3>3.7 The &lt;title&gt; Element</h3>
+      <p>The <code>&lt;title&gt;</code> defines the text displayed:</p>
+      <ul class="bullets">
+        <li>On the browser tab</li>
+        <li>In bookmarks</li>
+        <li>In search engine results</li>
+      </ul>
+      <p>Example:</p>
+      <pre><code>&lt;title&gt;Farasteel Academy&lt;/title&gt;</code></pre>
+      <p>The browser tab will display: Farasteel Academy</p>
+
+      <h3>3.10 Example of a Complete Webpage</h3>
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Student Portal&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Welcome Students&lt;/h1&gt;
+  &lt;p&gt;This is our first HTML page.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      <p>When opened in a browser, the heading and paragraph are displayed on the page, while the metadata in the <code>&lt;head&gt;</code> works behind the scenes.</p>
+
+      <h3>3.14 HTML Comments</h3>
+      <p>Comments allow developers to leave notes in the code. Comments are ignored by the browser and are not displayed on the webpage.</p>
+      <p>Syntax:</p>
+      <pre><code>&lt;!-- This is a comment --&gt;</code></pre>
+      <p>Example:</p>
+      <pre><code>&lt;!-- Header Section --&gt;
+&lt;h1&gt;Farasteel Academy&lt;/h1&gt;
+&lt;!-- End Header --&gt;</code></pre>
+
+      <h3>3.15 HTML Validation</h3>
+      <p>Always validate your HTML to ensure it follows the official standards. Proper indentation throughout the document helps readability. Open the file in a browser and verify that it displays correctly.</p>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>The structure of a valid HTML5 document</li>
+        <li>The purpose of <code>&lt;!DOCTYPE html&gt;</code>, <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code></li>
+        <li>How to set page titles and metadata</li>
+        <li>How to write HTML comments</li>
+        <li>The importance of indentation and validation</li>
+      </ul>
+
+      <h3>Assignment</h3>
+      <p>Design a webpage for a fictional college called Bright Future College.</p>
+      <p>Requirements:</p>
+      <ul class="bullets">
+        <li>Use the correct HTML5 document structure.</li>
+        <li>Set the page title to Bright Future College.</li>
+        <li>Include a heading welcoming visitors.</li>
+        <li>Add two paragraphs describing the college.</li>
+        <li>Include at least three comments to organize your code.</li>
+        <li>Ensure proper indentation and formatting.</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>DOCTYPE</span><span>&lt;html&gt;</span><span>&lt;head&gt;</span><span>&lt;body&gt;</span>
+        <span>Metadata</span><span>&lt;title&gt;</span><span>Comments</span><span>Validation</span>
+        <span>Indentation</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 4:</strong> HTML Elements and Attributes. You'll learn what HTML elements are, how attributes work, the difference between opening, closing, and self-closing tags, and how to use common and global attributes correctly.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-4">
+      <span class="chapter-label">Chapter 4</span>
+      <h2>HTML Elements and Attributes</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Define HTML elements.</li>
+        <li>Explain HTML attributes.</li>
+        <li>Identify opening, closing, and self-closing (void) elements.</li>
+        <li>Use common HTML attributes correctly.</li>
+        <li>Apply global attributes.</li>
+      </ul>
+
+      <h3>4.1 What is an HTML Element?</h3>
+      <p>An HTML element is a complete unit that usually consists of an opening tag, content, and a closing tag. Some elements are self-closing (void elements) and do not need a closing tag.</p>
+
+      <h3>4.6 Common HTML Attributes</h3>
+      <table>
+        <thead>
+          <tr><th>Attribute</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>id</td><td>Gives a unique identifier</td></tr>
+          <tr><td>class</td><td>Groups similar elements</td></tr>
+          <tr><td>style</td><td>Adds inline CSS</td></tr>
+          <tr><td>title</td><td>Shows a tooltip</td></tr>
+          <tr><td>href</td><td>Specifies a hyperlink destination</td></tr>
+          <tr><td>src</td><td>Specifies the source of an image, video, or audio</td></tr>
+          <tr><td>alt</td><td>Alternative text for images</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Global Attributes</h3>
+      <p>Global attributes can be used on almost any HTML element:</p>
+      <ul class="bullets">
+        <li>id</li>
+        <li>class</li>
+        <li>style</li>
+        <li>title</li>
+        <li>lang</li>
+        <li>dir</li>
+        <li>hidden</li>
+        <li>tabindex</li>
+      </ul>
+
+      <h3>Example</h3>
+      <pre><code>&lt;h2
+  id="intro"
+  class="heading"
+  title="Introduction"
+&gt;
+  HTML Elements
+&lt;/h2&gt;</code></pre>
+
+      <h3>4.17 Best Practices</h3>
+      <ul class="bullets">
+        <li>Use meaningful id names.</li>
+        <li>Use reusable class names.</li>
+        <li>Always put attribute values in quotation marks.</li>
+        <li>Keep attributes readable with proper spacing.</li>
+      </ul>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>What HTML elements and attributes are</li>
+        <li>Opening, closing, and void elements</li>
+        <li>Common and global attributes</li>
+        <li>Best practices for writing clean attribute code</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>Element</span><span>Attribute</span><span>Opening Tag</span><span>Closing Tag</span>
+        <span>Void Element</span><span>id</span><span>class</span><span>Global Attributes</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 5:</strong> Headings, Paragraphs, Text Formatting, and Comments. You'll learn all six heading levels, paragraphs, line breaks, horizontal rules, and text formatting tags.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-5">
+      <span class="chapter-label">Chapter 5</span>
+      <h2>Headings, Paragraphs, Text Formatting, and Comments</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Use all six heading levels (<code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code>)</li>
+        <li>Create paragraphs with <code>&lt;p&gt;</code></li>
+        <li>Insert line breaks with <code>&lt;br&gt;</code></li>
+        <li>Add horizontal rules with <code>&lt;hr&gt;</code></li>
+        <li>Apply text formatting tags</li>
+        <li>Write HTML comments correctly</li>
+      </ul>
+
+      <h3>5.1 Headings</h3>
+      <p>HTML provides six levels of headings, from <code>&lt;h1&gt;</code> (most important) to <code>&lt;h6&gt;</code> (least important). Use only one <code>&lt;h1&gt;</code> per page when possible for better SEO and accessibility.</p>
+
+      <h3>5.2 Paragraphs</h3>
+      <p>The <code>&lt;p&gt;</code> element creates a paragraph of text. Browsers automatically add space before and after paragraphs.</p>
+
+      <h3>When to Use &lt;br&gt;</h3>
+      <ul class="bullets">
+        <li>Addresses</li>
+        <li>Poems</li>
+        <li>Song lyrics</li>
+        <li>Contact information</li>
+      </ul>
+      <p>Avoid using <code>&lt;br&gt;</code> repeatedly to create space between sections. Use CSS for layout and spacing.</p>
+
+      <h3>5.5 Horizontal Rules</h3>
+      <p>The <code>&lt;hr&gt;</code> element inserts a horizontal line. It is useful for visually separating content sections.</p>
+
+      <h3>5.10 Quotations</h3>
+      <p><strong>Short Quotations</strong> — Use <code>&lt;q&gt;</code>.</p>
+      <pre><code>&lt;p&gt;
+  The lecturer said,
+  &lt;q&gt;Practice every day.&lt;/q&gt;
+&lt;/p&gt;</code></pre>
+      <p><strong>Long Quotations</strong> — Use <code>&lt;blockquote&gt;</code>.</p>
+      <pre><code>&lt;blockquote&gt;
+  Education is the most powerful weapon
+  which you can use to change the world.
+&lt;/blockquote&gt;</code></pre>
+
+      <h3>Text Formatting Tags</h3>
+      <ul class="bullets">
+        <li><code>&lt;strong&gt;</code> — important text (usually bold)</li>
+        <li><code>&lt;em&gt;</code> — emphasized text (usually italic)</li>
+        <li><code>&lt;mark&gt;</code> — highlighted text</li>
+        <li><code>&lt;small&gt;</code> — smaller text</li>
+        <li><code>&lt;sub&gt;</code> — subscript</li>
+        <li><code>&lt;sup&gt;</code> — superscript</li>
+        <li><code>&lt;del&gt;</code> — deleted text</li>
+        <li><code>&lt;ins&gt;</code> — inserted text</li>
+        <li><code>&lt;code&gt;</code> — code snippets</li>
+      </ul>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>How to structure text with headings and paragraphs</li>
+        <li>When and how to use line breaks and horizontal rules</li>
+        <li>Text formatting tags and their meanings</li>
+        <li>Short and long quotations</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>&lt;h1&gt;–&lt;h6&gt;</span><span>&lt;p&gt;</span><span>&lt;br&gt;</span><span>&lt;hr&gt;</span>
+        <span>&lt;strong&gt;</span><span>&lt;em&gt;</span><span>&lt;blockquote&gt;</span><span>&lt;q&gt;</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 6:</strong> Links, Images, Audio, and Video. You'll learn how to create hyperlinks, insert images with proper attributes, and embed audio and video content.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-6">
+      <span class="chapter-label">Chapter 6</span>
+      <h2>Links, Images, Audio, and Video</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Create hyperlinks between web pages.</li>
+        <li>Use absolute and relative URLs.</li>
+        <li>Open links in a new browser tab.</li>
+        <li>Create email and telephone links.</li>
+        <li>Insert images into web pages.</li>
+        <li>Use image attributes correctly.</li>
+        <li>Embed audio and video files.</li>
+        <li>Organize navigation menus using lists.</li>
+        <li>Apply accessibility best practices for multimedia.</li>
+      </ul>
+
+      <h3>6.1 Introduction</h3>
+      <p>Modern websites are more than just text. They contain navigation menus, images, videos, music, icons, and downloadable documents. In this chapter, you will learn how to create rich and interactive web pages using HTML.</p>
+
+      <h3>6.15 Adding Images</h3>
+      <p>The image element is <code>&lt;img&gt;</code>. It is a void (self-closing) element.</p>
+      <p>Example (absolute path):</p>
+      <pre><code>&lt;img src="https://example.com/logo.png"&gt;</code></pre>
+      <p>The image is loaded from another website.</p>
+      <p><strong>Best Practice:</strong> Use relative paths for your own project files whenever possible.</p>
+      <pre><code>&lt;img src="images/logo.png" alt="Company Logo"&gt;</code></pre>
+
+      <h3>Important Image Attributes</h3>
+      <ul class="bullets">
+        <li><code>src</code> — path to the image file</li>
+        <li><code>alt</code> — alternative text (required for accessibility)</li>
+        <li><code>width</code> / <code>height</code> — dimensions (prefer CSS when possible)</li>
+      </ul>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>Create ordered, unordered, and description lists.</li>
+        <li>Build internal and external hyperlinks.</li>
+        <li>Create email, telephone, and download links.</li>
+        <li>Use relative and absolute file paths.</li>
+        <li>Insert images with appropriate attributes.</li>
+        <li>Embed audio and video.</li>
+        <li>Build a simple navigation menu.</li>
+        <li>Follow accessibility and multimedia best practices.</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>Hyperlink</span><span>href</span><span>Relative Path</span><span>Absolute Path</span>
+        <span>&lt;img&gt;</span><span>alt</span><span>Audio</span><span>Video</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 7:</strong> Lists. You'll learn ordered lists, unordered lists, description lists, and how to nest lists for complex navigation.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-7">
+      <span class="chapter-label">Chapter 7</span>
+      <h2>Lists</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Create ordered (numbered) lists</li>
+        <li>Create unordered (bulleted) lists</li>
+        <li>Create description lists</li>
+        <li>Nest lists inside other lists</li>
+        <li>Use lists for navigation menus</li>
+      </ul>
+
+      <h3>7.1 Ordered Lists</h3>
+      <p>Use <code>&lt;ol&gt;</code> for numbered lists and <code>&lt;li&gt;</code> for each item.</p>
+      <pre><code>&lt;ol&gt;
+  &lt;li&gt;Learn HTML&lt;/li&gt;
+  &lt;li&gt;Learn CSS&lt;/li&gt;
+  &lt;li&gt;Learn JavaScript&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+      <h3>7.2 Unordered Lists</h3>
+      <p>Use <code>&lt;ul&gt;</code> for bulleted lists.</p>
+      <pre><code>&lt;ul&gt;
+  &lt;li&gt;Home&lt;/li&gt;
+  &lt;li&gt;About&lt;/li&gt;
+  &lt;li&gt;Contact&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+      <h3>7.3 Description Lists</h3>
+      <p>Use <code>&lt;dl&gt;</code>, <code>&lt;dt&gt;</code> (term), and <code>&lt;dd&gt;</code> (description) for definition-style lists.</p>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>How to create ordered, unordered, and description lists</li>
+        <li>How to nest lists</li>
+        <li>Using lists for clean navigation</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>&lt;ol&gt;</span><span>&lt;ul&gt;</span><span>&lt;li&gt;</span><span>&lt;dl&gt;</span>
+        <span>&lt;dt&gt;</span><span>&lt;dd&gt;</span><span>Nested List</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 8:</strong> Tables. You'll learn how to create tables, merge cells with rowspan and colspan, and organize data professionally.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-8">
+      <span class="chapter-label">Chapter 8</span>
+      <h2>Tables</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Create tables using HTML</li>
+        <li>Add rows, columns, and table headers</li>
+        <li>Add captions to tables</li>
+        <li>Organize tables using <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, and <code>&lt;tfoot&gt;</code></li>
+        <li>Merge cells with colspan and rowspan</li>
+        <li>Build real-world tables such as student result sheets and timetables</li>
+      </ul>
+
+      <h3>8.1 Introduction</h3>
+      <p>Tables are used to organize data into rows and columns. Examples of information commonly displayed in tables include:</p>
+      <ul class="bullets">
+        <li>Student results</li>
+        <li>Employee records</li>
+        <li>Product price lists</li>
+        <li>School timetables</li>
+        <li>Bank transaction history</li>
+        <li>Hospital patient records</li>
+      </ul>
+
+      <h3>7.12 Merging Rows (rowspan)</h3>
+      <p>The <code>rowspan</code> attribute merges rows. The <code>colspan</code> attribute merges columns.</p>
+      <pre><code>&lt;table border="1"&gt;
+  &lt;tr&gt;
+    &lt;th colspan="3"&gt;Student Information&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Name&lt;/th&gt;
+    &lt;th&gt;Department&lt;/th&gt;
+    &lt;th&gt;Level&lt;/th&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+      <h3>Laboratory Exercise</h3>
+      <p>Create a webpage named <code>student-results.html</code> that contains:</p>
+      <ul class="bullets">
+        <li>A table caption titled Second Semester Results.</li>
+        <li>Five columns: Student ID, Name, HTML, CSS, and JavaScript.</li>
+        <li>At least five student records.</li>
+      </ul>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>How to create structured tables</li>
+        <li>Using thead, tbody, and tfoot</li>
+        <li>Merging cells with colspan and rowspan</li>
+        <li>Professional table design practices</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>&lt;table&gt;</span><span>&lt;tr&gt;</span><span>&lt;td&gt;</span><span>&lt;th&gt;</span>
+        <span>colspan</span><span>rowspan</span><span>&lt;caption&gt;</span><span>&lt;thead&gt;</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 9:</strong> Forms (Beginner to Advanced). You'll learn input types, labels, validation, radio buttons, checkboxes, file uploads, and more.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-9">
+      <span class="chapter-label">Chapter 9</span>
+      <h2>Forms (Beginner to Advanced)</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Explain the purpose of HTML forms.</li>
+        <li>Create text, email, password, and number inputs.</li>
+        <li>Use labels correctly for accessibility.</li>
+        <li>Add placeholders and required fields.</li>
+        <li>Create radio buttons, checkboxes, and select menus.</li>
+        <li>Handle file uploads and special input types.</li>
+      </ul>
+
+      <h3>8.7 Labels</h3>
+      <p>Labels describe input fields and improve accessibility and usability.</p>
+      <pre><code>&lt;label for="name"&gt;
+  Full Name
+&lt;/label&gt;
+&lt;input type="text" id="name"&gt;</code></pre>
+
+      <h3>8.15 URL Input</h3>
+      <pre><code>&lt;input type="url" name="website"&gt;</code></pre>
+      <p>Checks whether the entered value is a valid web address.</p>
+
+      <h3>8.16 Search Input</h3>
+      <pre><code>&lt;input type="search" name="search"&gt;</code></pre>
+      <p>Optimized for search boxes.</p>
+
+      <h3>8.26 Placeholder</h3>
+      <pre><code>&lt;input type="text" placeholder="Enter your full name"&gt;</code></pre>
+      <p>The placeholder provides a hint about what to enter.</p>
+
+      <h3>8.27 Required Fields</h3>
+      <p>Add the <code>required</code> attribute to make a field mandatory before the form can be submitted.</p>
+
+      <h3>Common Form Input Types</h3>
+      <ul class="bullets">
+        <li>text, email, password, number</li>
+        <li>url, search, tel</li>
+        <li>date, time, datetime-local</li>
+        <li>range, color</li>
+        <li>file, checkbox, radio</li>
+        <li>submit, reset, button</li>
+      </ul>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>How to build accessible forms</li>
+        <li>Using labels and placeholders</li>
+        <li>HTML5 input types and validation attributes</li>
+        <li>Radio buttons, checkboxes, and file uploads</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>&lt;form&gt;</span><span>&lt;input&gt;</span><span>&lt;label&gt;</span><span>placeholder</span>
+        <span>required</span><span>Radio Button</span><span>Checkbox</span><span>File Upload</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 10:</strong> Semantic HTML5. You'll learn header, nav, main, section, article, aside, and footer elements and why semantic markup improves accessibility and SEO.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-10">
+      <span class="chapter-label">Chapter 10</span>
+      <h2>Semantic HTML5</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Explain the meaning of Semantic HTML</li>
+        <li>Differentiate between semantic and non-semantic elements</li>
+        <li>Use <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;aside&gt;</code>, and <code>&lt;footer&gt;</code></li>
+        <li>Understand how semantic HTML improves accessibility and SEO</li>
+      </ul>
+
+      <h3>9.9 The &lt;section&gt; Element</h3>
+      <p>A <code>&lt;section&gt;</code> groups related content together.</p>
+      <pre><code>&lt;section&gt;
+  &lt;h2&gt;Our Courses&lt;/h2&gt;
+  &lt;p&gt;
+    We offer HTML, CSS, JavaScript and Python.
+  &lt;/p&gt;
+&lt;/section&gt;</code></pre>
+      <p>A webpage may contain multiple sections.</p>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>The meaning of Semantic HTML</li>
+        <li>The difference between semantic and non-semantic elements</li>
+        <li>How to use header, nav, main, section, article, aside, footer, figure, figcaption, time, and address</li>
+        <li>How semantic HTML improves accessibility and SEO</li>
+        <li>Professional practices for building well-structured webpages</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>Semantic HTML</span><span>&lt;header&gt;</span><span>&lt;nav&gt;</span><span>&lt;main&gt;</span>
+        <span>&lt;section&gt;</span><span>&lt;article&gt;</span><span>&lt;aside&gt;</span><span>&lt;footer&gt;</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 11:</strong> HTML5 Multimedia. You'll learn how to embed audio, video, SVG, and canvas content.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-11">
+      <span class="chapter-label">Chapter 11</span>
+      <h2>HTML5 Multimedia</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Embed audio with the <code>&lt;audio&gt;</code> element</li>
+        <li>Embed video with the <code>&lt;video&gt;</code> element</li>
+        <li>Provide multiple sources for better browser compatibility</li>
+        <li>Embed YouTube videos and other external content with iframes</li>
+        <li>Understand basic SVG and canvas usage</li>
+      </ul>
+
+      <h3>10.4 The &lt;audio&gt; Element</h3>
+      <p>The <code>&lt;audio&gt;</code> element is used to play sound files. The <code>controls</code> attribute displays the play, pause, and volume controls.</p>
+      <pre><code>&lt;audio controls&gt;
+  &lt;source src="anthem.mp3" type="audio/mpeg"&gt;
+  Your browser does not support audio.
+&lt;/audio&gt;</code></pre>
+
+      <h3>10.5 Multiple Audio Sources</h3>
+      <p>Providing more than one audio format improves browser compatibility.</p>
+
+      <h3>10.11 Embedding a YouTube Video</h3>
+      <pre><code>&lt;iframe
+  width="700"
+  height="400"
+  src="https://www.youtube.com/embed/VIDEO_ID"
+  title="HTML Tutorial"
+  allowfullscreen&gt;
+&lt;/iframe&gt;</code></pre>
+      <p>Replace VIDEO_ID with the video's unique identifier.</p>
+
+      <h3>10.25 Complete Multimedia Example</h3>
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;title&gt;Multimedia Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Welcome to Farasteel Academy&lt;/h1&gt;
+  &lt;img src="campus.jpg" alt="Farasteel Academy Campus"
+       style="max-width:100%; height:auto;"&gt;
+  &lt;audio controls&gt;
+    &lt;source src="anthem.mp3" type="audio/mpeg"&gt;
+  &lt;/audio&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>How to embed audio and video</li>
+        <li>Providing fallback content and multiple sources</li>
+        <li>Embedding external content with iframes</li>
+        <li>Accessibility considerations for multimedia</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>&lt;audio&gt;</span><span>&lt;video&gt;</span><span>&lt;source&gt;</span><span>controls</span>
+        <span>&lt;iframe&gt;</span><span>SVG</span><span>Canvas</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 12:</strong> HTML APIs Overview. You'll get an introduction to Geolocation, Drag and Drop, Web Storage, and Web Workers.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-12">
+      <span class="chapter-label">Chapter 12</span>
+      <h2>HTML APIs Overview</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Explain what browser APIs are</li>
+        <li>Describe the Geolocation API at a high level</li>
+        <li>Understand Drag and Drop basics</li>
+        <li>Use Web Storage (localStorage / sessionStorage) concepts</li>
+        <li>Know when Web Workers are useful</li>
+      </ul>
+
+      <h3>12.1 Introduction to HTML APIs</h3>
+      <p>Modern browsers expose powerful APIs that allow HTML pages to interact with device features and store data without a traditional backend for simple tasks.</p>
+
+      <h3>Key APIs Covered</h3>
+      <ul class="bullets">
+        <li><strong>Geolocation</strong> — obtain the user's geographic position (with permission)</li>
+        <li><strong>Drag and Drop</strong> — allow users to drag elements on the page</li>
+        <li><strong>Web Storage</strong> — store key-value data in the browser</li>
+        <li><strong>Web Workers</strong> — run scripts in background threads (introduction)</li>
+      </ul>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>What browser APIs are and why they matter</li>
+        <li>High-level understanding of Geolocation, Drag and Drop, Web Storage, and Web Workers</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>API</span><span>Geolocation</span><span>Drag and Drop</span><span>localStorage</span>
+        <span>sessionStorage</span><span>Web Workers</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 14:</strong> Meta Tags and SEO. You'll learn essential meta tags, Open Graph tags, and search engine optimization basics.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-14">
+      <span class="chapter-label">Chapter 14</span>
+      <h2>Meta Tags and SEO</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Write essential meta tags</li>
+        <li>Understand Open Graph tags for social sharing</li>
+        <li>Apply basic search engine optimization (SEO) techniques</li>
+        <li>Choose good page titles and descriptions</li>
+      </ul>
+
+      <h3>14.1 Essential Meta Tags</h3>
+      <pre><code>&lt;meta charset="UTF-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+&lt;meta name="description" content="A short description of the page"&gt;
+&lt;meta name="keywords" content="html, web development, tutorial"&gt;
+&lt;meta name="author" content="Farasteel Institute"&gt;</code></pre>
+
+      <h3>14.2 Open Graph Tags</h3>
+      <p>Open Graph tags control how your page appears when shared on social media platforms.</p>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>Core meta tags every page should have</li>
+        <li>Open Graph for social media previews</li>
+        <li>Basic SEO principles for HTML developers</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>Meta Tag</span><span>SEO</span><span>Open Graph</span><span>Description</span>
+        <span>Viewport</span><span>Charset</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 15:</strong> Accessibility. You'll learn ARIA, screen readers, keyboard navigation, and how to make forms accessible.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-15">
+      <span class="chapter-label">Chapter 15</span>
+      <h2>Accessibility</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Explain why accessibility matters</li>
+        <li>Use ARIA attributes appropriately</li>
+        <li>Support screen readers</li>
+        <li>Ensure keyboard navigation works</li>
+        <li>Build accessible forms</li>
+      </ul>
+
+      <h3>15.1 Why Accessibility Matters</h3>
+      <p>Accessible websites can be used by people with disabilities, including those who rely on screen readers, keyboard-only navigation, or other assistive technologies. Good accessibility also improves overall usability for everyone.</p>
+
+      <h3>Key Practices</h3>
+      <ul class="bullets">
+        <li>Always provide meaningful <code>alt</code> text for images</li>
+        <li>Use proper heading hierarchy</li>
+        <li>Associate labels with form controls</li>
+        <li>Ensure sufficient color contrast</li>
+        <li>Make sure all interactive elements are reachable by keyboard</li>
+      </ul>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>Core accessibility principles</li>
+        <li>ARIA, screen readers, and keyboard navigation</li>
+        <li>Building accessible forms and content</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>Accessibility</span><span>ARIA</span><span>Screen Reader</span><span>Keyboard Navigation</span>
+        <span>alt Text</span><span>Focus</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 16:</strong> Responsive HTML. You'll learn the viewport meta tag, responsive images, and mobile-friendly structure.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-16">
+      <span class="chapter-label">Chapter 16</span>
+      <h2>Responsive HTML</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Add the correct viewport meta tag</li>
+        <li>Use responsive images</li>
+        <li>Structure HTML so it works well on mobile and desktop</li>
+        <li>Understand the foundation for responsive design</li>
+      </ul>
+
+      <h3>16.1 The Viewport Meta Tag</h3>
+      <pre><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></pre>
+      <p>This tells the browser to match the page width to the device screen width.</p>
+
+      <h3>16.2 Responsive Images</h3>
+      <p>Use the <code>srcset</code> and <code>sizes</code> attributes, or the <code>&lt;picture&gt;</code> element, so the browser can choose the best image size for the device.</p>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>Viewport configuration</li>
+        <li>Responsive image techniques</li>
+        <li>Mobile-friendly HTML structure</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>Viewport</span><span>Responsive Design</span><span>srcset</span><span>&lt;picture&gt;</span>
+        <span>Mobile-First</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 17:</strong> Embedding External Content. You'll learn how to embed Google Maps, YouTube videos, PDFs, and other content with iframes.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-17">
+      <span class="chapter-label">Chapter 17</span>
+      <h2>Embedding External Content</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Embed Google Maps</li>
+        <li>Embed YouTube and other videos</li>
+        <li>Display PDFs in the browser</li>
+        <li>Use iframes safely and responsibly</li>
+      </ul>
+
+      <h3>17.1 Using iframes</h3>
+      <p>The <code>&lt;iframe&gt;</code> element allows you to embed another HTML page or external service inside your page.</p>
+      <pre><code>&lt;iframe
+  src="https://www.google.com/maps/embed?..."
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"&gt;
+&lt;/iframe&gt;</code></pre>
+
+      <h3>Best Practices</h3>
+      <ul class="bullets">
+        <li>Always provide a title attribute for accessibility</li>
+        <li>Use loading="lazy" when appropriate</li>
+        <li>Check whether embedding is permitted by the source</li>
+        <li>Avoid embedding untrusted content</li>
+      </ul>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>How to embed maps, videos, and documents</li>
+        <li>Safe and accessible use of iframes</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>&lt;iframe&gt;</span><span>Embed</span><span>Google Maps</span><span>YouTube</span>
+        <span>loading="lazy"</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 18:</strong> Professional HTML Best Practices. You'll learn clean code, naming conventions, file organization, performance tips, and real-world website project ideas.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-18">
+      <span class="chapter-label">Chapter 18</span>
+      <h2>Professional HTML Best Practices</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Write clean, maintainable HTML</li>
+        <li>Follow consistent naming conventions</li>
+        <li>Organize project files professionally</li>
+        <li>Apply basic performance considerations</li>
+        <li>Plan real-world website projects</li>
+      </ul>
+
+      <h3>18.1 Clean Code Principles</h3>
+      <ul class="bullets">
+        <li>Use proper indentation</li>
+        <li>Write meaningful comments where helpful</li>
+        <li>Keep elements nested correctly</li>
+        <li>Validate your HTML regularly</li>
+      </ul>
+
+      <h3>Real-World Website Projects</h3>
+      <ul class="bullets">
+        <li>Portfolio</li>
+        <li>School website</li>
+        <li>Business website</li>
+        <li>Banking homepage</li>
+        <li>News website</li>
+      </ul>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>Professional coding habits</li>
+        <li>File and folder organization</li>
+        <li>Project ideas that demonstrate real skill</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>Clean Code</span><span>Naming Conventions</span><span>File Organization</span>
+        <span>Performance</span><span>Validation</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 19:</strong> Debugging and Common Errors. You'll learn validation tools, browser Developer Tools, and practical troubleshooting techniques.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-19">
+      <span class="chapter-label">Chapter 19</span>
+      <h2>Debugging and Common Errors</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Validate HTML using online and offline tools</li>
+        <li>Use browser Developer Tools to inspect elements</li>
+        <li>Identify and fix common HTML mistakes</li>
+        <li>Troubleshoot layout and rendering issues</li>
+      </ul>
+
+      <h3>19.1 Common Beginner Mistakes</h3>
+      <ul class="bullets">
+        <li>Missing closing tags</li>
+        <li>Incorrect nesting</li>
+        <li>Forgetting the DOCTYPE</li>
+        <li>Misspelled attribute names or values</li>
+        <li>Using spaces in file names</li>
+        <li>Broken image or link paths</li>
+      </ul>
+
+      <h3>19.2 Browser Developer Tools</h3>
+      <p>Modern browsers include powerful Developer Tools (usually opened with F12 or right-click → Inspect). Use the Elements panel to examine the live DOM and the Console for messages.</p>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>How to validate HTML</li>
+        <li>Using Developer Tools effectively</li>
+        <li>Recognizing and fixing common errors</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>Validation</span><span>Developer Tools</span><span>DOM</span><span>Console</span>
+        <span>Troubleshooting</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Up next — Chapter 20:</strong> Professional Practice and Assessment. You'll build a complete professional portfolio, prepare for interviews, and complete the final assessment.
+      </div>
+    </section>
+
+    <hr class="chapter-end">
+
+    <section id="chapter-20">
+      <span class="chapter-label">Chapter 20</span>
+      <h2>Professional Practice and Assessment</h2>
+
+      <h3>Learning Objectives</h3>
+      <p>By the end of this chapter, students should be able to:</p>
+      <ul class="bullets">
+        <li>Build a professional web developer portfolio.</li>
+        <li>Prepare an HTML résumé and online profile.</li>
+        <li>Find freelance web development jobs.</li>
+        <li>Communicate effectively with clients.</li>
+        <li>Price beginner web development projects.</li>
+        <li>Build a successful web development business.</li>
+        <li>Continue learning beyond HTML.</li>
+      </ul>
+
+      <h3>20.1 Introduction</h3>
+      <p>Learning HTML is only the first step in becoming a professional web developer. To build a successful career, you must also learn how to:</p>
+      <ul class="bullets">
+        <li>Present your work professionally.</li>
+        <li>Build a strong portfolio.</li>
+        <li>Communicate with clients.</li>
+        <li>Deliver quality projects.</li>
+        <li>Continue learning new technologies.</li>
+        <li>Maintain professionalism and ethics.</li>
+      </ul>
+
+      <h3>20.2 Career Opportunities After Learning HTML</h3>
+      <p>HTML knowledge opens the door to many careers. Examples include:</p>
+      <ul class="bullets">
+        <li>Front-End Web Developer</li>
+        <li>Website Designer</li>
+        <li>UI Developer</li>
+        <li>Email Template Developer</li>
+        <li>CMS Content Developer</li>
+        <li>WordPress Theme Developer</li>
+        <li>Technical Documentation Specialist</li>
+        <li>Web Content Manager</li>
+        <li>Digital Marketing Assistant</li>
+        <li>Junior Web Developer</li>
+      </ul>
+
+      <h3>20.3 Skills Employers Expect</h3>
+      <p><strong>Technical Skills</strong></p>
+      <ul class="bullets">
+        <li>HTML5</li>
+        <li>CSS3</li>
+        <li>Responsive Design</li>
+        <li>JavaScript</li>
+        <li>Git &amp; GitHub</li>
+        <li>Basic SEO</li>
+        <li>Accessibility</li>
+        <li>Browser Testing</li>
+      </ul>
+      <p><strong>Soft Skills</strong></p>
+      <ul class="bullets">
+        <li>Communication</li>
+        <li>Time Management</li>
+        <li>Teamwork</li>
+        <li>Problem Solving</li>
+        <li>Creativity</li>
+        <li>Professionalism</li>
+        <li>Attention to Detail</li>
+      </ul>
+
+      <h3>20.4 Building a Professional Portfolio</h3>
+      <p>A portfolio demonstrates your skills. Your portfolio should include:</p>
+      <ul class="bullets">
+        <li>Professional photo (optional)</li>
+        <li>Short biography</li>
+        <li>Skills</li>
+        <li>Services</li>
+        <li>Projects</li>
+        <li>Testimonials (when available)</li>
+        <li>Contact information</li>
+        <li>Downloadable résumé</li>
+        <li>Social media or professional profiles (if applicable)</li>
+      </ul>
+
+      <h3>20.5 Suggested Portfolio Pages</h3>
+      <ul class="bullets">
+        <li>Home</li>
+        <li>About Me</li>
+        <li>Skills</li>
+        <li>Projects</li>
+        <li>Services</li>
+        <li>Blog</li>
+        <li>Contact</li>
+      </ul>
+
+      <h3>20.6 Projects to Include</h3>
+      <p>Build projects such as:</p>
+      <ul class="bullets">
+        <li>Personal Portfolio</li>
+        <li>School Website</li>
+        <li>Restaurant Website</li>
+        <li>Hotel Website</li>
+        <li>Hospital Website</li>
+        <li>Bank Website</li>
+        <li>Logistics Website</li>
+        <li>Company Website</li>
+        <li>E-Commerce Homepage</li>
+        <li>NGO Website</li>
+      </ul>
+      <p>Quality is more important than quantity.</p>
+
+      <h3>20.7 Creating a Professional Résumé</h3>
+      <p>A web developer's résumé should include:</p>
+      <ul class="bullets">
+        <li>Full Name</li>
+        <li>Contact Information</li>
+        <li>Professional Summary</li>
+        <li>Technical Skills</li>
+        <li>Education</li>
+        <li>Certifications</li>
+        <li>Projects</li>
+        <li>Experience</li>
+        <li>References (if requested)</li>
+      </ul>
+
+      <h3>20.8 Freelancing</h3>
+      <p>Freelancing means providing services independently to clients. Common services include:</p>
+      <ul class="bullets">
+        <li>Website design</li>
+        <li>Website maintenance</li>
+        <li>Landing pages</li>
+        <li>HTML email templates</li>
+        <li>Website updates</li>
+        <li>Accessibility improvements</li>
+      </ul>
+
+      <h3>20.9 Finding Clients</h3>
+      <ul class="bullets">
+        <li>Referrals from satisfied clients.</li>
+        <li>Local businesses.</li>
+        <li>Schools and educational institutions.</li>
+        <li>Religious organizations.</li>
+        <li>Small companies.</li>
+        <li>Professional networking.</li>
+        <li>Freelance platforms.</li>
+      </ul>
+
+      <h3>20.10 Working With Clients</h3>
+      <p>Professional developers should:</p>
+      <ul class="bullets">
+        <li>Understand project requirements.</li>
+        <li>Agree on scope before starting.</li>
+        <li>Set realistic deadlines.</li>
+        <li>Communicate progress regularly.</li>
+        <li>Test thoroughly before delivery.</li>
+        <li>Keep records of project decisions.</li>
+      </ul>
+
+      <h3>20.11 Pricing Beginner Projects</h3>
+      <p>Pricing depends on factors such as:</p>
+      <ul class="bullets">
+        <li>Project complexity.</li>
+        <li>Number of pages.</li>
+        <li>Features required.</li>
+        <li>Timeline.</li>
+        <li>Maintenance needs.</li>
+        <li>Your experience.</li>
+      </ul>
+      <p>As a beginner, research local market rates and price your work fairly rather than trying to be the cheapest.</p>
+
+      <h3>20.12 Professional Communication</h3>
+      <p>Always:</p>
+      <ul class="bullets">
+        <li>Be polite.</li>
+        <li>Respond promptly.</li>
+        <li>Write clearly.</li>
+        <li>Meet deadlines.</li>
+        <li>Ask questions when requirements are unclear.</li>
+        <li>Be honest about your skills.</li>
+      </ul>
+
+      <h3>20.13 Working in Teams</h3>
+      <p>Team members may include:</p>
+      <ul class="bullets">
+        <li>Designer</li>
+        <li>HTML Developer</li>
+        <li>CSS Developer</li>
+        <li>JavaScript Developer</li>
+        <li>Back-End Developer</li>
+        <li>QA Tester</li>
+        <li>Project Manager</li>
+      </ul>
+      <p>Collaboration tools such as version control systems help teams work efficiently.</p>
+
+      <h3>20.14 Continuous Learning</h3>
+      <p>Technology changes quickly. Continue learning:</p>
+      <ol class="steps">
+        <li>CSS3</li>
+        <li>Responsive Web Design</li>
+        <li>JavaScript</li>
+        <li>Git &amp; GitHub</li>
+        <li>Bootstrap</li>
+        <li>React</li>
+        <li>Node.js</li>
+        <li>SQL Databases</li>
+        <li>APIs</li>
+        <li>Web Security</li>
+        <li>Performance Optimization</li>
+      </ol>
+
+      <h3>20.15 Professional Ethics</h3>
+      <p>A professional developer should:</p>
+      <ul class="bullets">
+        <li>Respect client privacy.</li>
+        <li>Deliver original work.</li>
+        <li>Avoid plagiarism.</li>
+        <li>Protect confidential information.</li>
+        <li>Keep promises and deadlines.</li>
+        <li>Admit mistakes and correct them.</li>
+      </ul>
+
+      <h3>20.16 Personal Branding</h3>
+      <p>Build your reputation by:</p>
+      <ul class="bullets">
+        <li>Maintaining a professional portfolio.</li>
+        <li>Sharing useful content.</li>
+        <li>Participating in developer communities.</li>
+        <li>Continuing to improve your skills.</li>
+        <li>Being reliable and respectful.</li>
+      </ul>
+
+      <h3>20.17 Starting a Web Development Business</h3>
+      <p>Basic steps:</p>
+      <ol class="steps">
+        <li>Choose a business name.</li>
+        <li>Define your services.</li>
+        <li>Build your portfolio website.</li>
+        <li>Create a pricing guide.</li>
+        <li>Promote your services.</li>
+        <li>Deliver quality work.</li>
+        <li>Request feedback.</li>
+        <li>Improve continuously.</li>
+      </ol>
+
+      <h3>20.18 Interview Preparation</h3>
+      <p>Be prepared to:</p>
+      <ul class="bullets">
+        <li>Explain HTML fundamentals.</li>
+        <li>Build a webpage during a coding exercise.</li>
+        <li>Discuss previous projects.</li>
+        <li>Explain accessibility and SEO basics.</li>
+        <li>Demonstrate semantic HTML.</li>
+        <li>Describe how you organize projects.</li>
+      </ul>
+
+      <h3>20.19 Professional Portfolio Checklist</h3>
+      <p>Before sharing your portfolio:</p>
+      <ul class="bullets">
+        <li>All links work.</li>
+        <li>Projects are complete.</li>
+        <li>HTML validates successfully.</li>
+        <li>Images load correctly.</li>
+        <li>Contact information is current.</li>
+        <li>Navigation is consistent.</li>
+        <li>Accessibility has been considered.</li>
+        <li>SEO metadata is included.</li>
+        <li>Content is free of spelling errors.</li>
+      </ul>
+
+      <h3>20.20 Career Growth Roadmap</h3>
+      <p><strong>Beginner</strong></p>
+      <ul class="bullets">
+        <li>Learn HTML</li>
+        <li>Build small projects</li>
+      </ul>
+      <p><strong>Intermediate</strong></p>
+      <ul class="bullets">
+        <li>Learn CSS</li>
+        <li>Learn JavaScript</li>
+        <li>Build responsive websites</li>
+      </ul>
+      <p><strong>Advanced</strong></p>
+      <ul class="bullets">
+        <li>Learn React</li>
+        <li>Learn Node.js</li>
+        <li>Build full-stack applications</li>
+      </ul>
+      <p><strong>Professional</strong></p>
+      <ul class="bullets">
+        <li>Build commercial projects</li>
+        <li>Mentor others</li>
+        <li>Contribute to open-source projects</li>
+        <li>Start a web development business</li>
+      </ul>
+
+      <h3>20.21 Capstone Career Project</h3>
+      <p>Create a complete professional portfolio website containing:</p>
+      <ul class="bullets">
+        <li>Home</li>
+        <li>About</li>
+        <li>Skills</li>
+        <li>Services</li>
+        <li>Projects</li>
+        <li>Certifications</li>
+        <li>Blog</li>
+        <li>Contact</li>
+      </ul>
+      <p>Include:</p>
+      <ul class="bullets">
+        <li>Semantic HTML5</li>
+        <li>SEO meta tags</li>
+        <li>Accessible forms</li>
+        <li>Responsive-ready HTML</li>
+        <li>Organized folder structure</li>
+      </ul>
+
+      <h3>20.22 Best Practices</h3>
+      <ul class="bullets">
+        <li>Continue practicing every week.</li>
+        <li>Build real-world projects.</li>
+        <li>Keep your portfolio updated.</li>
+        <li>Learn from feedback.</li>
+        <li>Write clean, maintainable HTML.</li>
+        <li>Stay informed about web standards.</li>
+        <li>Focus on accessibility and user experience.</li>
+      </ul>
+
+      <h3>20.23 Common Beginner Mistakes</h3>
+      <ul class="bullets">
+        <li>Stopping after learning HTML.</li>
+        <li>Copying projects without understanding them.</li>
+        <li>Ignoring accessibility.</li>
+        <li>Not testing websites.</li>
+        <li>Poor communication with clients.</li>
+        <li>Failing to update a portfolio.</li>
+        <li>Neglecting documentation.</li>
+      </ul>
+
+      <h3>Chapter Summary</h3>
+      <ul class="bullets">
+        <li>Career opportunities after HTML.</li>
+        <li>How to build a professional portfolio.</li>
+        <li>How to begin freelancing.</li>
+        <li>How to work with clients professionally.</li>
+        <li>The importance of ethics and continuous learning.</li>
+        <li>A roadmap from beginner to professional web developer.</li>
+      </ul>
+
+      <h3>Practical Exercise</h3>
+      <ol class="steps">
+        <li>Create your own portfolio website structure.</li>
+        <li>Write a professional biography.</li>
+        <li>List ten HTML skills you have learned.</li>
+        <li>Design a résumé using HTML.</li>
+        <li>Create a contact page with a form.</li>
+        <li>Plan a pricing strategy for beginner web projects.</li>
+        <li>Identify three industries that could become your clients.</li>
+        <li>Describe how you would manage a web project from start to finish.</li>
+        <li>Explain why continuous learning is important.</li>
+        <li>Present your portfolio plan to the class.</li>
+      </ol>
+
+      <h3>Laboratory Exercise</h3>
+      <p>Build a Professional Developer Portfolio Website that includes:</p>
+      <ul class="bullets">
+        <li>A homepage.</li>
+        <li>About Me page.</li>
+        <li>Skills page.</li>
+        <li>Projects page.</li>
+        <li>Services page.</li>
+        <li>Contact page.</li>
+        <li>Downloadable résumé link.</li>
+        <li>Accessible contact form.</li>
+        <li>Semantic HTML5.</li>
+        <li>SEO-ready metadata.</li>
+        <li>Responsive-ready structure.</li>
+      </ul>
+
+      <h3>Final Assignment</h3>
+      <p>Develop and present a complete HTML portfolio website showcasing your abilities. Your portfolio should include:</p>
+      <ul class="bullets">
+        <li>At least 7 interconnected HTML pages.</li>
+        <li>Semantic HTML5 throughout.</li>
+        <li>Professional navigation.</li>
+        <li>Project gallery.</li>
+        <li>Contact form.</li>
+        <li>Accessibility features.</li>
+        <li>SEO metadata.</li>
+        <li>Organized folder structure.</li>
+        <li>Valid HTML5 code.</li>
+      </ul>
+      <p>Prepare a short presentation explaining:</p>
+      <ul class="bullets">
+        <li>Your website structure.</li>
+        <li>The HTML elements used.</li>
+        <li>Accessibility features.</li>
+        <li>SEO techniques applied.</li>
+        <li>Lessons learned during development.</li>
+      </ul>
+
+      <h3>Key Terms</h3>
+      <div class="key-terms">
+        <span>Portfolio</span><span>Freelancing</span><span>Entrepreneurship</span><span>Client</span>
+        <span>Project Scope</span><span>Résumé</span><span>Personal Branding</span><span>Accessibility</span>
+        <span>SEO</span><span>Git</span><span>Career Development</span><span>Professional Ethics</span>
+        <span>Responsive Design</span><span>Version Control</span><span>Continuous Learning</span>
+      </div>
+
+      <div class="next-up">
+        <strong>Final Words:</strong> Congratulations on completing all 20 chapters of this HTML Masterclass. You now have a comprehensive understanding of HTML — from the fundamentals of document structure to professional portfolio development, freelancing, and career growth.
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  Farasteel Institute of Tech (FIT) — an educational project.
+</footer>
+
+<script>
+const chapters = [
+  { num: 1, title: "INTRODUCTION TO HTML", topics: [
+    "What is HTML?", "History of HTML", "HTML versions", "How websites work"
+  ]},
+  { num: 2, title: "SETTING UP YOUR DEVELOPMENT ENVIRONMENT", topics: [
+    "Installing VS Code", "Browsers", "Creating your first HTML file"
+  ]},
+  { num: 3, title: "HTML DOCUMENT STRUCTURE", topics: [
+    "&lt;!DOCTYPE html&gt;", "&lt;html&gt;, &lt;head&gt;, &lt;body&gt;", "Document anatomy"
+  ]},
+  { num: 4, title: "HTML ELEMENTS AND ATTRIBUTES", topics: [
+    "Tags", "Attributes", "Nesting", "Global attributes"
+  ]},
+  { num: 5, title: "TEXT AND FORMATTING", topics: [
+    "Headings", "Paragraphs", "Bold, italic, emphasis", "Quotations and code"
+  ]},
+  { num: 6, title: "LINKS, IMAGES, AUDIO, AND VIDEO", topics: [
+    "Hyperlinks", "Images", "Audio", "Video", "Figure and caption"
+  ]},
+  { num: 7, title: "LISTS", topics: [
+    "Ordered lists", "Unordered lists", "Description lists", "Nested lists"
+  ]},
+  { num: 8, title: "TABLES", topics: [
+    "Creating tables", "Rowspan", "Colspan", "Table styling basics"
+  ]},
+  { num: 9, title: "FORMS (BEGINNER TO ADVANCED)", topics: [
+    "Input types", "Validation", "Radio buttons", "Checkboxes", "File upload", "Date and time", "Range", "Color picker"
+  ]},
+  { num: 10, title: "SEMANTIC HTML5", topics: [
+    "Header", "Nav", "Main", "Section", "Article", "Aside", "Footer"
+  ]},
+  { num: 11, title: "HTML5 MULTIMEDIA", topics: [
+    "Video", "Audio", "SVG", "Canvas basics"
+  ]},
+  { num: 12, title: "HTML APIS OVERVIEW", topics: [
+    "Geolocation", "Drag and Drop", "Web Storage", "Web Workers (introduction)"
+  ]},
+  { num: 14, title: "META TAGS AND SEO", topics: [
+    "Meta tags", "Open Graph", "Search engine optimization basics"
+  ]},
+  { num: 15, title: "ACCESSIBILITY", topics: [
+    "ARIA", "Screen readers", "Keyboard navigation", "Accessible forms"
+  ]},
+  { num: 16, title: "RESPONSIVE HTML", topics: [
+    "Viewport", "Responsive images", "Mobile-friendly structure"
+  ]},
+  { num: 17, title: "EMBEDDING EXTERNAL CONTENT", topics: [
+    "Google Maps", "YouTube", "PDFs", "Iframes"
+  ]},
+  { num: 18, title: "PROFESSIONAL HTML BEST PRACTICES", topics: [
+    "Clean code", "Naming conventions", "File organization", "Performance"
+  ], subgroups: [
+    { heading: "Real-World Website Projects", topics: [
+      "Portfolio", "School website", "Business website", "Banking homepage", "News website"
+    ]}
+  ]},
+  { num: 19, title: "DEBUGGING AND COMMON ERRORS", topics: [
+    "Validation", "Browser Developer Tools", "Troubleshooting techniques"
+  ]},
+  { num: 20, title: "PROFESSIONAL PRACTICE AND ASSESSMENT", topics: [
+    "Capstone project", "Interview questions", "Examination questions", "Practical assignments", "HTML reference cheat sheet", "Final assessment"
+  ]}
+];
+
+const tocList = document.getElementById('toc-list');
+
+chapters.forEach((ch, i) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'chapter';
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'chapter-toggle';
+  btn.setAttribute('aria-expanded', 'false');
+  btn.id = `chapter-toggle-${ch.num}`;
+  btn.innerHTML = `<span><span class="num">${ch.num}.</span>${ch.title}</span><span class="chev">▾</span>`;
+
+  const body = document.createElement('div');
+  body.className = 'chapter-body';
+  body.id = `chapter-body-${ch.num}`;
+
+  const ul = document.createElement('ul');
+  ul.innerHTML = ch.topics.map(t => `<li>${t}</li>`).join('');
+  body.appendChild(ul);
+
+  if (ch.subgroups) {
+    ch.subgroups.forEach(sg => {
+      const heading = document.createElement('p');
+      heading.className = 'sub-heading';
+      heading.textContent = sg.heading;
+      body.appendChild(heading);
+
+      const subUl = document.createElement('ul');
+      subUl.innerHTML = sg.topics.map(t => `<li>${t}</li>`).join('');
+      body.appendChild(subUl);
+    });
+  }
+
+  btn.addEventListener('click', () => {
+    const isOpen = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    body.style.maxHeight = isOpen ? '0px' : body.scrollHeight + 'px';
+  });
+
+  wrap.appendChild(btn);
+  wrap.appendChild(body);
+  tocList.appendChild(wrap);
+});
+
+const tocToggle = document.getElementById('toc-toggle');
+const tocPanel = document.getElementById('toc-panel');
+
+tocToggle.addEventListener('click', () => {
+  const isOpen = tocPanel.classList.toggle('open');
+  tocToggle.setAttribute('aria-expanded', String(isOpen));
+});
+
+document.addEventListener('click', (e) => {
+  if (!tocPanel.contains(e.target) && !tocToggle.contains(e.target) && tocPanel.classList.contains('open')) {
+    tocPanel.classList.remove('open');
+    tocToggle.setAttribute('aria-expanded', 'false');
+  }
+});
+</script>
+
+</body>
+</html>
