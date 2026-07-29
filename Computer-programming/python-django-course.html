@@ -1,0 +1,2256 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Python &amp; Django — Farasteel Institute of Tech (FIT)</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&amp;family=Space+Mono:wght@400;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg: #080f0b;
+  --panel: #0d1712;
+  --panel-2: #112019;
+  --line: #294a37;
+  --text: #e9f3ec;
+  --muted: #8fae9c;
+  --cursor: #4fbf85;
+  --py: #4fbf85;
+  --css: #6fa0f2;
+  --js: #d8b23c;
+  --py: #4fbf85;
+  --glass-bg: rgba(8,15,11,0.6);
+  --glass-border: rgba(79,191,133,0.3);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter', sans-serif;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(ellipse 900px 500px at 85% -10%, rgba(79,191,133,0.09), transparent 60%),
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 32px;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-top:var(--header-h, 88px);
+}
+code, .mono{font-family:'Space Mono', monospace;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+main{flex:1;}
+
+/* ---------- Header (floating, fixed in place while scrolling) ---------- */
+header{
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:50;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  row-gap:10px;
+  column-gap:16px;
+  padding:16px 5vw;
+  background:rgba(8,15,11,0.78);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 12px 30px rgba(0,0,0,0.45);
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-family:'Space Mono', monospace;
+  font-weight:700;
+  font-size:0.9rem;
+  letter-spacing:-0.01em;
+  min-width:0;
+}
+.logo .logo-mark{
+  height:38px;
+  width:38px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:linear-gradient(160deg, var(--panel-2), var(--panel));
+  color:var(--cursor);
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size:0.82rem;
+  letter-spacing:-0.02em;
+  box-shadow:inset 0 0 0 1px rgba(79,191,133,0.15), 0 2px 8px rgba(0,0,0,0.4);
+}
+.logo .brand{
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  white-space:nowrap;
+}
+.logo .brand b{color:var(--text); font-weight:700;}
+
+nav ul{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  font-size:0.92rem;
+  color:var(--muted);
+}
+
+nav ul li a{
+  display:inline-block;
+  padding:8px 18px;
+  font-size:0.78rem;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  white-space:nowrap;
+  border-radius:999px;
+  background:rgba(79,191,133,0.06);
+  border:1px solid rgba(79,191,133,0.3);
+  transition:background .25s ease, border-color .25s ease, color .25s ease, transform .2s ease, box-shadow .25s ease;
+}
+nav ul li a:hover, nav ul li a:focus-visible{
+  color:var(--text);
+  background:rgba(79,191,133,0.16);
+  border-color:rgba(79,191,133,0.6);
+  box-shadow:0 6px 20px rgba(79,191,133,0.18);
+  transform:translateY(-1px);
+}
+nav ul li a.current{
+  color:var(--text);
+  background:rgba(79,191,133,0.14);
+  border-color:rgba(79,191,133,0.5);
+}
+
+@media (max-width:600px){
+  header{
+    padding:12px 4vw;
+    justify-content:center;
+    text-align:center;
+  }
+  .logo{
+    width:100%;
+    justify-content:center;
+  }
+  .logo .brand{
+    font-size:0.72rem;
+    white-space:normal;
+  }
+  .logo .logo-mark{height:32px; width:32px; font-size:0.72rem;}
+  nav{width:100%;}
+  nav ul{justify-content:center;gap:6px;}
+  nav ul li a{padding:7px 14px;font-size:0.72rem;}
+}
+
+/* ---------- TOC nav button ---------- */
+.toc-btn{
+  cursor:pointer;
+  font-family:inherit;
+  color:var(--muted);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 18px;
+  font-size:0.78rem;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  white-space:nowrap;
+  border-radius:999px;
+  background:rgba(79,191,133,0.06);
+  border:1px solid rgba(79,191,133,0.3);
+  transition:background .25s ease, border-color .25s ease, color .25s ease, transform .2s ease, box-shadow .25s ease;
+}
+.toc-btn:hover, .toc-btn:focus-visible{
+  color:var(--text);
+  background:rgba(79,191,133,0.16);
+  border-color:rgba(79,191,133,0.6);
+  box-shadow:0 6px 20px rgba(79,191,133,0.18);
+  transform:translateY(-1px);
+}
+.toc-btn .chev{
+  font-size:0.7rem;
+  transition:transform .2s ease;
+  display:inline-block;
+}
+.toc-btn[aria-expanded="true"]{
+  color:var(--text);
+  background:rgba(79,191,133,0.14);
+  border-color:rgba(79,191,133,0.5);
+}
+.toc-btn[aria-expanded="true"] .chev{transform:rotate(180deg);}
+
+@media (max-width:600px){
+  .toc-btn{padding:7px 14px;font-size:0.72rem;}
+}
+
+/* ---------- TOC panel ---------- */
+#toc-panel{
+  position:fixed;
+  top:var(--header-h, 88px);
+  left:0; right:0;
+  z-index:45;
+  max-height:0;
+  overflow:hidden;
+  background:rgba(8,15,11,0.96);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 20px 40px rgba(0,0,0,0.55);
+  transition:max-height .35s ease;
+}
+#toc-panel.open{
+  max-height:80vh;
+  overflow-y:auto;
+}
+.toc-inner{
+  max-width:900px;
+  margin:0 auto;
+  padding:28px 5vw 40px;
+}
+.toc-inner > .toc-title{
+  font-family:'Space Mono', monospace;
+  font-size:0.82rem;
+  color:var(--cursor);
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  margin-bottom:20px;
+}
+.toc-list{display:flex;flex-direction:column;gap:8px;}
+.chapter{
+  border:1px solid var(--line);
+  border-radius:6px;
+  background:var(--panel);
+  overflow:hidden;
+}
+.chapter-row{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.chapter-link{
+  flex:1;
+  display:block;
+  padding:14px 16px;
+  color:var(--text);
+  font-family:'Inter', sans-serif;
+  font-size:0.92rem;
+  font-weight:600;
+  text-align:left;
+  cursor:pointer;
+}
+.chapter-link:hover, .chapter-link:focus-visible{background:rgba(79,191,133,0.08);}
+.chapter-link .num{
+  color:var(--py);
+  font-family:'Space Mono', monospace;
+  margin-right:8px;
+}
+.chapter-toggle{
+  flex-shrink:0;
+  padding:14px 16px;
+  background:transparent;
+  border:none;
+  cursor:pointer;
+}
+.chapter-toggle .chev{
+  flex-shrink:0;
+  color:var(--muted);
+  font-size:0.75rem;
+  transition:transform .2s ease;
+}
+.chapter-toggle[aria-expanded="true"] .chev{transform:rotate(180deg);}
+.chapter-toggle:hover{background:rgba(79,191,133,0.06);}
+.chapter-body{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .3s ease;
+  background:var(--panel-2);
+}
+.chapter-body ul{
+  list-style:none;
+  padding:4px 0 10px 16px;
+  color:var(--muted);
+  font-size:0.88rem;
+}
+.chapter-body ul li{
+  padding:0;
+}
+.chapter-body ul li a{
+  display:block;
+  padding:6px 20px 6px 20px;
+  border-left:2px solid var(--line);
+  color:var(--muted);
+  transition:color .2s ease, border-color .2s ease, background .2s ease;
+}
+.chapter-body ul li a:hover, .chapter-body ul li a:focus-visible{
+  color:var(--py);
+  border-left-color:var(--py);
+  background:rgba(79,191,133,0.06);
+}
+.chapter-body ul.sub-group-title{
+  list-style:none;
+  padding-left:16px;
+  margin-top:6px;
+}
+.chapter-body .sub-heading{
+  padding:10px 20px 0 16px;
+  font-size:0.8rem;
+  color:var(--cursor);
+  font-family:'Space Mono', monospace;
+}
+
+/* ---------- Breadcrumb ---------- */
+.breadcrumb{
+  max-width:1100px;
+  margin:0 auto;
+  padding:26px 5vw 0;
+  font-family:'Space Mono', monospace;
+  font-size:0.8rem;
+  color:var(--muted);
+}
+.breadcrumb a:hover{color:var(--cursor);}
+
+/* ---------- Page hero / title ---------- */
+.page-hero{
+  max-width:900px;
+  margin:0 auto;
+  padding:7vh 5vw 4vh;
+  text-align:center;
+}
+.page-hero .tag{
+  font-family:'Space Mono', monospace;
+  font-size:0.74rem;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--py);
+  background:color-mix(in srgb, var(--py) 14%, transparent);
+  border:1px solid color-mix(in srgb, var(--py) 35%, transparent);
+  display:inline-block;
+  padding:6px 14px;
+  border-radius:3px;
+  margin-bottom:22px;
+}
+.page-hero h1{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size:clamp(2.2rem, 4.5vw, 3.2rem);
+  letter-spacing:-0.01em;
+  line-height:1.15;
+  margin-bottom:18px;
+  color:var(--text);
+  position:relative;
+  display:inline-block;
+  padding-bottom:20px;
+}
+.page-hero h1::after{
+  content:"";
+  position:absolute;
+  left:50%; bottom:0;
+  transform:translateX(-50%);
+  width:64px; height:2px;
+  background:linear-gradient(90deg, transparent, var(--py), transparent);
+}
+.page-hero p{
+  color:var(--muted);
+  font-size:1.05rem;
+  max-width:620px;
+  margin:0 auto;
+}
+
+/* ---------- Lesson content ---------- */
+.lesson{
+  max-width:820px;
+  margin:0 auto;
+  padding:2vh 5vw 14vh;
+}
+.lesson section{
+  margin-bottom:48px;
+}
+.lesson h2{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size:1.55rem;
+  color:var(--text);
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+}
+.lesson p{
+  color:var(--muted);
+  margin-bottom:14px;
+}
+.lesson pre{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:18px 20px;
+  overflow-x:auto;
+  margin-bottom:14px;
+}
+.lesson code{
+  font-family:'Space Mono', monospace;
+  font-size:0.88rem;
+  color:#8fe0af;
+}
+.lesson ul.bullets{
+  list-style:disc;
+  padding-left:22px;
+  color:var(--muted);
+  margin-bottom:14px;
+}
+.lesson ul.bullets li{margin-bottom:8px;}
+
+.lesson .chapter-label{
+  display:inline-block;
+  font-family:'Space Mono', monospace;
+  font-size:0.74rem;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--py);
+  background:color-mix(in srgb, var(--py) 14%, transparent);
+  border:1px solid color-mix(in srgb, var(--py) 35%, transparent);
+  padding:6px 14px;
+  border-radius:3px;
+  margin-bottom:16px;
+}
+.lesson h2{margin-top:6px;}
+.lesson h3{
+  font-family:'Space Mono', monospace;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  font-size:0.92rem;
+  color:var(--cursor);
+  margin:30px 0 14px;
+  font-weight:700;
+  padding-bottom:8px;
+  border-bottom:1px solid var(--line);
+}
+.lesson h3:first-of-type{margin-top:8px;}
+.lesson ol.steps{
+  color:var(--muted);
+  padding-left:22px;
+  margin-bottom:14px;
+}
+.lesson ol.steps li{margin-bottom:8px;}
+
+.lesson table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:18px;
+  font-size:0.9rem;
+}
+.lesson table caption{
+  text-align:left;
+  color:var(--muted);
+  font-size:0.8rem;
+  margin-bottom:8px;
+  font-family:'Space Mono', monospace;
+}
+.lesson th, .lesson td{
+  text-align:left;
+  padding:11px 14px;
+  border:1px solid var(--line);
+  color:var(--muted);
+  vertical-align:top;
+}
+.lesson th{
+  color:var(--text);
+  background:var(--panel-2);
+  font-family:'Space Mono', monospace;
+  font-size:0.8rem;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+}
+.lesson .key-terms{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:14px;
+}
+.lesson .key-terms span{
+  font-family:'Space Mono', monospace;
+  font-size:0.76rem;
+  color:var(--muted);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 14px;
+}
+.lesson .next-up{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-left:3px solid var(--cursor);
+  border-radius:8px;
+  padding:18px 22px;
+  color:var(--muted);
+  margin-top:10px;
+}
+.lesson .next-up strong{color:var(--text);}
+.lesson hr.chapter-end{
+  border:none;
+  border-top:1px dashed var(--line);
+  margin:52px 0;
+}
+
+footer{
+  padding:30px 5vw;
+  text-align:center;
+  color:var(--muted);
+  font-family:'Space Mono', monospace;
+  font-size:0.78rem;
+  letter-spacing:0.04em;
+  border-top:1px solid var(--line);
+}
+
+/* ---------- Floating code editor ---------- */
+.code-fab{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:60;
+  width:56px;height:56px;
+  border-radius:50%;
+  border:1px solid var(--glass-border);
+  background:var(--glass-bg);
+  backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  box-shadow:0 10px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  color:var(--cursor);
+  font-family:'Space Mono', monospace;
+  font-size:1.3rem;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.code-fab:hover{transform:translateX(-50%) translateY(-2px);}
+.code-editor-panel{
+  position:fixed;
+  bottom:92px;
+  left:50%;
+  transform:translateX(-50%) translateY(16px);
+  z-index:60;
+  width:min(420px, 92vw);
+  height:420px;
+  max-height:70vh;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:14px;
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  box-shadow:0 20px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+}
+.code-editor-panel.open{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateX(-50%) translateY(0);
+}
+.code-editor-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:8px;
+  padding:10px 14px;
+  border-bottom:1px solid var(--glass-border);
+  font-family:'Space Mono', monospace;
+  font-size:0.78rem;
+  color:var(--text);
+  flex-shrink:0;
+}
+.code-editor-tabs{display:flex;gap:6px;}
+.code-editor-tabs button{
+  padding:6px 13px;
+  border-radius:999px;
+  border:1px solid var(--glass-border);
+  background:transparent;
+  color:var(--muted);
+  font-family:'Inter', sans-serif;
+  font-size:0.74rem;
+  cursor:pointer;
+  transition:background .2s ease,color .2s ease;
+}
+.code-editor-tabs button.active{
+  background:var(--cursor);
+  color:#062011;
+  border-color:var(--cursor);
+}
+.code-editor-close{
+  background:transparent;border:none;color:var(--muted);
+  font-size:1rem;cursor:pointer;line-height:1;flex-shrink:0;
+}
+.code-editor-body{flex:1;position:relative;min-height:0;}
+.code-editor-body textarea{
+  width:100%;height:100%;
+  border:none;resize:none;
+  padding:14px;
+  font-family:'Space Mono', monospace;
+  font-size:0.82rem;
+  background:transparent;
+  color:var(--text);
+  outline:none;
+}
+.code-editor-body iframe{
+  width:100%;height:100%;border:none;background:#fff;
+  display:none;
+}
+.code-editor-body.preview textarea{display:none;}
+.code-editor-body.preview iframe{display:block;}
+@media (max-width:600px){
+  .code-editor-panel{bottom:86px; height:64vh;}
+}
+
+/* ---------- Back to top button ---------- */
+.back-to-top{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  z-index:60;
+  width:48px;height:48px;
+  border-radius:50%;
+  border:1px solid var(--glass-border);
+  background:var(--glass-bg);
+  backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  box-shadow:0 10px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  color:var(--cursor);
+  font-size:1.2rem;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(10px);
+  transition:opacity .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.back-to-top.visible{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateY(0);
+}
+.back-to-top:hover{box-shadow:0 12px 34px rgba(0,0,0,0.6);}
+@media (max-width:600px){
+  .back-to-top{bottom:20px; right:16px; width:44px; height:44px;}
+}
+
+/* ---------- Copy Protection PIN Modal ---------- */
+.pin-modal-overlay{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  background:rgba(0,0,0,0.65);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease;
+}
+.pin-modal-overlay.open{
+  opacity:1;
+  pointer-events:auto;
+}
+.pin-modal{
+  width:min(360px, 90vw);
+  background:var(--panel);
+  border:1px solid var(--glass-border);
+  border-radius:14px;
+  padding:24px 22px;
+  box-shadow:0 24px 60px rgba(0,0,0,0.6);
+  font-family:'Inter', sans-serif;
+  transform:translateY(10px);
+  transition:transform .2s ease;
+}
+.pin-modal-overlay.open .pin-modal{transform:translateY(0);}
+.pin-modal h3{
+  font-family:'Space Mono', monospace;
+  font-size:0.95rem;
+  color:var(--text);
+  margin-bottom:8px;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+}
+.pin-modal p{
+  color:var(--muted);
+  font-size:0.85rem;
+  margin-bottom:16px;
+  line-height:1.5;
+}
+.pin-modal input{
+  width:100%;
+  padding:10px 12px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  background:var(--panel-2);
+  color:var(--text);
+  font-family:'Space Mono', monospace;
+  font-size:1rem;
+  letter-spacing:0.3em;
+  text-align:center;
+  outline:none;
+  margin-bottom:12px;
+}
+.pin-modal input:focus{border-color:var(--cursor);}
+.pin-modal-actions{
+  display:flex;
+  gap:10px;
+}
+.pin-modal-actions button{
+  flex:1;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid var(--glass-border);
+  font-family:'Inter', sans-serif;
+  font-size:0.85rem;
+  cursor:pointer;
+  transition:background .2s ease, color .2s ease;
+  background:transparent;
+}
+.pin-submit{
+  background:var(--cursor);
+  color:#0b0b0b;
+  border-color:var(--cursor);
+  font-weight:600;
+}
+.pin-submit:hover{filter:brightness(1.08);}
+.pin-cancel{
+  color:var(--muted);
+}
+.pin-cancel:hover{color:var(--text);}
+.pin-error{
+  color:#ff6b6b;
+  font-size:0.8rem;
+  margin:-6px 0 12px;
+  min-height:16px;
+}
+.pin-toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  z-index:250;
+  background:var(--panel);
+  border:1px solid var(--glass-border);
+  color:var(--text);
+  padding:10px 18px;
+  border-radius:999px;
+  font-family:'Inter', sans-serif;
+  font-size:0.82rem;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  text-align:center;
+  max-width:80vw;
+}
+.pin-toast.visible{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+#privacy-shield{
+  position:fixed;
+  inset:0;
+  z-index:300;
+  background:var(--bg);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  font-family:'Inter', sans-serif;
+  font-size:0.9rem;
+  text-align:center;
+  padding:20px;
+}
+
+/* ---------- Institutional watermark ---------- */
+#watermark-overlay{
+  position:fixed;
+  inset:0;
+  z-index:150;
+  pointer-events:none;
+  background-repeat:repeat;
+}
+</style>
+
+
+</head>
+<body>
+<header>
+<div class="logo">
+<span aria-hidden="true" class="logo-mark">FIT</span>
+<span class="brand"><b>Farasteel</b> Institute of Tech (FIT)</span>
+</div>
+<nav>
+<ul>
+<li><a href="python-django-course.html">Home</a></li>
+<li><a href="level1.html">Level 1</a></li>
+<li><a href="#" id="mainPortalBtn">Main</a></li>
+<li>
+<button aria-controls="toc-panel" aria-expanded="false" class="toc-btn" id="toc-toggle" type="button">
+          Table of Contents <span class="chev">▾</span>
+</button>
+</li>
+</ul>
+</nav>
+</header>
+<div id="toc-panel">
+<div class="toc-inner">
+<p class="toc-title">// Course Table of Contents</p>
+<div class="toc-list" id="toc-list"></div>
+</div>
+</div>
+<main>
+<p class="breadcrumb"><a href="../index.html">~/curriculum</a> / <a href="level1.html">level-1</a> / python-django</p>
+<div class="page-hero">
+<span class="tag">.py / django</span>
+<h1>PYTHON &amp; DJANGO</h1>
+<p>From core Python to building real web applications. A complete progressive textbook for beginners to intermediate developers.</p>
+</div>
+<div class="lesson">
+<section id="chapter-1">
+<span class="chapter-label">Chapter 1</span>
+<h2>Introduction to Python</h2>
+<h3 id="chapter-1-learning-objectives">Learning Objectives</h3>
+<p>By the end of this chapter, students should be able to:</p>
+<ul class="bullets">
+<li>Explain what Python is and why it is popular</li>
+<li>Install Python and verify the installation</li>
+<li>Run a simple Python program</li>
+<li>Use the interactive Python shell (REPL)</li>
+</ul>
+<h3 id="chapter-1-1-1-what-is-python">1.1 What is Python?</h3>
+<p>Python is a high-level, interpreted, general-purpose programming language created by Guido van Rossum and first released in 1991. It emphasizes readability and simplicity. Python is widely used in web development, data science, automation, artificial intelligence, scientific computing, and scripting.</p>
+<h3 id="chapter-1-1-2-why-learn-python">1.2 Why Learn Python?</h3>
+<ul class="bullets">
+<li>Clear, readable syntax that is close to English</li>
+<li>Huge standard library and ecosystem of third-party packages</li>
+<li>Excellent for beginners yet powerful enough for professionals</li>
+<li>Strong community and extensive documentation</li>
+<li>Used by companies such as Google, Netflix, Instagram, Spotify, and NASA</li>
+</ul>
+<h3 id="chapter-1-1-3-installing-python">1.3 Installing Python</h3>
+<p>Download the latest version from <code>python.org</code>. On most systems you can verify the installation with:</p>
+<pre><code>python --version
+# or
+python3 --version</code></pre>
+<h3 id="chapter-1-1-4-your-first-program">1.4 Your First Program</h3>
+<pre><code>print("Hello, World!")</code></pre>
+<p>Save the code in a file named <code>hello.py</code> and run it with <code>python hello.py</code>.</p>
+<h3 id="chapter-1-1-5-the-interactive-shell-repl">1.5 The Interactive Shell (REPL)</h3>
+<p>You can also type Python code interactively. Open a terminal and type <code>python</code> (or <code>python3</code>). You will see the <code>&gt;&gt;&gt;</code> prompt where you can experiment freely.</p>
+<h3 id="chapter-1-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Python is a readable, versatile programming language</li>
+<li>Installation is straightforward from python.org</li>
+<li>You can run scripts or use the interactive shell</li>
+</ul>
+<h3 id="chapter-1-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>Python</span><span>Interpreted</span><span>REPL</span><span>Script</span>
+<span>Guido van Rossum</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 2:</strong> Variables, Data Types &amp; Operators. You'll learn how to store values, work with numbers and text, and use Python's operators.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-2">
+<span class="chapter-label">Chapter 2</span>
+<h2>Variables, Data Types &amp; Operators</h2>
+<h3 id="chapter-2-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Create and use variables</li>
+<li>Identify basic data types (int, float, str, bool, None)</li>
+<li>Perform type conversion</li>
+<li>Use arithmetic, comparison, and logical operators</li>
+</ul>
+<h3 id="chapter-2-2-1-variables">2.1 Variables</h3>
+<p>A variable is a name that refers to a value. Python is dynamically typed — you do not declare the type explicitly.</p>
+<pre><code>name = "Ada"
+age = 36
+height = 1.68
+is_student = True</code></pre>
+<h3 id="chapter-2-2-2-basic-data-types">2.2 Basic Data Types</h3>
+<ul class="bullets">
+<li><code>int</code> — whole numbers (42, -7)</li>
+<li><code>float</code> — decimal numbers (3.14, -0.5)</li>
+<li><code>str</code> — text ("hello", 'world')</li>
+<li><code>bool</code> — True or False</li>
+<li><code>NoneType</code> — None (represents absence of a value)</li>
+</ul>
+<h3 id="chapter-2-2-3-type-checking-conversion">2.3 Type Checking &amp; Conversion</h3>
+<pre><code>type(42)          # &lt;class 'int'&gt;
+int("10")         # 10
+float("3.14")     # 3.14
+str(100)          # "100"
+bool(0)           # False</code></pre>
+<h3 id="chapter-2-2-4-arithmetic-operators">2.4 Arithmetic Operators</h3>
+<pre><code>a + b    # addition
+a - b    # subtraction
+a * b    # multiplication
+a / b    # division (always float)
+a // b   # floor division
+a % b    # modulo (remainder)
+a ** b   # exponentiation</code></pre>
+<h3 id="chapter-2-2-5-comparison-logical-operators">2.5 Comparison &amp; Logical Operators</h3>
+<pre><code>==  !=  &lt;  &gt;  &lt;=  &gt;=     # comparison
+and  or  not             # logical</code></pre>
+<h3 id="chapter-2-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Variables store values without explicit type declarations</li>
+<li>Core types: int, float, str, bool, None</li>
+<li>Operators let you calculate, compare, and combine conditions</li>
+</ul>
+<h3 id="chapter-2-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>Variable</span><span>int</span><span>float</span><span>str</span>
+<span>bool</span><span>Operator</span><span>Dynamic Typing</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 3:</strong> Control Flow — Conditionals &amp; Loops. You'll learn if/elif/else, for loops, while loops, break and continue.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-3">
+<span class="chapter-label">Chapter 3</span>
+<h2>Control Flow — Conditionals &amp; Loops</h2>
+<h3 id="chapter-3-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Write conditional statements with if / elif / else</li>
+<li>Use for and while loops</li>
+<li>Control loop execution with break and continue</li>
+</ul>
+<h3 id="chapter-3-3-1-if-elif-else">3.1 if / elif / else</h3>
+<pre><code>score = 85
+if score &gt;= 90:
+    grade = "A"
+elif score &gt;= 80:
+    grade = "B"
+elif score &gt;= 70:
+    grade = "C"
+else:
+    grade = "F"
+print(grade)</code></pre>
+<h3 id="chapter-3-3-2-for-loops">3.2 for Loops</h3>
+<pre><code>for i in range(5):
+    print(i)          # 0 1 2 3 4
+
+for fruit in ["apple", "banana", "cherry"]:
+    print(fruit)</code></pre>
+<h3 id="chapter-3-3-3-while-loops">3.3 while Loops</h3>
+<pre><code>count = 0
+while count &lt; 3:
+    print(count)
+    count += 1</code></pre>
+<h3 id="chapter-3-3-4-break-continue-and-else-on-loops">3.4 break, continue, and else on loops</h3>
+<p><code>break</code> exits the loop immediately. <code>continue</code> skips the rest of the current iteration. A loop can also have an <code>else</code> clause that runs only if the loop did not hit a break.</p>
+<h3 id="chapter-3-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Conditionals control which code runs</li>
+<li>for and while repeat blocks of code</li>
+<li>break and continue give fine-grained control</li>
+</ul>
+<h3 id="chapter-3-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>if</span><span>elif</span><span>else</span><span>for</span>
+<span>while</span><span>break</span><span>continue</span><span>range</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 4:</strong> Functions &amp; Scope. You'll learn how to define reusable functions, pass arguments, and understand variable scope.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-4">
+<span class="chapter-label">Chapter 4</span>
+<h2>Functions &amp; Scope</h2>
+<h3 id="chapter-4-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Define and call functions</li>
+<li>Use positional, keyword, default, *args and **kwargs parameters</li>
+<li>Understand the LEGB scope rule</li>
+<li>Write simple lambda functions</li>
+</ul>
+<h3 id="chapter-4-4-1-defining-functions">4.1 Defining Functions</h3>
+<pre><code>def greet(name):
+    """Return a greeting message."""
+    return f"Hello, {name}!"
+
+print(greet("World"))</code></pre>
+<h3 id="chapter-4-4-2-parameters">4.2 Parameters</h3>
+<pre><code>def power(base, exp=2):
+    return base ** exp
+
+def total(*numbers):
+    return sum(numbers)
+
+def profile(**info):
+    for k, v in info.items():
+        print(f"{k}: {v}")</code></pre>
+<h3 id="chapter-4-4-3-scope-legb-rule">4.3 Scope (LEGB rule)</h3>
+<p>Python looks up names in this order: <strong>L</strong>ocal → <strong>E</strong>nclosing → <strong>G</strong>lobal → <strong>B</strong>uilt-in. Use the <code>global</code> and <code>nonlocal</code> keywords when you need to modify variables from outer scopes.</p>
+<h3 id="chapter-4-4-4-lambda-functions">4.4 Lambda Functions</h3>
+<pre><code>square = lambda x: x * x
+print(square(5))   # 25</code></pre>
+<h3 id="chapter-4-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Functions encapsulate reusable logic</li>
+<li>Flexible parameter styles support many calling patterns</li>
+<li>Scope rules determine where names are visible</li>
+</ul>
+<h3 id="chapter-4-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>Function</span><span>Parameter</span><span>*args</span><span>**kwargs</span>
+<span>Scope</span><span>LEGB</span><span>Lambda</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 5:</strong> Data Structures — Lists, Tuples, Sets, Dictionaries.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-5">
+<span class="chapter-label">Chapter 5</span>
+<h2>Data Structures</h2>
+<h3 id="chapter-5-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Create and manipulate lists, tuples, sets, and dictionaries</li>
+<li>Understand mutability and when to use each structure</li>
+</ul>
+<h3 id="chapter-5-5-1-lists-mutable-ordered">5.1 Lists (mutable, ordered)</h3>
+<pre><code>nums = [1, 2, 3]
+nums.append(4)
+nums[0] = 10
+print(nums[1:3])   # slicing → [2, 3]</code></pre>
+<h3 id="chapter-5-5-2-tuples-immutable-ordered">5.2 Tuples (immutable, ordered)</h3>
+<pre><code>point = (10, 20)
+x, y = point       # unpacking</code></pre>
+<h3 id="chapter-5-5-3-sets-unordered-unique-elements">5.3 Sets (unordered, unique elements)</h3>
+<pre><code>tags = {"python", "django", "web"}
+tags.add("api")
+print("python" in tags)</code></pre>
+<h3 id="chapter-5-5-4-dictionaries-key-value-pairs">5.4 Dictionaries (key–value pairs)</h3>
+<pre><code>user = {"name": "Ada", "age": 36}
+print(user["name"])
+user["email"] = "ada@example.com"
+for key, value in user.items():
+    print(key, value)</code></pre>
+<h3 id="chapter-5-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Lists for ordered, changeable collections</li>
+<li>Tuples for fixed sequences</li>
+<li>Sets for unique membership testing</li>
+<li>Dictionaries for keyed lookups</li>
+</ul>
+<h3 id="chapter-5-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>List</span><span>Tuple</span><span>Set</span><span>Dictionary</span>
+<span>Mutable</span><span>Immutable</span><span>Slicing</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 6:</strong> Strings, Files &amp; Exceptions.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-6">
+<span class="chapter-label">Chapter 6</span>
+<h2>Strings, Files &amp; Exceptions</h2>
+<h3 id="chapter-6-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Work with string methods and f-strings</li>
+<li>Read and write files safely with the with statement</li>
+<li>Handle errors using try / except / else / finally</li>
+</ul>
+<h3 id="chapter-6-6-1-string-methods-f-strings">6.1 String Methods &amp; f-strings</h3>
+<pre><code>text = "  Python  "
+print(text.strip().upper())
+name = "Ada"
+print(f"Hello, {name}!")</code></pre>
+<h3 id="chapter-6-6-2-reading-writing-files">6.2 Reading &amp; Writing Files</h3>
+<pre><code>with open("notes.txt", "w") as f:
+    f.write("Hello file\\n")
+
+with open("notes.txt", "r") as f:
+    content = f.read()
+    print(content)</code></pre>
+<p>Always prefer the <code>with</code> statement so the file is closed automatically.</p>
+<h3 id="chapter-6-6-3-exception-handling">6.3 Exception Handling</h3>
+<pre><code>try:
+    number = int(input("Enter a number: "))
+    result = 10 / number
+except ValueError:
+    print("That was not a valid number.")
+except ZeroDivisionError:
+    print("Cannot divide by zero.")
+else:
+    print("Result:", result)
+finally:
+    print("Done.")</code></pre>
+<h3 id="chapter-6-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Strings are powerful and have many built-in methods</li>
+<li>Context managers (<code>with</code>) manage resources safely</li>
+<li>Exceptions let you recover from expected errors</li>
+</ul>
+<h3 id="chapter-6-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>f-string</span><span>with</span><span>open</span><span>try</span>
+<span>except</span><span>finally</span><span>Exception</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 7:</strong> Object-Oriented Programming.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-7">
+<span class="chapter-label">Chapter 7</span>
+<h2>Object-Oriented Programming</h2>
+<h3 id="chapter-7-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Define classes and create objects</li>
+<li>Use inheritance</li>
+<li>Understand special (magic) methods</li>
+</ul>
+<h3 id="chapter-7-7-1-classes-and-objects">7.1 Classes and Objects</h3>
+<pre><code>class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def bark(self):
+        return f"{self.name} says woof!"
+
+my_dog = Dog("Rex", 3)
+print(my_dog.bark())</code></pre>
+<h3 id="chapter-7-7-2-inheritance">7.2 Inheritance</h3>
+<pre><code>class Animal:
+    def speak(self):
+        return "..."
+
+class Cat(Animal):
+    def speak(self):
+        return "Meow"
+
+print(Cat().speak())</code></pre>
+<h3 id="chapter-7-7-3-special-methods">7.3 Special Methods</h3>
+<p>Methods such as <code>__str__</code>, <code>__repr__</code>, <code>__len__</code>, and <code>__eq__</code> let your objects behave more naturally with built-in functions and operators.</p>
+<h3 id="chapter-7-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Classes define blueprints; objects are instances</li>
+<li>Inheritance reuses and extends behavior</li>
+<li>Magic methods customize object behavior</li>
+</ul>
+<h3 id="chapter-7-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>Class</span><span>Object</span><span>__init__</span><span>Inheritance</span>
+<span>Method</span><span>self</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 8:</strong> Modules, Packages &amp; Virtual Environments.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-8">
+<span class="chapter-label">Chapter 8</span>
+<h2>Modules, Packages &amp; Virtual Environments</h2>
+<h3 id="chapter-8-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Import modules from the standard library and your own code</li>
+<li>Organize code into packages</li>
+<li>Create and use virtual environments</li>
+</ul>
+<h3 id="chapter-8-8-1-importing-modules">8.1 Importing Modules</h3>
+<pre><code>import math
+from datetime import datetime
+from collections import Counter</code></pre>
+<h3 id="chapter-8-8-2-creating-your-own-module">8.2 Creating Your Own Module</h3>
+<p>Any <code>.py</code> file can be imported as a module. Place related modules inside a folder with an <code>__init__.py</code> file to turn the folder into a package.</p>
+<h3 id="chapter-8-8-3-virtual-environments">8.3 Virtual Environments</h3>
+<p>Always isolate project dependencies:</p>
+<pre><code>python -m venv venv
+
+# Windows
+venv\Scripts\activate
+
+# macOS / Linux
+source venv/bin/activate
+
+pip install requests django</code></pre>
+<h3 id="chapter-8-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Modules and packages organize code</li>
+<li>Virtual environments keep dependencies isolated</li>
+<li><code>pip</code> installs third-party packages</li>
+</ul>
+<h3 id="chapter-8-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>Module</span><span>Package</span><span>venv</span><span>pip</span>
+<span>import</span><span>__init__.py</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 9:</strong> Comprehensions, Generators &amp; Iterators.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-9">
+<span class="chapter-label">Chapter 9</span>
+<h2>Comprehensions, Generators &amp; Iterators</h2>
+<h3 id="chapter-9-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Write list, dict, and set comprehensions</li>
+<li>Create generator functions with yield</li>
+<li>Understand lazy evaluation</li>
+</ul>
+<h3 id="chapter-9-9-1-list-dict-set-comprehensions">9.1 List, Dict &amp; Set Comprehensions</h3>
+<pre><code>squares = [x**2 for x in range(10)]
+even = [x for x in range(20) if x % 2 == 0]
+word_len = {w: len(w) for w in ["python", "django"]}</code></pre>
+<h3 id="chapter-9-9-2-generators">9.2 Generators</h3>
+<pre><code>def countdown(n):
+    while n &gt; 0:
+        yield n
+        n -= 1
+
+for num in countdown(5):
+    print(num)</code></pre>
+<p>Generators produce values lazily and are memory-efficient for large sequences.</p>
+<h3 id="chapter-9-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Comprehensions provide concise collection building</li>
+<li>Generators save memory by producing values on demand</li>
+</ul>
+<h3 id="chapter-9-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>Comprehension</span><span>Generator</span><span>yield</span><span>Iterator</span>
+<span>Lazy Evaluation</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 10:</strong> Working with JSON, CSV &amp; the Standard Library.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-10">
+<span class="chapter-label">Chapter 10</span>
+<h2>JSON, CSV &amp; the Standard Library</h2>
+<h3 id="chapter-10-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Serialize and parse JSON</li>
+<li>Read and write CSV files</li>
+<li>Know key modules in the Python standard library</li>
+</ul>
+<h3 id="chapter-10-10-1-json">10.1 JSON</h3>
+<pre><code>import json
+data = {"name": "Ada", "skills": ["python", "django"]}
+text = json.dumps(data, indent=2)
+obj = json.loads(text)</code></pre>
+<h3 id="chapter-10-10-2-csv">10.2 CSV</h3>
+<pre><code>import csv
+with open("users.csv", newline="") as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        print(row["name"], row["email"])</code></pre>
+<h3 id="chapter-10-10-3-useful-standard-library-modules">10.3 Useful Standard Library Modules</h3>
+<ul class="bullets">
+<li><code>os</code> / <code>pathlib</code> — file system paths</li>
+<li><code>datetime</code> — dates and times</li>
+<li><code>collections</code> — Counter, defaultdict, namedtuple</li>
+<li><code>itertools</code> — powerful iterators</li>
+<li><code>re</code> — regular expressions</li>
+<li><code>urllib</code> / <code>http</code> — basic networking</li>
+</ul>
+<h3 id="chapter-10-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>JSON is the standard data interchange format for web APIs</li>
+<li>CSV is common for tabular data exchange</li>
+<li>The standard library covers many everyday tasks</li>
+</ul>
+<h3 id="chapter-10-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>JSON</span><span>CSV</span><span>json.dumps</span><span>json.loads</span>
+<span>Standard Library</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 11:</strong> What is Django &amp; Setting Up Your Environment.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-11">
+<span class="chapter-label">Chapter 11</span>
+<h2>What is Django &amp; Setting Up Your Environment</h2>
+<h3 id="chapter-11-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Explain what Django is and its main design principles</li>
+<li>Install Django inside a virtual environment</li>
+<li>Verify the installation</li>
+</ul>
+<h3 id="chapter-11-11-1-what-is-django">11.1 What is Django?</h3>
+<p>Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. It follows the Model-Template-View (MTV) pattern and includes an ORM, an admin interface, authentication, form handling, and many other batteries-included features.</p>
+<h3 id="chapter-11-11-2-key-design-principles">11.2 Key Design Principles</h3>
+<ul class="bullets">
+<li>Don’t Repeat Yourself (DRY)</li>
+<li>Explicit is better than implicit</li>
+<li>Loose coupling and high cohesion</li>
+<li>Rapid development</li>
+</ul>
+<h3 id="chapter-11-11-3-installing-django">11.3 Installing Django</h3>
+<pre><code>python -m venv venv
+source venv/bin/activate          # or venv\Scripts\activate on Windows
+pip install django
+python -m django --version</code></pre>
+<h3 id="chapter-11-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Django is a batteries-included Python web framework</li>
+<li>Always install it inside a virtual environment</li>
+</ul>
+<h3 id="chapter-11-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>Django</span><span>MTV</span><span>ORM</span><span>DRY</span>
+<span>Framework</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 12:</strong> Your First Django Project.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-12">
+<span class="chapter-label">Chapter 12</span>
+<h2>Your First Django Project</h2>
+<h3 id="chapter-12-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Create a Django project and run the development server</li>
+<li>Understand the default project layout</li>
+<li>Create and register a Django app</li>
+</ul>
+<h3 id="chapter-12-12-1-creating-a-project">12.1 Creating a Project</h3>
+<pre><code>django-admin startproject mysite
+cd mysite
+python manage.py runserver</code></pre>
+<p>Visit <code>http://127.0.0.1:8000/</code> in your browser. You should see the Django welcome page.</p>
+<h3 id="chapter-12-12-2-project-structure-simplified">12.2 Project Structure (simplified)</h3>
+<pre><code>mysite/
+  manage.py
+  mysite/
+    __init__.py
+    settings.py
+    urls.py
+    asgi.py
+    wsgi.py</code></pre>
+<h3 id="chapter-12-12-3-creating-an-app">12.3 Creating an App</h3>
+<pre><code>python manage.py startapp blog</code></pre>
+<p>Add <code>'blog'</code> to the <code>INSTALLED_APPS</code> list in <code>settings.py</code>.</p>
+<h3 id="chapter-12-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li><code>startproject</code> creates the project skeleton</li>
+<li><code>startapp</code> creates reusable applications</li>
+<li><code>runserver</code> starts the development server</li>
+</ul>
+<h3 id="chapter-12-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>startproject</span><span>startapp</span><span>manage.py</span>
+<span>settings.py</span><span>INSTALLED_APPS</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 13:</strong> Models &amp; the ORM.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-13">
+<span class="chapter-label">Chapter 13</span>
+<h2>Models &amp; the ORM</h2>
+<h3 id="chapter-13-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Define Django models</li>
+<li>Create and apply migrations</li>
+<li>Query the database with the ORM</li>
+<li>Understand basic relationships</li>
+</ul>
+<h3 id="chapter-13-13-1-defining-a-model">13.1 Defining a Model</h3>
+<pre><code>from django.db import models
+
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    body = models.TextField()
+    published = models.DateTimeField(auto_now_add=True)
+    is_published = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title</code></pre>
+<h3 id="chapter-13-13-2-migrations">13.2 Migrations</h3>
+<pre><code>python manage.py makemigrations
+python manage.py migrate</code></pre>
+<h3 id="chapter-13-13-3-querying-with-the-orm">13.3 Querying with the ORM</h3>
+<pre><code>Post.objects.all()
+Post.objects.filter(is_published=True)
+Post.objects.get(id=1)
+Post.objects.create(title="Hello", body="World")
+post = Post.objects.get(id=1)
+post.title = "Updated"
+post.save()
+post.delete()</code></pre>
+<h3 id="chapter-13-13-4-relationships">13.4 Relationships</h3>
+<ul class="bullets">
+<li><code>ForeignKey</code> — many-to-one</li>
+<li><code>ManyToManyField</code> — many-to-many</li>
+<li><code>OneToOneField</code> — one-to-one</li>
+</ul>
+<h3 id="chapter-13-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Models describe your data</li>
+<li>Migrations keep the database schema in sync</li>
+<li>The ORM lets you work with data using Python</li>
+</ul>
+<h3 id="chapter-13-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>Model</span><span>ORM</span><span>Migration</span><span>QuerySet</span>
+<span>ForeignKey</span><span>ManyToManyField</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 14:</strong> Views, URLs &amp; Templates.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-14">
+<span class="chapter-label">Chapter 14</span>
+<h2>Views, URLs &amp; Templates</h2>
+<h3 id="chapter-14-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Write function-based views</li>
+<li>Configure URL patterns</li>
+<li>Create and extend templates</li>
+</ul>
+<h3 id="chapter-14-14-1-function-based-views">14.1 Function-Based Views</h3>
+<pre><code>from django.shortcuts import render, get_object_or_404
+from .models import Post
+
+def post_list(request):
+    posts = Post.objects.filter(is_published=True)
+    return render(request, "blog/post_list.html", {"posts": posts})
+
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, "blog/post_detail.html", {"post": post})</code></pre>
+<h3 id="chapter-14-14-2-url-configuration">14.2 URL Configuration</h3>
+<pre><code># blog/urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("", views.post_list, name="post_list"),
+    path("post/&lt;int:pk&gt;/", views.post_detail, name="post_detail"),
+]</code></pre>
+<p>Include the app URLs in the project’s main <code>urls.py</code> with <code>path('blog/', include('blog.urls'))</code>.</p>
+<h3 id="chapter-14-14-3-templates">14.3 Templates</h3>
+<pre><code>&lt;!-- blog/templates/blog/post_list.html --&gt;
+{% extends "base.html" %}
+{% block content %}
+  &lt;h1&gt;Blog Posts&lt;/h1&gt;
+  {% for post in posts %}
+    &lt;h2&gt;&lt;a href="{% url 'post_detail' post.pk %}"&gt;{{ post.title }}&lt;/a&gt;&lt;/h2&gt;
+    &lt;p&gt;{{ post.body|truncatewords:30 }}&lt;/p&gt;
+  {% empty %}
+    &lt;p&gt;No posts yet.&lt;/p&gt;
+  {% endfor %}
+{% endblock %}</code></pre>
+<h3 id="chapter-14-14-4-template-language-essentials">14.4 Template Language Essentials</h3>
+<ul class="bullets">
+<li><code>{{ variable }}</code> — output a variable</li>
+<li><code>{% for %}</code> / <code>{% if %}</code> / <code>{% block %}</code> — tags</li>
+<li><code>{{ value|filter }}</code> — filters</li>
+<li><code>{% url 'name' %}</code> — reverse URL lookup</li>
+<li><code>{% csrf_token %}</code> — required inside POST forms</li>
+</ul>
+<h3 id="chapter-14-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Views contain request-handling logic</li>
+<li>URLs map paths to views</li>
+<li>Templates render the response HTML</li>
+</ul>
+<h3 id="chapter-14-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>View</span><span>URLConf</span><span>Template</span><span>render</span>
+<span>context</span><span>csrf_token</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 15:</strong> The Django Admin.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-15">
+<span class="chapter-label">Chapter 15</span>
+<h2>The Django Admin</h2>
+<h3 id="chapter-15-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Create a superuser</li>
+<li>Register models with the admin</li>
+<li>Customize list display, filters, and search</li>
+</ul>
+<h3 id="chapter-15-15-1-creating-a-superuser">15.1 Creating a Superuser</h3>
+<pre><code>python manage.py createsuperuser</code></pre>
+<h3 id="chapter-15-15-2-registering-models">15.2 Registering Models</h3>
+<pre><code>from django.contrib import admin
+from .models import Post
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ("title", "published", "is_published")
+    list_filter = ("is_published",)
+    search_fields = ("title", "body")</code></pre>
+<p>Visit <code>/admin/</code> and log in with the superuser credentials to manage your data through a polished interface.</p>
+<h3 id="chapter-15-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>The admin is a built-in, production-ready interface for your models</li>
+<li>ModelAdmin options control list views, filters, and search</li>
+</ul>
+<h3 id="chapter-15-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>Admin</span><span>Superuser</span><span>ModelAdmin</span>
+<span>list_display</span><span>list_filter</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 16:</strong> Forms &amp; User Input.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-16">
+<span class="chapter-label">Chapter 16</span>
+<h2>Forms &amp; User Input</h2>
+<h3 id="chapter-16-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Create ModelForms</li>
+<li>Handle GET and POST in a view</li>
+<li>Render forms in templates with CSRF protection</li>
+</ul>
+<h3 id="chapter-16-16-1-django-forms">16.1 Django Forms</h3>
+<pre><code>from django import forms
+from .models import Post
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ["title", "body", "is_published"]</code></pre>
+<h3 id="chapter-16-16-2-handling-a-form-in-a-view">16.2 Handling a Form in a View</h3>
+<pre><code>from django.shortcuts import render, redirect
+
+def post_create(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("post_list")
+    else:
+        form = PostForm()
+    return render(request, "blog/post_form.html", {"form": form})</code></pre>
+<h3 id="chapter-16-16-3-rendering-the-form">16.3 Rendering the Form</h3>
+<pre><code>&lt;form method="post"&gt;
+  {% csrf_token %}
+  {{ form.as_p }}
+  &lt;button type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+<h3 id="chapter-16-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>ModelForm ties forms to models</li>
+<li>Always validate and protect with csrf_token</li>
+</ul>
+<h3 id="chapter-16-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>Form</span><span>ModelForm</span><span>is_valid</span>
+<span>csrf_token</span><span>POST</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 17:</strong> Authentication &amp; Authorization.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-17">
+<span class="chapter-label">Chapter 17</span>
+<h2>Authentication &amp; Authorization</h2>
+<h3 id="chapter-17-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Use Django’s built-in auth views</li>
+<li>Restrict views with login_required</li>
+<li>Understand permissions and groups at a high level</li>
+</ul>
+<h3 id="chapter-17-17-1-built-in-auth-views">17.1 Built-in Auth Views</h3>
+<pre><code>from django.contrib.auth import views as auth_views
+
+path("login/", auth_views.LoginView.as_view(), name="login"),
+path("logout/", auth_views.LogoutView.as_view(), name="logout"),</code></pre>
+<h3 id="chapter-17-17-2-restricting-access">17.2 Restricting Access</h3>
+<pre><code>from django.contrib.auth.decorators import login_required
+
+@login_required
+def dashboard(request):
+    return render(request, "dashboard.html")</code></pre>
+<p>For class-based views use <code>LoginRequiredMixin</code>.</p>
+<h3 id="chapter-17-17-3-permissions-groups">17.3 Permissions &amp; Groups</h3>
+<p>Django’s permission system lets you control who can add, change, delete, or view objects. You can also create custom permissions and assign users to groups.</p>
+<h3 id="chapter-17-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Django ships with a complete authentication system</li>
+<li>Decorators and mixins protect views</li>
+<li>Permissions fine-tune access control</li>
+</ul>
+<h3 id="chapter-17-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>Authentication</span><span>Authorization</span><span>login_required</span>
+<span>Permission</span><span>Group</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 18:</strong> Class-Based Views &amp; Generic Views.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-18">
+<span class="chapter-label">Chapter 18</span>
+<h2>Class-Based Views &amp; Generic Views</h2>
+<h3 id="chapter-18-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Understand the benefits of class-based views</li>
+<li>Use common generic views (ListView, DetailView, CreateView, etc.)</li>
+</ul>
+<h3 id="chapter-18-18-1-why-class-based-views">18.1 Why Class-Based Views?</h3>
+<p>Class-based views (CBVs) make it easy to reuse code and follow the DRY principle. Django ships with many generic CBVs for common patterns.</p>
+<h3 id="chapter-18-18-2-common-generic-views">18.2 Common Generic Views</h3>
+<pre><code>from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy
+from .models import Post
+
+class PostListView(ListView):
+    model = Post
+    template_name = "blog/post_list.html"
+    context_object_name = "posts"
+
+class PostDetailView(DetailView):
+    model = Post
+
+class PostCreateView(CreateView):
+    model = Post
+    fields = ["title", "body"]
+    success_url = reverse_lazy("post_list")</code></pre>
+<h3 id="chapter-18-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>CBVs reduce boilerplate for standard CRUD operations</li>
+<li>Generic views cover list, detail, create, update, and delete</li>
+</ul>
+<h3 id="chapter-18-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>CBV</span><span>ListView</span><span>DetailView</span>
+<span>CreateView</span><span>Generic View</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 19:</strong> Static Files, Media &amp; Deployment Basics.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-19">
+<span class="chapter-label">Chapter 19</span>
+<h2>Static Files, Media &amp; Deployment Basics</h2>
+<h3 id="chapter-19-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Configure and serve static files</li>
+<li>Handle user-uploaded media</li>
+<li>Know the high-level steps for production deployment</li>
+</ul>
+<h3 id="chapter-19-19-1-static-files-css-js-images">19.1 Static Files (CSS, JS, images)</h3>
+<pre><code># settings.py
+STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+# template
+{% load static %}
+&lt;link rel="stylesheet" href="{% static 'css/style.css' %}"&gt;</code></pre>
+<h3 id="chapter-19-19-2-media-files-user-uploads">19.2 Media Files (user uploads)</h3>
+<pre><code>MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"</code></pre>
+<h3 id="chapter-19-19-3-deployment-checklist-high-level">19.3 Deployment Checklist (high level)</h3>
+<ul class="bullets">
+<li>Set <code>DEBUG = False</code> and configure <code>ALLOWED_HOSTS</code></li>
+<li>Use a production database (PostgreSQL is recommended)</li>
+<li>Collect static files: <code>python manage.py collectstatic</code></li>
+<li>Serve the app with Gunicorn or uWSGI behind Nginx</li>
+<li>Store secrets in environment variables</li>
+<li>Enable HTTPS</li>
+<li>Set up logging and monitoring</li>
+</ul>
+<h3 id="chapter-19-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Static files are for CSS/JS/images you control</li>
+<li>Media files are for user uploads</li>
+<li>Production requires several security and performance steps</li>
+</ul>
+<h3 id="chapter-19-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>STATIC_URL</span><span>MEDIA_URL</span><span>collectstatic</span>
+<span>Gunicorn</span><span>ALLOWED_HOSTS</span>
+</div>
+<div class="next-up">
+<strong>Up next — Chapter 20:</strong> Projects, Best Practices &amp; Next Steps.
+      </div>
+</section>
+<hr class="chapter-end"/>
+<section id="chapter-20">
+<span class="chapter-label">Chapter 20</span>
+<h2>Projects, Best Practices &amp; Next Steps</h2>
+<h3 id="chapter-20-learning-objectives">Learning Objectives</h3>
+<ul class="bullets">
+<li>Choose practical projects to solidify your skills</li>
+<li>Apply professional best practices</li>
+<li>Know where to continue learning after this textbook</li>
+</ul>
+<h3 id="chapter-20-20-1-suggested-practice-projects">20.1 Suggested Practice Projects</h3>
+<ul class="bullets">
+<li>Personal blog with categories and comments</li>
+<li>Todo / task manager with user accounts</li>
+<li>Simple e-commerce product catalog and cart</li>
+<li>Library / book management system</li>
+<li>REST API with Django REST Framework (next step)</li>
+</ul>
+<h3 id="chapter-20-20-2-best-practices">20.2 Best Practices</h3>
+<ul class="bullets">
+<li>Keep apps focused and small (single responsibility)</li>
+<li>Use virtual environments and pin dependencies in requirements.txt</li>
+<li>Write tests (Django’s TestCase and pytest-django)</li>
+<li>Follow PEP 8 and use a linter/formatter (ruff, black)</li>
+<li>Never commit secrets; use environment variables</li>
+<li>Prefer the ORM; avoid raw SQL unless necessary</li>
+<li>Document your code and keep README files up to date</li>
+</ul>
+<h3 id="chapter-20-20-3-where-to-go-next">20.3 Where to Go Next</h3>
+<ul class="bullets">
+<li>Django REST Framework — build APIs</li>
+<li>Celery + Redis — background tasks</li>
+<li>Channels — WebSockets and real-time features</li>
+<li>Testing, CI/CD, and Docker</li>
+<li>Frontend integration (HTMX, Alpine, React, Vue)</li>
+<li>Advanced database topics and performance tuning</li>
+</ul>
+<h3 id="chapter-20-20-4-final-words">20.4 Final Words</h3>
+<p>You now have a solid foundation in Python and Django. The most important next step is to build real projects. Read the official documentation, study open-source Django projects, and write code every day. Mastery comes from consistent practice and curiosity.</p>
+<h3 id="chapter-20-chapter-summary">Chapter Summary</h3>
+<ul class="bullets">
+<li>Practice projects turn knowledge into skill</li>
+<li>Professional habits make you a better collaborator</li>
+<li>The Django ecosystem continues far beyond this textbook</li>
+</ul>
+<h3 id="chapter-20-key-terms">Key Terms</h3>
+<div class="key-terms">
+<span>Best Practices</span><span>requirements.txt</span><span>PEP 8</span>
+<span>DRF</span><span>Celery</span><span>Deployment</span>
+</div>
+<div class="next-up">
+<strong>Congratulations!</strong> You have completed the Python &amp; Django textbook. Keep building, keep reading the official docs, and keep learning.
+      </div>
+</section>
+</div>
+
+</main>
+<footer>
+  Farasteel Institute of Tech (FIT) — an educational project.
+</footer>
+<script>
+// Build the Table of Contents dynamically from the actual chapter
+// sections and subheadings in the page, so every entry -- including
+// dropdown sub-items -- links straight to its real content section.
+const tocList = document.getElementById('toc-list');
+const chapterSections = document.querySelectorAll('div.lesson > section[id]');
+
+chapterSections.forEach((section) => {
+  const chId = section.getAttribute('id');
+  const h2 = section.querySelector('h2');
+  if (!h2) return;
+  const label = section.querySelector('.chapter-label');
+  const numText = label ? label.textContent.replace(/[^0-9]/g, '') : '';
+
+  const wrap = document.createElement('div');
+  wrap.className = 'chapter';
+
+  const row = document.createElement('div');
+  row.className = 'chapter-row';
+
+  const link = document.createElement('a');
+  link.className = 'chapter-link';
+  link.href = `#${chId}`;
+  link.innerHTML = `<span class="num">${numText ? numText + '.' : ''}</span>${h2.textContent}`;
+
+  const subHeadings = Array.from(section.querySelectorAll('h3'));
+
+  const chevBtn = document.createElement('button');
+  chevBtn.type = 'button';
+  chevBtn.className = 'chapter-toggle';
+  chevBtn.setAttribute('aria-expanded', 'false');
+  chevBtn.innerHTML = '<span class="chev">▾</span>';
+  chevBtn.style.display = subHeadings.length ? '' : 'none';
+
+  row.appendChild(link);
+  row.appendChild(chevBtn);
+
+  const body = document.createElement('div');
+  body.className = 'chapter-body';
+
+  if (subHeadings.length) {
+    const ul = document.createElement('ul');
+    ul.innerHTML = subHeadings.map(h3 => {
+      const id = h3.getAttribute('id');
+      if (!id) return '';
+      return `<li><a href="#${id}">${h3.textContent}</a></li>`;
+    }).join('');
+    body.appendChild(ul);
+  }
+
+  chevBtn.addEventListener('click', () => {
+    const isOpen = chevBtn.getAttribute('aria-expanded') === 'true';
+    chevBtn.setAttribute('aria-expanded', String(!isOpen));
+    body.style.maxHeight = isOpen ? '0px' : body.scrollHeight + 'px';
+  });
+
+  wrap.appendChild(row);
+  wrap.appendChild(body);
+  tocList.appendChild(wrap);
+});
+
+const tocToggle = document.getElementById('toc-toggle');
+const tocPanel = document.getElementById('toc-panel');
+
+tocToggle.addEventListener('click', () => {
+  const isOpen = tocPanel.classList.toggle('open');
+  tocToggle.setAttribute('aria-expanded', String(isOpen));
+});
+
+// Any click on a TOC link (chapter or sub-item) navigates and closes the panel
+tocList.addEventListener('click', (e) => {
+  const a = e.target.closest('a');
+  if (a) {
+    tocPanel.classList.remove('open');
+    tocToggle.setAttribute('aria-expanded', 'false');
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (!tocPanel.contains(e.target) && !tocToggle.contains(e.target) && tocPanel.classList.contains('open')) {
+    tocPanel.classList.remove('open');
+    tocToggle.setAttribute('aria-expanded', 'false');
+  }
+});
+</script>
+<button type="button" id="code-fab" class="code-fab" aria-label="Open code editor" aria-expanded="false">&lt;/&gt;</button>
+<div id="code-editor-panel" class="code-editor-panel" role="dialog" aria-label="Code editor">
+  <div class="code-editor-head">
+    <span>// Code Playground</span>
+    <div class="code-editor-tabs">
+      <button type="button" id="tab-edit" class="active">Edit</button>
+      <button type="button" id="tab-preview">Preview</button>
+    </div>
+    <button type="button" id="code-editor-close" class="code-editor-close" aria-label="Close editor">✕</button>
+  </div>
+  <div class="code-editor-body" id="code-editor-body">
+    <textarea id="code-editor-textarea" spellcheck="false">&lt;!-- Try some HTML/CSS/JS here --&gt;
+&lt;h1 style="font-family:sans-serif;color:#2fae57"&gt;Hello, world!&lt;/h1&gt;
+&lt;p&gt;Edit this code, then hit Preview.&lt;/p&gt;</textarea>
+    <iframe id="code-editor-iframe" title="Code preview" sandbox="allow-scripts"></iframe>
+  </div>
+</div>
+<script>
+(function(){
+  const fab = document.getElementById('code-fab');
+  const panel = document.getElementById('code-editor-panel');
+  const closeBtn = document.getElementById('code-editor-close');
+  const tabEdit = document.getElementById('tab-edit');
+  const tabPreview = document.getElementById('tab-preview');
+  const body = document.getElementById('code-editor-body');
+  const textarea = document.getElementById('code-editor-textarea');
+  const iframe = document.getElementById('code-editor-iframe');
+
+  function openPanel(){
+    panel.classList.add('open');
+    fab.setAttribute('aria-expanded', 'true');
+  }
+  function closePanel(){
+    panel.classList.remove('open');
+    fab.setAttribute('aria-expanded', 'false');
+  }
+  fab.addEventListener('click', function(){
+    panel.classList.contains('open') ? closePanel() : openPanel();
+  });
+  closeBtn.addEventListener('click', closePanel);
+
+  function showEdit(){
+    body.classList.remove('preview');
+    tabEdit.classList.add('active');
+    tabPreview.classList.remove('active');
+  }
+  function showPreview(){
+    iframe.srcdoc = textarea.value;
+    body.classList.add('preview');
+    tabPreview.classList.add('active');
+    tabEdit.classList.remove('active');
+  }
+  tabEdit.addEventListener('click', showEdit);
+  tabPreview.addEventListener('click', showPreview);
+})();
+</script>
+<button type="button" id="back-to-top" class="back-to-top" aria-label="Scroll to top">↑</button>
+<script>
+(function(){
+  const btn = document.getElementById('back-to-top');
+  function toggleVisibility(){
+    if (window.scrollY > 400) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  }
+  btn.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  });
+  document.addEventListener('scroll', toggleVisibility, { passive: true });
+  toggleVisibility();
+})();
+</script>
+<script>
+(function(){
+  const PIN = '5143';
+  let pendingText = '';
+
+  const overlay = document.createElement('div');
+  overlay.className = 'pin-modal-overlay';
+  overlay.innerHTML =
+    '<div class="pin-modal" role="dialog" aria-modal="true" aria-label="Copy access PIN">' +
+      '<h3>Copy Protected</h3>' +
+      '<p>This content requires an access PIN to copy. Enter the PIN to continue.</p>' +
+      '<input type="password" inputmode="numeric" maxlength="10" id="pin-input" autocomplete="off" placeholder="Enter PIN" />' +
+      '<div class="pin-error" id="pin-error"></div>' +
+      '<div class="pin-modal-actions">' +
+        '<button type="button" class="pin-cancel" id="pin-cancel">Cancel</button>' +
+        '<button type="button" class="pin-submit" id="pin-submit">Unlock Copy</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+
+  const toast = document.createElement('div');
+  toast.className = 'pin-toast';
+  toast.id = 'pin-toast';
+  document.body.appendChild(toast);
+
+  const shield = document.createElement('div');
+  shield.id = 'privacy-shield';
+  shield.textContent = 'Content hidden while this tab is inactive.';
+  document.body.appendChild(shield);
+
+  const pinInput = overlay.querySelector('#pin-input');
+  const pinError = overlay.querySelector('#pin-error');
+  const pinSubmit = overlay.querySelector('#pin-submit');
+  const pinCancel = overlay.querySelector('#pin-cancel');
+
+  let toastTimer = null;
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('visible'); }, 2200);
+  }
+
+  function openPinModal(){
+    pinError.textContent = '';
+    pinInput.value = '';
+    overlay.classList.add('open');
+    setTimeout(function(){ pinInput.focus(); }, 50);
+  }
+  function closePinModal(){
+    overlay.classList.remove('open');
+    pendingText = '';
+  }
+
+  function fallbackCopy(text){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+
+  function attemptCopy(){
+    const val = pinInput.value.trim();
+    if (val === PIN) {
+      const text = pendingText;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function(){
+          showToast('Copied to clipboard.');
+        }).catch(function(){
+          fallbackCopy(text);
+          showToast('Copied to clipboard.');
+        });
+      } else {
+        fallbackCopy(text);
+        showToast('Copied to clipboard.');
+      }
+      closePinModal();
+    } else {
+      pinError.textContent = 'You are not authorized to copy this information.';
+      pinInput.value = '';
+      pinInput.focus();
+    }
+  }
+
+  pinSubmit.addEventListener('click', attemptCopy);
+  pinInput.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') { e.preventDefault(); attemptCopy(); }
+  });
+  pinCancel.addEventListener('click', closePinModal);
+  overlay.addEventListener('click', function(e){
+    if (e.target === overlay) closePinModal();
+  });
+
+  // Every copy attempt (keyboard shortcut, right-click menu, or edit menu) is intercepted here.
+  document.addEventListener('copy', function(e){
+    const selection = window.getSelection();
+    const text = selection ? selection.toString() : '';
+    if (!text) return;
+    e.preventDefault();
+    pendingText = text;
+    openPinModal();
+  });
+
+  // Deterrent only: disable the right-click context menu.
+  document.addEventListener('contextmenu', function(e){
+    e.preventDefault();
+    showToast('Right-click is disabled on this page.');
+  });
+
+  // Deterrent only: block common devtools / save / print shortcuts.
+  document.addEventListener('keydown', function(e){
+    const k = e.key;
+    const blocked =
+      k === 'F12' ||
+      (e.ctrlKey && e.shiftKey && ['I','J','C','i','j','c'].indexOf(k) !== -1) ||
+      (e.ctrlKey && ['u','U','s','S','p','P'].indexOf(k) !== -1) ||
+      (e.metaKey && ['s','S','p','P'].indexOf(k) !== -1);
+    if (blocked) {
+      e.preventDefault();
+      showToast('This action is disabled on this page.');
+    }
+  });
+
+  // Light deterrent only: cover content while the tab is inactive.
+  function showShield(){ shield.style.display = 'flex'; }
+  function hideShield(){ shield.style.display = 'none'; }
+  window.addEventListener('blur', showShield);
+  window.addEventListener('focus', hideShield);
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) showShield(); else hideShield();
+  });
+})();
+</script>
+<script>
+(function(){
+  function buildWatermarkTile(){
+    const text = 'Farasteel Institution of Tech';
+    const w = 480, h = 260;
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '">' +
+        '<text x="' + (w * 0.08) + '" y="' + (h * 0.55) + '" ' +
+          'transform="rotate(-28 ' + (w/2) + ' ' + (h/2) + ')" ' +
+          'font-family="Space Mono, monospace" font-size="19" ' +
+          'fill="rgba(255,255,255,0.09)">' + text + '</text>' +
+      '</svg>';
+    return 'data:image/svg+xml,' + encodeURIComponent(svg);
+  }
+
+  const watermark = document.createElement('div');
+  watermark.id = 'watermark-overlay';
+  watermark.style.backgroundImage = 'url("' + buildWatermarkTile() + '")';
+  document.body.appendChild(watermark);
+})();
+</script>
+
+<script>
+(function(){
+  /* Farasteel timed-session guard — auto-logout when duration elapses */
+  var LS_SESSION = "farasteel_session";
+
+  function getSession() {
+    try {
+      var raw = localStorage.getItem(LS_SESSION);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+  function clearSession() {
+    try { localStorage.removeItem(LS_SESSION); } catch (e) {}
+  }
+  function portalRedirect() {
+    var s = null;
+    try {
+      var raw = localStorage.getItem(LS_SESSION);
+      s = raw ? JSON.parse(raw) : null;
+    } catch (e) {}
+    clearSession();
+    var url = (s && s.portalUrl) ? s.portalUrl : "../index.html";
+    try {
+      window.location.replace(url);
+    } catch (e) {
+      window.location.href = url;
+    }
+  }
+
+  var session = getSession();
+  if (!session) {
+    portalRedirect();
+    return;
+  }
+
+  if (session.type === "master") {
+    return;
+  }
+
+  if (session.type === "timed" && session.expiresAt) {
+    var warned2min = false;
+    var warned30s = false;
+
+    function forceLogout() {
+      alert("Your timed session has expired. You will be logged out.");
+      portalRedirect();
+    }
+    function check() {
+      var left = session.expiresAt - Date.now();
+      if (left <= 0) {
+        forceLogout();
+        return;
+      }
+      setTimeout(check, Math.min(1000, left));
+    }
+    if (Date.now() >= session.expiresAt) {
+      forceLogout();
+      return;
+    }
+    check();
+
+    var bar = document.createElement("div");
+    bar.id = "farasteel-session-bar";
+    bar.setAttribute("aria-live", "polite");
+    bar.style.cssText = "position:fixed;bottom:0;left:0;right:0;z-index:9999;display:flex;align-items:center;justify-content:center;gap:12px;padding:10px 16px;background:rgba(5,7,15,0.9);backdrop-filter:blur(12px);border-top:1px solid rgba(0,229,255,0.3);font-family:Space Mono,monospace;font-size:0.85rem;color:#8b9bb8;letter-spacing:0.06em;transition:background .3s,border-color .3s,box-shadow .3s;";
+    var label = document.createElement("span");
+    label.textContent = "Session time remaining";
+    var timeEl = document.createElement("span");
+    timeEl.style.cssText = "color:#00e5ff;font-weight:600;text-shadow:0 0 10px rgba(0,229,255,0.4);transition:color .3s,text-shadow .3s;";
+    bar.appendChild(label);
+    bar.appendChild(timeEl);
+    document.body.appendChild(bar);
+
+    var toast = document.createElement("div");
+    toast.style.cssText = "position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-12px);z-index:10000;padding:14px 22px;border-radius:12px;background:rgba(40,28,8,0.95);border:1px solid rgba(251,191,36,0.5);color:#fbbf24;font-family:Space Mono,monospace;font-size:0.82rem;letter-spacing:0.06em;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;max-width:min(420px,92vw);";
+    document.body.appendChild(toast);
+    function showWarnToast(msg, critical) {
+      toast.textContent = msg;
+      if (critical) {
+        toast.style.background = "rgba(40,8,14,0.95)";
+        toast.style.borderColor = "rgba(255,59,92,0.55)";
+        toast.style.color = "#ff8a9a";
+      } else {
+        toast.style.background = "rgba(40,28,8,0.95)";
+        toast.style.borderColor = "rgba(251,191,36,0.5)";
+        toast.style.color = "#fbbf24";
+      }
+      toast.style.opacity = "1";
+      toast.style.transform = "translateX(-50%) translateY(0)";
+      setTimeout(function(){
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(-50%) translateY(-12px)";
+      }, 5000);
+    }
+
+    function applyBarStyle(mode) {
+      if (mode === "critical") {
+        bar.style.background = "rgba(40,8,14,0.94)";
+        bar.style.borderTopColor = "rgba(255,59,92,0.65)";
+        bar.style.boxShadow = "0 -8px 28px rgba(255,59,92,0.35)";
+        label.style.color = "#ff8a9a";
+        timeEl.style.color = "#ff3b5c";
+        timeEl.style.textShadow = "0 0 16px rgba(255,59,92,0.6)";
+      } else if (mode === "warn") {
+        bar.style.background = "rgba(40,28,8,0.92)";
+        bar.style.borderTopColor = "rgba(251,191,36,0.55)";
+        bar.style.boxShadow = "0 -8px 24px rgba(251,191,36,0.3)";
+        label.style.color = "#fbbf24";
+        timeEl.style.color = "#fbbf24";
+        timeEl.style.textShadow = "0 0 14px rgba(251,191,36,0.55)";
+      } else {
+        bar.style.background = "rgba(5,7,15,0.9)";
+        bar.style.borderTopColor = "rgba(0,229,255,0.3)";
+        bar.style.boxShadow = "none";
+        label.style.color = "#8b9bb8";
+        timeEl.style.color = "#00e5ff";
+        timeEl.style.textShadow = "0 0 10px rgba(0,229,255,0.4)";
+      }
+    }
+
+    function tickBar() {
+      var left = session.expiresAt - Date.now();
+      if (left <= 0) return;
+      var totalSec = Math.floor(left / 1000);
+      var h = Math.floor(totalSec / 3600);
+      var m = Math.floor((totalSec % 3600) / 60);
+      var s = totalSec % 60;
+      timeEl.textContent = h > 0
+        ? h + "h " + String(m).padStart(2,"0") + "m " + String(s).padStart(2,"0") + "s"
+        : String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
+
+      if (left <= 30000) {
+        applyBarStyle("critical");
+        if (!warned30s) {
+          warned30s = true;
+          showWarnToast("⚠ Final 30 seconds — session ending soon", true);
+        }
+      } else if (left <= 120000) {
+        applyBarStyle("warn");
+        if (!warned2min) {
+          warned2min = true;
+          showWarnToast("⚠ Less than 2 minutes remaining on your session", false);
+        }
+      } else {
+        applyBarStyle("normal");
+      }
+      setTimeout(tickBar, 1000);
+    }
+    tickBar();
+  } else {
+    portalRedirect();
+  }
+})();
+</script>
+
+
+<script>
+(function(){
+  var btn = document.getElementById("mainPortalBtn");
+  if (!btn) return;
+  btn.addEventListener("click", function(e){
+    e.preventDefault();
+    var url = "../index.html";
+    try {
+      var raw = localStorage.getItem("farasteel_session");
+      if (raw) {
+        var s = JSON.parse(raw);
+        if (s && s.portalUrl) url = s.portalUrl;
+      }
+    } catch (err) {}
+    window.location.href = url;
+  });
+})();
+</script>
+
+</body>
+</html>
